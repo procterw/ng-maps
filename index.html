@@ -17,22 +17,24 @@
     <div class="wrap" ng-controller="mainctrl">
 
 
-<!--       {{coords}}
+      {{coords}}
 
-      <h3 ng-click="click()">change coordinates</h3> 
-      <h3 ng-click="dOverlayURL()">change overlay url</h3>
-      <h3 ng-click="dOverlayOpacity()">change overlay opacity</h3>
-      <h3 ng-click="dOverlayVisibile()">change overlay visibility</h3>
- -->
+      <h3 ng-click="dOverlayURL()">1change overlay url</h3>
+      <h3 ng-click="dOverlayOpacity()">1change overlay opacity</h3>
+      <h3 ng-click="dOverlayVisibile()">1change overlay visibility</h3>
+
+      <h3 ng-click="dOverlayURL2()">2change overlay url</h3>
+      <h3 ng-click="dOverlayOpacity2()">2change overlay opacity</h3>
+      <h3 ng-click="dOverlayVisibile2()">2change overlay visibility</h3>
+
       <div map class="google-map" center="mapOptions.center" events="mapOptions.events">
 
+        <marker position="marker.position" options="marker.options" events="marker.events" idkey="marker1"></marker>
 
+        <geojson url="stations.url" style="stations.style" events="stations.events"></geojson>
 
-        <marker position="coords" options="marker.options" events="marker.events" idkey="marker1"></marker>
-
-        <!-- <geojson url="stations.url" style="stations.style" events="stations.events"></geojson> -->
-
-        <!-- <overlay url="overlay.url" bounds="overlay.bounds" opacity="overlay.opacity" visible="overlay.visible"></overlay>  -->
+        <overlay url="overlay1.url" bounds="overlay1.bounds" opacity="overlay1.opacity" visible="overlay1.visible"></overlay> 
+        <overlay url="overlay2.url" bounds="overlay2.bounds" opacity="overlay2.opacity" visible="overlay2.visible"></overlay> 
 
       </div>
 

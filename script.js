@@ -6,31 +6,12 @@ angular.module('MapTest', ['ng-data-map'])
 			console.log(e.feature.getProperty('AQSID'))
 		}
 
-		$scope.coords = [47.5, -122]
-
-
-		console.log($scope)
-		$scope.click = function() {
-			$scope.coords = [47.5, -122]
-		}
-
-		$scope.dOverlayURL = function() {
-			$scope.overlay.url = "overlays/Apr_12Z_VI.png"
-		}
-
-		$scope.dOverlayOpacity = function() {
-			$scope.overlay.opacity = 0.5
-		}
-
-		$scope.dOverlayVisibile = function() {
-			$scope.overlay.visible = true
-		}
-
 		$scope.mapOptions = {
-			center: $scope.coords,
+			center: [47.5, -122],
 			events: {
-				click: function(e, map, scope) {
-					console.log(scope.markers.marker1)
+				click: function(e, Map) {
+					$scope.$apply($scope.coords = [e.latLng.lat(), e.latLng.lng()])
+					
 				}
 			}
 		}
@@ -40,7 +21,7 @@ angular.module('MapTest', ['ng-data-map'])
 			events: {
 				click: getStationID
 			},
-			style: function(e) {
+			style: function(e, Map) {
 				var icon = "icons/" + Utils.colorAQI(e.getProperty("mean24"));
 				return {
 					visible: true,
@@ -55,18 +36,28 @@ angular.module('MapTest', ['ng-data-map'])
 				draggable: true
 			},
 			events: {
-				drag: function(e, map, scope) {
-					var closest = scope.closest(e.latLng, map.data)
+				drag: function(e, Map) {
+					var closest = Map.closest(e.latLng, Map.map.data)
 					console.log(closest)
 				},
-				click: function(e, map, scope) {
-					console.log(scope)
+				click: function(e, Map) {
+					
 				}
 			},
-			clickToMove: true
+			clickToMove: true,
+			position: [47.5, -122]
 		}
 
-		$scope.overlay = {
+		$scope.overlay1 = {
+			bounds: new google.maps.LatLngBounds(
+		      new google.maps.LatLng(23.02083, -124.9792),
+		      new google.maps.LatLng(50.97917, -65.02084)),
+			url: "overlays/Apr_12Z_H.png",
+			opacity: 0.8,
+			visible: false
+		}
+
+		$scope.overlay2 = {
 			bounds: new google.maps.LatLngBounds(
 		      new google.maps.LatLng(23.02083, -124.9792),
 		      new google.maps.LatLng(50.97917, -65.02084)),

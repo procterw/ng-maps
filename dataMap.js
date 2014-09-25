@@ -2,28 +2,24 @@ angular.module('ng-data-map', [])
 
 
 
-	.controller('Main', ['$scope', 'MapUtils', function($scope, Utils) {
+	// .controller('Main', ['$scope', 'MapUtils', function($scope, Utils) {
 
-        // $scope.closest = Utils.closest
+ //        $scope.closest = Utils.closest
 
-        // // Add markers that were given IDs
-        // $scope.markers = {};
+ //        // // Add markers that were given IDs
+ //        // $scope.markers = {};
 
-        // // GroundOverlay can be accessed through this
-        // $scope.overlays = {};
+ //        // // GroundOverlay can be accessed through this
+ //        // $scope.overlays = {};
  
-	}])
+	// }])
 
 
 
-    .directive('map', function () {
+    .directive('map', function (MapObjects) {
       return {
       	restrict: 'AE',
-        controller: 'Main',
-        scope: {},
       	link: function ($scope, elem, attrs) {
-
-            console.log($scope)
 
 	        var mapOptions,
 	          center = $scope.$eval(attrs.center),
@@ -45,11 +41,11 @@ angular.module('ng-data-map', [])
             // For each event, add a listener. Also provides access to the map
             angular.forEach(events, function(val, key) {
                 google.maps.event.addListener(map, key, function(e){
-                    val(e, map, $scope)
+                    val(e, MapObjects)
                 })
             });
 
-	        $scope.map = map;
+	        MapObjects.map = map;
 
 	      }
 	  }
@@ -57,64 +53,57 @@ angular.module('ng-data-map', [])
 
 
 
-    .directive('marker', function () {
+    .directive('marker', function (MapObjects) {
     	return {
     		restrict: 'E',
     		scope: {
-    			options: '=',
+    			options: '&',
     			events: '&',
                 position: '='
     		},
     		require:'^map',
     		controller: function ($scope, $element, $attrs) {
 
-                var map = $scope.$parent.map;
+    			$scope.$watch(function(){ return MapObjects.map }, function(){
 
-                console.log($scope)
+                    var map = MapObjects.map;
 
-    			$scope.$watch(function(){map}, function(){
+    				var events = $scope.events();
+    				var options = $scope.options();
+                    var position = $scope.position;
+                    var idkey = $attrs.idkey ? $attrs.idkey : false;
 
-    				// var map = $scope.$parent.map;
+                    options.position = new google.maps.LatLng(position[0], position[1]);
+                    options.map = map;
 
-    				// var events = $scope.events();
-    				// var options = $scope.options();
-        //             var position = $scope.position;
-        //             var idkey = $attrs.idkey ? $attrs.idkey : false;
+    				var marker = new google.maps.Marker(options);
 
-                    
+    				// For each event, add a listener. Also provides access to the map and parent scope
+    				angular.forEach(events, function(val, key) {
+    					google.maps.event.addListener(marker, key, function(e){
+                            val(e, MapObjects);
+                        });
+    				});
 
-        //             options.position = new google.maps.LatLng(position[0], position[1]);
-        //             options.map = map;
+                    // Create the "active" marker, which the parent scope can access and do what it wants with
+                    if(idkey) {
+                       MapObjects.markers[idkey] = marker;
+                    }
 
-    				// var marker = new google.maps.Marker(options);
+                    // Watch for changes in position and move marker when they happen
+                    $scope.$watch(function(){
+                        return $scope.position;
+                    }, function() {
+                        var position = $scope.position;
+                        marker.setPosition(new google.maps.LatLng(position[0], position[1]));
+                    });
 
-    				// // For each event, add a listener. Also provides access to the map and parent scope
-    				// angular.forEach(events, function(val, key) {
-    				// 	google.maps.event.addListener(marker, key, function(e){
-        //                     val(e, map, $scope.$parent);
-        //                 });
-    				// });
-
-        //             // Create the "active" marker, which the parent scope can access and do what it wants with
-        //             if(idkey) {
-        //                 $scope.$parent.markers[idkey] = marker;
-        //             }
-
-        //             // Watch for changes in position and move marker when they happen
-        //             $scope.$watch(function(){
-        //                 return $scope.position;
-        //             }, function() {
-        //                 var position = $scope.position;
-        //                 marker.setPosition(new google.maps.LatLng(position[0], position[1]));
-        //             });
-
-              
-        //             // When the marker is dragged, update the scope with its new position
-        //             google.maps.event.addListener(marker, "drag", function(){
-        //                 $scope.$apply(function(){
-        //                     $scope.position = [marker.getPosition().lat(), marker.getPosition().lng()]
-        //                 });
-        //             });
+                    // When the marker is dragged, update the scope with its new position
+                    google.maps.event.addListener(marker, "drag", function(){
+                        $scope.$apply(function(){
+                            $scope.position = [marker.getPosition().lat(), marker.getPosition().lng()]
+                        });
+                    });
 
     			});
     		}
@@ -123,7 +112,7 @@ angular.module('ng-data-map', [])
 
 
 
-    .directive('geojson', function () {
+    .directive('geojson', function (MapObjects) {
     	return {
     		restrict: 'E',
     		scope: { 
@@ -135,9 +124,10 @@ angular.module('ng-data-map', [])
     		controller: function ($scope, $element,$attrs) {
 
     			// Wait until map is initialized
-    			$scope.$watch(function(){$scope.$parent.map}, function(){
+    			$scope.$watch(function(){ return MapObjects.map }, function(){
 
-    				var map = $scope.$parent.map;
+                    var map = MapObjects.map;
+
     				var url = $scope.url();
 	    			var style = $scope.style();
 	    			var events = $scope.events();
@@ -148,7 +138,7 @@ angular.module('ng-data-map', [])
     				// For each event, add a listener. Also provides access to the map and parent scope
     				angular.forEach(events, function(val, key) {
     					map.data.addListener(key, val, function(e){
-                            val(e, map, $scope.$parent)
+                            val(e, MapObjects)
                         })
     				});
 
@@ -161,7 +151,7 @@ angular.module('ng-data-map', [])
 
 
 
-    .directive('overlay', function () {
+    .directive('overlay', function (MapObjects) {
 
         return {
             restrict: 'E',
@@ -175,12 +165,21 @@ angular.module('ng-data-map', [])
             controller: function ($scope, $element, $attrs) {
 
                 // Wait until map is initialized
-                $scope.$watch(function(){$scope.$parent.map}, function(){
+                $scope.$watch(function(){ return MapObjects.map }, function(){
 
-                    var map = $scope.$parent.map;
+                    var map = MapObjects.map;
+
+                    var deleteOverlay = function() {
+                        if (overlay) {
+                            overlay.setMap(null);
+                            overlay = null;
+                        }
+                    }
 
                     var newOverlay = function() {
+                        deleteOverlay();
                         var overlay = new google.maps.GroundOverlay($scope.url, $scope.bounds)
+                        overlay.setOpacity($scope.opacity)
                         if ($scope.visible) {
                             overlay.setMap(map)
                         } else {
@@ -217,8 +216,7 @@ angular.module('ng-data-map', [])
     })
 
 
-
-    .factory('MapUtils', function () {
+    .factory('MapObjects', function() {
 
         var API = {};
 
@@ -237,6 +235,13 @@ angular.module('ng-data-map', [])
           return closest.marker
         }
 
+        API.map;
+
+        API.markers = {};
+
+        API.groundOverlay;
+
         return API;
 
     })
+
