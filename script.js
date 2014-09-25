@@ -8,14 +8,29 @@ angular.module('MapTest', ['ng-data-map'])
 
 		$scope.coords = [47.5, -122]
 
+
+		console.log($scope)
+		$scope.click = function() {
+			$scope.coords = [47.5, -122]
+		}
+
+		$scope.dOverlayURL = function() {
+			$scope.overlay.url = "overlays/Apr_12Z_VI.png"
+		}
+
+		$scope.dOverlayOpacity = function() {
+			$scope.overlay.opacity = 0.5
+		}
+
+		$scope.dOverlayVisibile = function() {
+			$scope.overlay.visible = true
+		}
+
 		$scope.mapOptions = {
 			center: $scope.coords,
 			events: {
 				click: function(e, map, scope) {
-					scope.activeMarker.setPosition(e.latLng)
-					console.log(scope)
-					var closest = scope.closest(e.latLng, map.data)
-					console.log(closest)
+					console.log(scope.markers.marker1)
 				}
 			}
 		}
@@ -37,25 +52,27 @@ angular.module('MapTest', ['ng-data-map'])
 
 		$scope.marker = {
 			options: {
-				position: $scope.coords,
 				draggable: true
 			},
 			events: {
 				drag: function(e, map, scope) {
 					var closest = scope.closest(e.latLng, map.data)
 					console.log(closest)
+				},
+				click: function(e, map, scope) {
+					console.log(scope)
 				}
 			},
 			clickToMove: true
 		}
 
-		$scope.marker2 = {
-			options: {
-				position: [47, -121]
-			},
-			events: {
-			},
-			clickToMove: true
+		$scope.overlay = {
+			bounds: new google.maps.LatLngBounds(
+		      new google.maps.LatLng(23.02083, -124.9792),
+		      new google.maps.LatLng(50.97917, -65.02084)),
+			url: "overlays/Apr_12Z_H.png",
+			opacity: 0.8,
+			visible: false
 		}
 
 

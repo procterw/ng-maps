@@ -16,15 +16,23 @@
 
     <div class="wrap" ng-controller="mainctrl">
 
-      {{coords}}
 
+<!--       {{coords}}
+
+      <h3 ng-click="click()">change coordinates</h3> 
+      <h3 ng-click="dOverlayURL()">change overlay url</h3>
+      <h3 ng-click="dOverlayOpacity()">change overlay opacity</h3>
+      <h3 ng-click="dOverlayVisibile()">change overlay visibility</h3>
+ -->
       <div map class="google-map" center="mapOptions.center" events="mapOptions.events">
 
-        <marker options="marker.options" events="marker.events" clickmove="true"></marker>
 
-        <!-- <marker options="marker2.options" events="marker2.events"></marker> -->
 
-        <geojson url="stations.url" style="stations.style" events="stations.events"></geojson>
+        <marker position="coords" options="marker.options" events="marker.events" idkey="marker1"></marker>
+
+        <!-- <geojson url="stations.url" style="stations.style" events="stations.events"></geojson> -->
+
+        <!-- <overlay url="overlay.url" bounds="overlay.bounds" opacity="overlay.opacity" visible="overlay.visible"></overlay>  -->
 
       </div>
 
