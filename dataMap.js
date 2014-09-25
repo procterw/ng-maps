@@ -2,17 +2,34 @@ angular.module('ng-data-map', [])
 
 
 
-	// .controller('Main', ['$scope', 'MapUtils', function($scope, Utils) {
+    .factory('MapObjects', function() {
 
- //        $scope.closest = Utils.closest
+        var API = {};
 
- //        // // Add markers that were given IDs
- //        // $scope.markers = {};
+        // Find closest point to coordinates in a feature collection
+        // Currently just used for point data layers
+        API.closest = function(coords1, data) {
+          var closest;
+          var dist = 1000000000;
+          angular.forEach(data, function(feature){
+            var coords2 = feature.getGeometry().get()
+            var distance = google.maps.geometry.spherical.computeDistanceBetween(coords1, coords2)
+            if(!closest || closest.distance > distance){
+              closest = {marker:feature, distance: distance}
+            }
+          });
+          return closest.marker
+        }
 
- //        // // GroundOverlay can be accessed through this
- //        // $scope.overlays = {};
- 
-	// }])
+        API.map;
+
+        API.markers = {};
+
+        API.groundOverlay;
+
+        return API;
+
+    })
 
 
 
@@ -111,7 +128,77 @@ angular.module('ng-data-map', [])
     })
 
 
+    .directive('multimarkers', function (MapObjects, $http) {
+        return {
+            restrict: 'E',
+            scope: {
+                url: '&',
+                style: '&',
+                events: '&',
+                options: '&'
+            },
+            require:'^map',
+            controller: function ($scope, $element, $attrs) {
 
+                $scope.$watch(function(){ return MapObjects.map }, function(){
+
+                    var map = MapObjects.map;
+
+                    var url = $scope.url();
+                    var style = $scope.style()
+                    var options = $scope.options() ? $scope.options() : {};
+
+                    var markers = [];
+
+                    $http.get(url).success(function(data) {
+
+                        angular.forEach(data.features, function(m, i) {
+                            options.map = map;
+                            options.position = new google.maps.LatLng(m.geometry.coordinates[1], m.geometry.coordinates[0]);
+
+                            var marker = new google.maps.Marker(options);
+
+                            // For each event, add a listener. Also provides access to the map and parent scope
+                            angular.forEach($scope.events(), function(val, key) {
+                                google.maps.event.addListener(marker, key, function(e){
+                                    val(e, MapObjects);
+                                });
+                            });
+
+                            // getProperty function that simulates geojson
+                            m.getProperty = function(p) {
+                                return this.properties[p]
+                            }
+
+                           
+                            var mStyle = style(m, MapObjects);
+
+                            if (mStyle.icon) {
+                                marker.setIcon(mStyle.icon)
+                            }
+
+                            if (mStyle.visible) {
+                                // markers[0].s
+                            } 
+
+                        
+
+                           
+
+                        })
+
+
+                    
+                    });
+
+                });
+            }
+        }   
+    })
+
+
+ 
+    // TODO: google maps can only have one data layer. Figure out a workaround where data can be added and removed from this layer
     .directive('geojson', function (MapObjects) {
     	return {
     		restrict: 'E',
@@ -121,12 +208,14 @@ angular.module('ng-data-map', [])
     			events: '&'
     		},
     		require:'^map',
-    		controller: function ($scope, $element,$attrs) {
+    		controller: function ($scope, $element, $attrs) {
 
     			// Wait until map is initialized
     			$scope.$watch(function(){ return MapObjects.map }, function(){
 
                     var map = MapObjects.map;
+
+
 
     				var url = $scope.url();
 	    			var style = $scope.style();
@@ -216,32 +305,5 @@ angular.module('ng-data-map', [])
     })
 
 
-    .factory('MapObjects', function() {
 
-        var API = {};
-
-        // Find closest point to coordinates in a feature collection
-        // Currently just used for point data layers
-        API.closest = function(coords1, data) {
-          var closest;
-          var dist = 1000000000;
-          angular.forEach(data, function(feature){
-            var coords2 = feature.getGeometry().get()
-            var distance = google.maps.geometry.spherical.computeDistanceBetween(coords1, coords2)
-            if(!closest || closest.distance > distance){
-              closest = {marker:feature, distance: distance}
-            }
-          });
-          return closest.marker
-        }
-
-        API.map;
-
-        API.markers = {};
-
-        API.groundOverlay;
-
-        return API;
-
-    })
 

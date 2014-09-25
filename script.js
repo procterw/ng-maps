@@ -19,13 +19,32 @@ angular.module('MapTest', ['ng-data-map'])
 		$scope.stations = {
 			url: "AirNowSites_PM2.5.geojson",
 			events: {
-				click: getStationID
+				click: function(e, Map){
+					console.log(e, Map)
+				}
 			},
 			style: function(e, Map) {
 				var icon = "icons/" + Utils.colorAQI(e.getProperty("mean24"));
 				return {
 					visible: true,
 					icon: icon
+				}
+			}
+	
+		};
+
+		$scope.hucs = {
+			url: "polygons.geojson",
+			events: {
+				
+			},
+			style: function(e, Map) {
+				var isVisible = function(e) {
+					return e.getProperty("Area") < 3353560000;
+				}
+				return {
+					visible: isVisible(e),
+					fillOpacity: 0.5
 				}
 			}
 	
