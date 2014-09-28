@@ -1,0 +1,260 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "monitorID": "PWFSL_Idaho1001",
+        "siteCode": "NA",
+        "siteName": "NA",
+        "status": "Active",
+        "agencyName": "NA",
+        "mean03": "-1.7",
+        "mean08": "-1.7",
+        "mean24": "2.1"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-116.32938,45.41242]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "monitorID": "PWFSL_Idaho1002",
+        "siteCode": "NA",
+        "siteName": "NA",
+        "status": "Active",
+        "agencyName": "NA",
+        "mean03": "16",
+        "mean08": "16",
+        "mean24": "20"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-115.54452,46.10015]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "monitorID": "PWFSL_SISKAPCD1001",
+        "siteCode": "NA",
+        "siteName": "NA",
+        "status": "Active",
+        "agencyName": "NA",
+        "mean03": "21.3",
+        "mean08": "21.3",
+        "mean24": "20.4"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-122.84828,41.60525]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "monitorID": "PWFSL_SISKAPCD1002",
+        "siteCode": "NA",
+        "siteName": "NA",
+        "status": "Active",
+        "agencyName": "NA",
+        "mean03": "67.3",
+        "mean08": "67.3",
+        "mean24": "201.7"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-122.90004,41.45792]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "monitorID": "PWFSL_NCUAQMD1004",
+        "siteCode": "NA",
+        "siteName": "NA",
+        "status": "Active",
+        "agencyName": "NA",
+        "mean03": "NA",
+        "mean08": "NA",
+        "mean24": "NA"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-123.63651,40.94682]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "monitorID": "PWFSL_NCUAQMD1001",
+        "siteCode": "NA",
+        "siteName": "NA",
+        "status": "Active",
+        "agencyName": "NA",
+        "mean03": "14.3",
+        "mean08": "14.3",
+        "mean24": "54.4"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-123.79388,40.10273]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "monitorID": "PWFSL_USFS1013",
+        "siteCode": "NA",
+        "siteName": "NA",
+        "status": "Active",
+        "agencyName": "United States Forest Service",
+        "mean03": "7.7",
+        "mean08": "7.7",
+        "mean24": "5.7"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-118.13693,36.02132]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "monitorID": "PWFSL_USFS1014",
+        "siteCode": "NA",
+        "siteName": "NA",
+        "status": "Active",
+        "agencyName": "United States Forest Service",
+        "mean03": "-1.7",
+        "mean08": "-1.7",
+        "mean24": "9.3"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-122.04414,41.78377]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "monitorID": "PWFSL_USFS1016",
+        "siteCode": "NA",
+        "siteName": "NA",
+        "status": "Active",
+        "agencyName": "United States Forest Service",
+        "mean03": "16",
+        "mean08": "16",
+        "mean24": "11.4"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-118.61715,36.13829]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "monitorID": "PWFSL_USFS1026",
+        "siteCode": "NA",
+        "siteName": "NA",
+        "status": "Active",
+        "agencyName": "United States Forest Service",
+        "mean03": "NA",
+        "mean08": "NA",
+        "mean24": "NA"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-119.66669,37.3396]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "monitorID": "PWFSL_USFS1027",
+        "siteCode": "NA",
+        "siteName": "NA",
+        "status": "Active",
+        "agencyName": "United States Forest Service",
+        "mean03": "1.7",
+        "mean08": "1.7",
+        "mean24": "4.3"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-119.08474,37.62935]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "monitorID": "PWFSL_USFS1029",
+        "siteCode": "NA",
+        "siteName": "NA",
+        "status": "Active",
+        "agencyName": "United States Forest Service",
+        "mean03": "1",
+        "mean08": "1",
+        "mean24": "1"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-122.63397,41.72662]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "monitorID": "PWFSL_USFS1030",
+        "siteCode": "NA",
+        "siteName": "NA",
+        "status": "Active",
+        "agencyName": "United States Forest Service",
+        "mean03": "-0.3",
+        "mean08": "-0.3",
+        "mean24": "0.3"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-121.92161,42.5409]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "monitorID": "PWFSL_USFS1045",
+        "siteCode": "NA",
+        "siteName": "NA",
+        "status": "Active",
+        "agencyName": "United States Forest Service",
+        "mean03": "-2",
+        "mean08": "-2",
+        "mean24": "1.6"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-123.7106,41.11631]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "monitorID": "PWFSL_USFS1051",
+        "siteCode": "NA",
+        "siteName": "NA",
+        "status": "Active",
+        "agencyName": "United States Forest Service",
+        "mean03": "5.7",
+        "mean08": "5.7",
+        "mean24": "3.7"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-118.54126,35.96975]
+      }
+    }
+  ]
+}

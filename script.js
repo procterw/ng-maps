@@ -1,13 +1,21 @@
 angular.module('MapTest', ['ng-data-map'])
 
+
 	.controller('mainctrl', ['$scope', 'Utils', function($scope, Utils) {
 
-		var getStationID = function(e) {
-			console.log(e.feature.getProperty('AQSID'))
+		$scope.selectedStation = 530330017;
+
+		$scope.toggleAirNow = function() {
+			$scope.airnow.visible = !$scope.airnow.visible;
+		}
+
+		$scope.toggleEBAM = function() {
+			$scope.ebam.visible = !$scope.ebam.visible;
 		}
 
 		$scope.mapOptions = {
 			center: [47.5, -122],
+			zoom: 6,
 			events: {
 				click: function(e, Map) {
 					$scope.$apply($scope.coords = [e.latLng.lat(), e.latLng.lng()])
@@ -16,38 +24,55 @@ angular.module('MapTest', ['ng-data-map'])
 			}
 		}
 
-		$scope.stations = {
-			url: "AirNowSites_PM2.5.geojson",
+		$scope.airnow = {
+			url: "AirNow_Sites_PM2.5.geojson",
 			events: {
-				click: function(e, Map){
-					console.log(e, Map)
+				click: function(e, marker, Map){
+					$scope.$apply(
+						$scope.selectedStation = marker.getProperty("monitorID"),
+						$scope.infowindow.title = "AirNow",
+						$scope.infowindow.position = e.latLng,
+						$scope.infowindow.variables = ["ID", "Mean 08", "Mean 24"],
+						$scope.infowindow.values = [marker.getProperty("monitorID"), marker.getProperty("mean08"), marker.getProperty("mean24")]
+					);
 				}
 			},
 			style: function(e, Map) {
-				var icon = "icons/" + Utils.colorAQI(e.getProperty("mean24"));
+				var icon = "icons/airnow/" + Utils.colorAQI(e.getProperty("mean24")) + "-01.svg"
 				return {
 					visible: true,
 					icon: icon
 				}
-			}
-	
+			},
+			visible: true
 		};
 
-		$scope.hucs = {
-			url: "polygons.geojson",
+		$scope.ebam = {
+			url: "EBAM_Sites_PM2.5.geojson",
 			events: {
-				
+				click: function(e, marker, Map){
+					$scope.selectedStation = marker.getProperty("monitorID"),
+					$scope.infowindow.title = "EBAM",
+					$scope.infowindow.position = e.latLng,
+					$scope.infowindow.variables = ["ID", "Mean 08", "Mean 24"],
+					$scope.infowindow.variables = ["ID", "Mean 08", "Mean 24"],
+					$scope.infowindow.values = [marker.getProperty("monitorID"), marker.getProperty("mean08"), marker.getProperty("mean24")]
+					// $scope.$apply(
+						
+						
+						
+						
+					// );
+				}
 			},
 			style: function(e, Map) {
-				var isVisible = function(e) {
-					return e.getProperty("Area") < 3353560000;
-				}
+				var icon = "icons/ebam/" + Utils.colorAQI(e.getProperty("mean24")) + "-01.svg"
 				return {
-					visible: isVisible(e),
-					fillOpacity: 0.5
+					visible: true,
+					icon: icon
 				}
-			}
-	
+			},
+			visible: true
 		};
 
 		$scope.marker = {
@@ -56,8 +81,8 @@ angular.module('MapTest', ['ng-data-map'])
 			},
 			events: {
 				drag: function(e, Map) {
-					var closest = Map.closest(e.latLng, Map.map.data)
-					console.log(closest)
+					// var closest = Map.closest(e.latLng, Map.map.data)
+					// console.log(closest)
 				},
 				click: function(e, Map) {
 					
@@ -67,24 +92,21 @@ angular.module('MapTest', ['ng-data-map'])
 			position: [47.5, -122]
 		}
 
-		$scope.overlay1 = {
-			bounds: new google.maps.LatLngBounds(
-		      new google.maps.LatLng(23.02083, -124.9792),
-		      new google.maps.LatLng(50.97917, -65.02084)),
-			url: "overlays/Apr_12Z_H.png",
-			opacity: 0.8,
-			visible: false
+		$scope.infowindow = {
 		}
 
-		$scope.overlay2 = {
-			bounds: new google.maps.LatLngBounds(
-		      new google.maps.LatLng(23.02083, -124.9792),
-		      new google.maps.LatLng(50.97917, -65.02084)),
-			url: "overlays/Apr_12Z_H.png",
-			opacity: 0.8,
-			visible: false
+		$scope.hucs = {
+			url: "polygons.geojson",
+			options: {
+				fillColor: "red",
+				fillOpacity: 1
+			},
+			events: {
+				click: function(e, polygon) {
+					polygon.setOptions({fillColor: "blue"})
+				}
+			}
 		}
-
 
 
 	}])
@@ -96,19 +118,19 @@ angular.module('MapTest', ['ng-data-map'])
 
 	        API.colorAQI = function(val) {
 		      if (val < 12) {
-		        return "iconGreen.svg"; // Good
+		        return "green"; // Good
 		      } else if (val < 35.5) { 
-		        return "iconYellow.svg"; // Moderate 
+		        return "yellow"; // Moderate 
 		      } else if (val < 55.5) { 
-		        return "iconOrange.svg"; // Unhealthy for sensitive groups
+		        return "orange"; // Unhealthy for sensitive groups
 		      } else if (val < 150.5) { 
-		        return "iconRed.svg"; // Unhealthy
+		        return "red"; // Unhealthy
 		      } else if (val < 250.5) { 
-		        return "iconPurple.svg"; // Very unhealthy
+		        return "purple"; // Very unhealthy
 		      } else if (val < 500.5) { 
-		        return "iconPurple.svg"; // Hazardous
+		        return "purple"; // Hazardous
 		      } else { 
-		        return "iconGrey.svg"; // No data
+		        return "grey"; // No data
 		      };
 		    }
 

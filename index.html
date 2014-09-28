@@ -3,33 +3,50 @@
 <html>
   <head>
 
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
+
     <style type="text/css">
       html { height: 100% }
       body { height: 100%; margin: 0px; padding: 0px }
       .wrap { height: 100%; }
-      .google-map { width:100%; height:100%;}
+      .google-map { height:400px; padding:10px;}
+      .margined { margin-bottom: 1em; }
+      .title { color: black;}
     </style>
 
   </head>
 
   <body ng-app="MapTest">
 
-    <div class="wrap" ng-controller="mainctrl">
+    <div class="container">
 
-      <div map class="google-map" center="mapOptions.center" events="mapOptions.events">
+      <div class="row" ng-controller="mainctrl">
 
-        <marker position="marker.position" options="marker.options" events="marker.events" idkey="marker1"></marker>
+        <div map class="google-map" center="mapOptions.center" events="mapOptions.events" zoom="mapOptions.zoom" ng-transclude>
 
-        <multimarkers url="stations.url" style="stations.style" events="stations.events" idkey="stations"></multimarkers>
-
-        <geojson url="hucs.url" style="hucs.style" events="hucs.events" idkey="hucs"></geojson>
+<!--           <marker position="marker.position" options="marker.options" events="marker.events" idkey="marker1"></marker> -->
 <!-- 
-        <overlay url="overlay1.url" bounds="overlay1.bounds" opacity="overlay1.opacity" visible="overlay1.visible"></overlay> 
-        <overlay url="overlay2.url" bounds="overlay2.bounds" opacity="overlay2.opacity" visible="overlay2.visible"></overlay>  -->
+          <geopoints url="airnow.url" style="airnow.style" events="airnow.events" visible="airnow.visible"></geopoints>
 
+          <geopoints url="ebam.url" style="ebam.style" events="ebam.events" visible="ebam.visible"></geopoints> -->
+
+          <geopolygons url="hucs.url" options="hucs.options" events="hucs.events"></geopoints>
+
+          <infowindow position="infowindow.position" title="infowindow.title" variables="infowindow.variables" values="infowindow.values"> </infowindow>
+
+        </div>
+
+        <h4>Selected Station</h4>
+        {{selectedStation}}
+        <button class="btn white" ng-click="toggleAirNow()">Toggle AirNow</button>
+        <button class="btn white" ng-click="toggleEBAM()">Toggle EBAM</button>
+        {{airnow}}
+        {{ebam}}
       </div>
 
     </div>
+
+    <!-- </div> -->
 
     <script src='//maps.googleapis.com/maps/api/js?libraries=geometry'></script>
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
