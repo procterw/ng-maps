@@ -1,0 +1,57 @@
+/* line 2, slider.scss */
+slider, [slider] {
+  display: inline-block;
+  position: relative;
+  height: 7px;
+  width: 100%;
+  margin: 15px 5px 15px 5px;
+  vertical-align: middle;
+}
+/* line 10, slider.scss */
+slider div, [slider] div {
+  white-space: nowrap;
+  position: absolute;
+}
+/* line 14, slider.scss */
+slider div.bar, [slider] div.bar {
+  width: 100%;
+  height: 100%;
+  border-radius: 0px;
+  background: #ddd;
+  overflow: hidden;
+}
+/* line 21, slider.scss */
+slider div.bar .selection, [slider] div.bar .selection {
+  width: 0%;
+  height: 100%;
+  background: white;
+}
+/* line 28, slider.scss */
+slider div.handle, [slider] div.handle {
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  top: -7px;
+  background-color: #fff;
+  border: 1px solid #aaa;
+  z-index: 2;
+  border-radius: 3px;
+}
+
+/* line 58, slider.scss */
+slider div.bubble, [slider] div.bubble {
+  display: none;
+  cursor: default;
+  top: -22px;
+  padding: 1px 3px 1px 3px;
+  font-size: 0.7em;
+  font-family: sans-serif;
+}
+/* line 66, slider.scss */
+slider div.bubble.active, [slider] div.bubble.active {
+  display: inline-block;
+}
+/* line 70, slider.scss */
+slider div.bubble.limit, [slider] div.bubble.limit {
+  color: #777;
+}

@@ -102,7 +102,10 @@ angular.module('MapTest', ['ng-data-map'])
 				fillOpacity: 1
 			},
 			events: {
-				click: function(e, polygon) {
+				mouseout: function(e, polygon) {
+					polygon.setOptions({fillColor: "red"})
+				},
+				mouseover: function(e, polygon) {
 					polygon.setOptions({fillColor: "blue"})
 				}
 			}
