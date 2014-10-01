@@ -35,7 +35,7 @@ angular.module('ng-data-map', [])
 
     .directive('map', function (MapObjects) {
       return {
-        restrict: 'AE',
+      	restrict: 'AE',
         scope: {
             zoom: '=',
             center: '=',
@@ -47,24 +47,24 @@ angular.module('ng-data-map', [])
             }
         },
         transclude: true,
-        link: function ($scope, elem, attrs) {
+      	link: function ($scope, elem, attrs) {
 
-            var mapOptions,
-              center = $scope.center,
-              zoom = $scope.zoom,
+	        var mapOptions,
+	          center = $scope.center,
+	          zoom = $scope.zoom,
               events = $scope.events,
-              map;
+	          map;
 
-            latitude = center && center[0] || 47.6;
-            longitude = center && center[1] || -122.3;
-            zoom = zoom && zoom || 8;
+	        latitude = center && center[0] || 47.6;
+	        longitude = center && center[1] || -122.3;
+	        zoom = zoom && zoom || 8;
 
-            mapOptions = {
-              zoom: zoom,
-              center: new google.maps.LatLng(latitude, longitude)
-            };
+	        mapOptions = {
+	          zoom: zoom,
+	          center: new google.maps.LatLng(latitude, longitude)
+	        };
 
-            map = new google.maps.Map(elem[0], mapOptions);
+	        map = new google.maps.Map(elem[0], mapOptions);
 
             // For each event, add a listener. Also provides access to the map
             angular.forEach(events, function(val, key) {
@@ -73,33 +73,33 @@ angular.module('ng-data-map', [])
                 })
             });
 
-            $scope.map = map;
+	        $scope.map = map;
 
-          }
-      }
+	      }
+	  }
     })
 
 
 
     .directive('marker', function (MapObjects) {
-        return {
-            restrict: 'E',
-            scope: {
-                options: '=',
-                events: '=',
+    	return {
+    		restrict: 'E',
+    		scope: {
+    			options: '=',
+    			events: '=',
                 position: '=',
                 lat: '=',
                 lng: '='
-            },
-            require:'^map',
-            link: function ($scope, $element, $attrs, parent) {
+    		},
+    		require:'^map',
+    		link: function ($scope, $element, $attrs, parent) {
 
-                $scope.$watch(function(){ parent.getMap() }, function(){
+    			$scope.$watch(function(){ parent.getMap() }, function(){
 
                     var map = parent.getMap()
 
-                    var events = $scope.events ? $scope.events: {};
-                    var options = $scope.options ? $scope.options : {};
+    				var events = $scope.events ? $scope.events: {};
+    				var options = $scope.options ? $scope.options : {};
 
                     var curPosition = function() {
                         if ($scope.position) {
@@ -112,14 +112,14 @@ angular.module('ng-data-map', [])
                     options.position = curPosition();
                     options.map = map;
 
-                    var marker = new google.maps.Marker(options);
+    				var marker = new google.maps.Marker(options);
 
-                    // For each event, add a listener. Also provides access to the map and parent scope
-                    angular.forEach(events, function(val, key) {
-                        google.maps.event.addListener(marker, key, function(e){
+    				// For each event, add a listener. Also provides access to the map and parent scope
+    				angular.forEach(events, function(val, key) {
+    					google.maps.event.addListener(marker, key, function(e){
                             val(e, MapObjects);
                         });
-                    });
+    				});
 
                     // Watch for changes in position and move marker when they happen
                     $scope.$watch('[position, lat, lng]', function() {
@@ -140,9 +140,9 @@ angular.module('ng-data-map', [])
                         });
                     });
 
-                });
-            }
-        }   
+    			});
+    		}
+    	}	
     })
 
 
@@ -344,38 +344,38 @@ angular.module('ng-data-map', [])
  
 
     // .directive('geojson', function (MapObjects) {
-    //  return {
-    //      restrict: 'E',
-    //      scope: { 
-    //          url: '&',
-    //          style: '&',
-    //          events: '&'
-    //      },
-    //      require:'^map',
-    //      link: function ($scope, $element, $attrs, parent) {
+    // 	return {
+    // 		restrict: 'E',
+    // 		scope: { 
+    // 			url: '&',
+    // 			style: '&',
+    // 			events: '&'
+    // 		},
+    // 		require:'^map',
+    // 		link: function ($scope, $element, $attrs, parent) {
 
     //             $scope.$watch(function(){ parent.getMap() }, function(){
 
     //                 var map = parent.getMap()
 
-    //              var url = $scope.url();
-       //           var style = $scope.style();
-       //           var events = $scope.events();
+    // 				var url = $scope.url();
+	   //  			var style = $scope.style();
+	   //  			var events = $scope.events();
 
-    //              map.data.loadGeoJson(url);
-    //              map.data.setStyle(style);
+    // 				map.data.loadGeoJson(url);
+    // 				map.data.setStyle(style);
 
-    //              // For each event, add a listener. Also provides access to the map and parent scope
-    //              angular.forEach(events, function(val, key) {
-    //                  map.data.addListener(key, val, function(e){
+    // 				// For each event, add a listener. Also provides access to the map and parent scope
+    // 				angular.forEach(events, function(val, key) {
+    // 					map.data.addListener(key, val, function(e){
     //                         val(e, MapObjects)
     //                     })
-    //              });
+    // 				});
 
-    //          });
+    // 			});
 
     //         }
-    //  }   
+    // 	}	
 
     // })
 
@@ -489,6 +489,44 @@ angular.module('ng-data-map', [])
                     });
 
                 });
+            }
+        }
+    })
+
+
+
+    .directive('control', function() {
+        return {
+            restrict: 'E',
+            scope: {
+                position: '@'
+            },
+            require:'^map',
+            link: function ($scope, $element, $attrs, parent) {
+
+                $scope.$watch(function(){ parent.getMap() }, function(){
+
+                    var map = parent.getMap()
+
+                    // parrse position attribute
+                    var position = $scope.position.split(/(?=[A-Z])/).join("_").toUpperCase()
+
+                    $scope.$watch(function(){
+                        return $element[0].innerHTML
+                    }, function() {
+
+                        var controlDiv = document.createElement('div')
+
+                        map.controls[google.maps.ControlPosition[position]].pop();
+                        controlDiv.innerHTML = $element[0].innerHTML
+                        map.controls[google.maps.ControlPosition[position]].push(controlDiv);
+
+                    })
+                    
+
+                });
+
+                
             }
         }
     })
