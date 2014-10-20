@@ -236,7 +236,7 @@ angular.module('ng-data-map', [])
             // For each event, add a listener. Also provides access to the map and parent scope
             angular.forEach($scope.events, function(val, key) {
               google.maps.event.addListener(marker, key, function(e) {
-                val(e, marker, MapObjects);
+                val(e, marker, MapObjects, markers);
               });
             });
 
