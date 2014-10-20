@@ -1,26 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 width="17.131px" height="26.81px" viewBox="-42.042 -7.226 17.131 26.81" enable-background="new -42.042 -7.226 17.131 26.81"
-	 xml:space="preserve">
-<g id="Layer_1" display="none">
-	<path display="inline" fill="#BDC3C7" stroke="#000000" stroke-miterlimit="10" d="M-25.411,1.336
-		c-0.002-4.453-3.612-8.062-8.065-8.062c-4.455,0-8.065,3.611-8.065,8.065c0,0.966,0.17,1.891,0.481,2.749l0.012,0.035l4.453,12.547
-		c0.048,0.183,0.11,0.361,0.189,0.531c0.51,1.109,1.629,1.883,2.93,1.883c1.302,0,2.42-0.773,2.93-1.883
-		c0.079-0.17,0.141-0.349,0.189-0.531l4.453-12.547l0.012-0.035c0.311-0.857,0.48-1.782,0.481-2.745c0-0.001,0-0.002,0-0.004
-		S-25.411,1.338-25.411,1.336z"/>
-	<circle display="inline" fill="#BDC3C7" stroke="#000000" stroke-miterlimit="10" cx="-33.476" cy="1.702" r="5.447"/>
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="18.63px"
+	 height="16.133px" viewBox="71.304 1.608 18.63 16.133" enable-background="new 71.304 1.608 18.63 16.133" xml:space="preserve">
+<g id="Layer_1">
+	<polygon fill="#F1C40F" stroke="#2B2B2B" stroke-width="0.5" stroke-miterlimit="10" points="71.737,17.491 80.619,2.108 
+		89.501,17.491 	"/>
+</g>
+<g id="Layer_2_1_">
 </g>
 <g id="Layer_3">
-	<g>
-		<path fill="#F1C40F" stroke="#000000" stroke-miterlimit="10" d="M-33.476-6.726c-4.455,0-8.065,3.611-8.065,8.065
-			c0,0.966,0.17,1.891,0.481,2.749l0.012,0.035l4.453,12.547c0.048,0.183,0.11,0.361,0.189,0.531c0.51,1.109,1.629,1.883,2.93,1.883
-			c1.302,0,2.42-0.773,2.93-1.883c0.079-0.17,0.141-0.349,0.189-0.531l4.453-12.547l0.012-0.035c0.311-0.857,0.48-1.782,0.481-2.745
-			c0-0.001,0-0.002,0-0.004s0-0.001,0-0.003C-25.413-3.117-29.022-6.726-33.476-6.726z M-33.476,7.149
-			c-3.009,0-5.447-2.439-5.447-5.447s2.438-5.447,5.447-5.447s5.447,2.439,5.447,5.447S-30.467,7.149-33.476,7.149z"/>
-	</g>
-</g>
-<g id="Layer_2">
 </g>
 </svg>
