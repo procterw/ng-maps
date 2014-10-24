@@ -1,0 +1,1 @@
+angular.module('ng-data-map', []);
