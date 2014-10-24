@@ -12,6 +12,12 @@ var app = angular.module('App', ['ngRoute', 'ngAnimate', 'ui.slider', 'ng-data-m
     when('/marker', {
         templateUrl: 'templates/marker.html'
     }).
+    when('/geopoints', {
+        templateUrl: 'templates/geopoints.html'
+    }).
+    when('/geopolygons', {
+        templateUrl: 'templates/geopolygons.html'
+    }).
     otherwise({
         redirectTo: '/map'
     });

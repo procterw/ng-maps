@@ -36,6 +36,12 @@ p {
 	font-weight: 700;
 }
 
+.description {
+	padding: 7px;
+	margin-top: 14px;
+	font-style: italic;
+}
+
 .fixed {
 	position: fixed;
 }

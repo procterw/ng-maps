@@ -1,11 +1,11 @@
-<div ng-controller="marker">
+<div ng-controller="geopolygons">
 
 	<div class="row">
 
 		<div class="col-sm-12">
 			<div map ng-transclude class="google-map" center="map.center" options="map.options"> 
 
-				<marker position="marker.position" decimals="marker.decimals" options="marker.options"></marker>
+				<geopolygons url="states.url" options="states.options" events="states.events"></geopolygons>
 
 			</div>
 		<div>
@@ -17,25 +17,29 @@
 
 		<div class="col-sm-12">
 
-			<small>position: {{marker.position}}</small>
 
-			<p class="description"> Creates a Google Maps Marker instance. Requires either a position parameter or lat / lng parameters. There is no limit to the number of marker directives that can be added, but consider using "points" or "geopoints" for larger datasets.</p>
+			<p class="description"> Creates polygons from a GeoJSON Feature Collection of polygons. Requires a URL to a .GeoJSON file. 
+				This example includes how to style map features.</p>
 
 			<p class="padded"> HTML </p>
 
 			<pre>
 &lt;div map ng-transclude class="google-map" center="map.center" options="map.options"&gt; 
-	&lt;marker position="marker.position" round="marker.round" options="marker.options"&gt;&lt;/marker&gt;
+	&lt;geopoints url="states.url" options="states.options" events="states.events"&gt;&lt;/geopoints&gt;
 &lt;/div&gt;</pre>
 
 			<p class="padded"> JavaScript </p>
 
 			<pre>
-$scope.marker = {
-	position: [39, -121],
-	round: 4,
-	options: {
-		draggable: true
+$scope.states = {
+	url: "../data/AirNow_Sites_PM2.5.geojson",
+	events: {
+		click: function(e, m) {
+			var lat = e.latLng.lat();
+			var lng = e.latLng.lng();
+			var name = m.getProperty("siteName");
+			alert(lat + " " + lng + " " + name);
+		}
 	}
 }</pre>
 

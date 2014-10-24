@@ -12,6 +12,7 @@ angular.module('App')
 
 		$scope.marker = {
 			position: [39, -121],
+            decimals: 4,
 			options: {
 				draggable: true
 			}
@@ -35,19 +36,19 @@ angular.module('App')
     		details: "A numeric longitude value."
     	},
     	{
-    		name: "round",
+    		name: "decimals",
     		type: "int",
     		details: "Number of decimal places to round to when dragging"
     	},
     	{
     		name: "options",
     		type: "object",
-    		details: "Object properties follow <a href='https://developers.google.com/maps/documentation/javascript/reference#MapOptions'>MapOptions object specification</a>"
+    		details: "Object properties follow <a href='https://developers.google.com/maps/documentation/javascript/reference#MarkerOptions'>MarkerOptions object specification</a>"
     	},
     	{
     		name: "events",
     		type: "object",
-    		details: "Object properties follow <a href='https://developers.google.com/maps/documentation/javascript/reference#Map'>Map events specification</a>"
+    		details: "Object properties follow <a href='https://developers.google.com/maps/documentation/javascript/reference#Marker'>Marker events specification</a>"
     	}
 
     ]

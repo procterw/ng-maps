@@ -8,7 +8,7 @@ angular.module('ng-data-map')
         position: '=',
         lat: '=',
         lng: '=',
-        decimal: '='
+        decimals: '='
       },
       require: '^map',
       link: function($scope, $element, $attrs, parent) {
@@ -19,15 +19,15 @@ angular.module('ng-data-map')
 
           var map = parent.getMap();
 
-          var decimal = $scope.decimal;
+          var decimals = $scope.decimals;
 
           var events = $scope.events ? $scope.events : {};
           var options = $scope.options ? $scope.options : {};
 
 
           var round = function(val) {
-            if (decimal || decimal === 0) {
-              return Math.round(Math.pow(10, decimal) * val) / Math.pow(10, decimal);
+            if (decimals || decimals === 0) {
+              return Math.round(Math.pow(10, decimals) * val) / Math.pow(10, decimals);
             } else {
               return val;
             }

@@ -34,13 +34,13 @@
 
     <div class="row">
 
-
+      {{test}}
 
       <div class="col-sm-3">
 
         <ul class="side-list">
           <li class="directive-option" ng-repeat="item in options">
-            <a class="link-option" ng-class="{selected: item.selected}" ng-click="clearOptions(item)" ng-href="#{{item.opt}}">{{item.opt}}</a>
+            <a class="link-option" ng-class="{selected: '/' + item === location()}" ng-href="#{{item}}">{{item}}</a>
           </li>
         </ul>
 
