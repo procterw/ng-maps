@@ -36,6 +36,13 @@ p {
 	font-weight: 700;
 }
 
+.error {
+	padding-left: 7px;
+	margin-top: 20px;
+	font-weight: 700;
+	color: #D91E18;
+}
+
 .description {
 	padding: 7px;
 	margin-top: 14px;
@@ -122,6 +129,13 @@ p {
 
 .google-map {
 	height: 500px;
+}
+
+.small-list {
+	list-style: none;
+	padding: 7px;
+	margin: 0;
+	font-size: 0.8em;
 }
 
 div[ng-view].ng-enter {
