@@ -6,7 +6,8 @@ angular.module('ng-data-map')
         url: '=',
         events: '=',
         options: '=',
-        visible: '='
+        visible: '=',
+        opacity: '='
       },
       require: '^map',
       link: function($scope, $element, $attrs, parent) {
@@ -31,7 +32,17 @@ angular.module('ng-data-map')
             });
           });
 
+          $scope.$watch(function() {
+            return $scope.opacity;
+          }, function() {
+            angular.forEach(polygons, function(p) {
+              p.setOptions({fillOpacity: $scope.opacity / 100});
+            });
+          });
+
           $http.get(url).success(function(data) {
+
+            console.log(data)
 
             angular.forEach(data.features, function(p, i) {
 
@@ -40,6 +51,8 @@ angular.module('ng-data-map')
                 var coords = p.geometry.coordinates[j]
 
                 for (var k = 0; k < p.geometry.coordinates[j].length; k++) {
+
+                  if(p.geometry.type === "MultiPolygon")
                   coords[k] = new google.maps.LatLng(coords[k][1], coords[k][0]);
                 }
 
