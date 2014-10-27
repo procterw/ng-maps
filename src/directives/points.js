@@ -31,7 +31,7 @@ angular.module('ng-data-map')
             angular.forEach(coords, function(c) {
               var opts = $scope.options;
               opts.position = new google.maps.LatLng(c[0], c[1]);
-              if(!$scope.clustering { opts.map = map };
+              if(!$scope.clustering) { opts.map = map };
               var point = new google.maps.Marker(opts);
               points.push(point)
             });
