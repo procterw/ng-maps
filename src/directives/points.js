@@ -6,7 +6,8 @@ angular.module('ng-data-map')
         coords: '=', //array of coordinate pairs
         options: '=',
         events: '=',
-        visible: '='
+        visible: '=',
+        clustering: '='
       },
       require: '^map',
       link: function($scope, $element, $attrs, parent) {
@@ -30,13 +31,13 @@ angular.module('ng-data-map')
             angular.forEach(coords, function(c) {
               var opts = $scope.options;
               opts.position = new google.maps.LatLng(c[0], c[1]);
-              if(!$scope.clusterOptions) { opts.map = map };
+              if(!$scope.clustering { opts.map = map };
               var point = new google.maps.Marker(opts);
               points.push(point)
             });
 
             // TODO add in more cluster options support
-            if($scope.clusterOptions) { new MarkerClusterer(map, points) };
+            if($scope.clustering) { new MarkerClusterer(map, points) };
 
           }
 

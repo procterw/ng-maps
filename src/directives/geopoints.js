@@ -6,7 +6,8 @@ angular.module('ng-data-map')
         url: '=',
         events: '=',
         options: '=',
-        visible: '='
+        visible: '=',
+        clustering: '='
       },
       require: '^map',
       link: function($scope, $element, $attrs, parent) {
@@ -51,7 +52,6 @@ angular.module('ng-data-map')
 
               // Initial options since markers require a map and position
               var opts = {
-                map: map,
                 position: new google.maps.LatLng(m.geometry.coordinates[1], m.geometry.coordinates[0])
               };
 
@@ -72,6 +72,10 @@ angular.module('ng-data-map')
               // Set options
               marker.setOptions(options(marker, MapObjects));
 
+              if (!$scope.clustering) {
+                marker.setMap(map);
+              }
+
               // Add marker to list of markers
               markers.push(marker);
 
@@ -83,6 +87,10 @@ angular.module('ng-data-map')
               });
 
             });
+
+            if($scope.clustering) {
+              new MarkerClusterer(map, markers)
+            }
 
           });
 
