@@ -33,6 +33,8 @@ angular.module('ng-data-map')
 
           $http.get(url).success(function(data) {
 
+            console.log(data)
+
             angular.forEach(data.features, function(p, i) {
 
               for(var j = 0; j < p.geometry.coordinates.length; j++) {
@@ -40,6 +42,8 @@ angular.module('ng-data-map')
                 var coords = p.geometry.coordinates[j]
 
                 for (var k = 0; k < p.geometry.coordinates[j].length; k++) {
+
+                  if(p.geometry.type === "MultiPolygon")
                   coords[k] = new google.maps.LatLng(coords[k][1], coords[k][0]);
                 }
 
