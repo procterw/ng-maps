@@ -17,15 +17,9 @@ angular.module('ng-data-map')
 
           var map = parent.getMap();
 
-          var url = $scope.url;
-
-          var options = $scope.options ? $scope.options : function() {
-            return {};
-          };
-
           var markers = [];
 
-          // If the style changes restyle each element
+          // If the options changes restyle each element
           $scope.$watch(function() {
             return $scope.options;
           }, function() {
@@ -38,53 +32,64 @@ angular.module('ng-data-map')
           $scope.$watch(function() {
             return $scope.visible;
           }, function() {
-            angular.forEach(markers, function(marker) {
-              marker.setVisible($scope.visible);
-            });
-          });
+              angular.forEach(markers, function(marker) {
+                  marker.setVisible($scope.visible);
+              });
+            
+          });          
 
-          // AJAX request to get GeoJSON
-          // The goal is to create an object that mimics a Google Map Data Layer
-          $http.get(url).success(function(data) {
+          var newData = function(url) {
 
-            angular.forEach(data.features, function(m, i) {
+            // AJAX request to get GeoJSON
+            // The goal is to create an object that mimics a Google Map Data Layer
+            $http.get(url).success(function(data) {
 
-              // Initial options since markers require a map and position
-              var opts = {
-                map: map,
-                position: new google.maps.LatLng(m.geometry.coordinates[1], m.geometry.coordinates[0])
-              };
+              angular.forEach(markers, function(m) {
+                m.setMap(null);
+              });
 
-              // Create the marker
-              var marker = new google.maps.Marker(opts);
+              markers = [];
 
-              // Assign properties to marker
-              marker.properties = m.properties;
+              angular.forEach(data.features, function(m, i) {
 
-              // Assign geometry to marker
-              marker.geometry = m.geometry;
+                var opts = $scope.options ? $scope.options(m, MapObjects) : function() {
+                  return {};
+                };
 
-              // Helper function so multimarkers' API matches data layer
-              marker.getProperty = function(p) {
-                return this.properties[p];
-              };
+                // Initial options since markers require a map and position
+                opts.position = new google.maps.LatLng(m.geometry.coordinates[1], m.geometry.coordinates[0]);
+                opts.visible = $scope.visible;
+                opts.map = map;
 
-              // Set options
-              marker.setOptions(options(marker, MapObjects));
+                // Create the marker
+                var marker = new google.maps.Marker(opts);
 
-              // Add marker to list of markers
-              markers.push(marker);
+                // Assign properties to marker
+                marker.properties = m.properties;
 
-              // For each event, add a listener. Also provides access to the map and parent scope
-              angular.forEach($scope.events, function(val, key) {
-                google.maps.event.addListener(marker, key, function(e) {
-                  val(e, marker, MapObjects, markers);
+                // Assign geometry to marker
+                marker.geometry = m.geometry;
+
+                // Helper function so multimarkers' API matches data layer
+                marker.getProperty = function(p) {
+                  return this.properties[p];
+                };
+
+                // Add marker to list of markers
+                markers.push(marker);
+
+                // For each event, add a listener. Also provides access to the map and parent scope
+                angular.forEach($scope.events, function(val, key) {
+                  google.maps.event.addListener(marker, key, function(e) {
+                    val(e, marker, MapObjects, markers);
+                  });
                 });
+
               });
 
             });
 
-          });
+          };
 
         });
       }

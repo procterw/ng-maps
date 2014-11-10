@@ -3,9 +3,10 @@ angular.module('ng-data-map')
     return {
       restrict: 'AE',
       scope: {
-        center: '=',
-        events: '=',
-        options: '='
+        center: '=',  // Starting position
+        zoom: '=',    // Starting zoom
+        events: '=',  // Events
+        options: '='  // Options
       },
       controller: function($scope) {
         // This function allows child directives to access the map
@@ -18,7 +19,6 @@ angular.module('ng-data-map')
 
         var events = $scope.events;
         var center = $scope.center;
-        var map;
 
         var options = $scope.options ? $scope.options : {};
 
@@ -26,9 +26,9 @@ angular.module('ng-data-map')
         var longitude = center ? center[1] : -122.3;
 
         options.center = new google.maps.LatLng(latitude, longitude);
-        options.zoom = options.zoom ? options.zoom : 8;
+        options.zoom = $scope.zoom ? $scope.zoom : 8;
 
-        map = new google.maps.Map(elem[0], options);
+        var map = new google.maps.Map(elem[0], options);
 
         // For each event, add a listener. Also provides access to the map
         angular.forEach(events, function(val, key) {
