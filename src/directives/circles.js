@@ -21,15 +21,15 @@ angular.module('ng-data-map')
 
           $scope.$watch('visible', function() {
             angular.forEach(circleList, function(c) {
-              c.setVisible($scope.visible);
-            });
-          });
+              c.setVisible($scope.visible)
+            })
+          })
 
           newData = function() {
 
             angular.forEach(circleList, function(c){
               c.setMap(null);
-            });
+            })
 
             circleList = [];
 
@@ -40,7 +40,7 @@ angular.module('ng-data-map')
               opts.map = map;
 
               var circle = new google.maps.Circle(opts);
-              circleList.push(circle);
+              circleList.push(circle)
 
               angular.forEach($scope.events, function(val, key) {
                 google.maps.event.addListener(circle, key, function(e) {
@@ -49,12 +49,12 @@ angular.module('ng-data-map')
               });
 
 
-            });
-          };
+            })
+          }
 
           $scope.$watch('geometries', function() {
-            newData();
-          });
+            newData()
+          })
 
           
 
@@ -62,4 +62,4 @@ angular.module('ng-data-map')
 
       }
     };
-}]);
+})
