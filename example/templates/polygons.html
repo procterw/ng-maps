@@ -1,0 +1,71 @@
+<div ng-controller="polygons">
+
+	<div class="row">
+
+		<div class="col-sm-12">
+			<div map ng-transclude class="google-map" center="map.center" options="map.options" zoom="map.zoom"> 
+
+				<polygons coords="polygons.coords" options="polygons.options" events="polygons.events" opacity="polygons.opacity"></polygons>
+
+			</div>
+		<div>
+
+	</div>
+
+
+	<div class="row">
+
+		<div class="col-sm-12">
+
+
+			<p class="description"> Creates polygons from a GeoJSON Feature Collection of polygons. Requires a URL to a .GeoJSON file. 
+				This example includes how to style map features.</p>
+
+			<p class="padded"> HTML </p>
+
+			<pre>
+&lt;div map ng-transclude class="google-map" center="map.center" options="map.options"&gt; 
+	&lt;geopoints url="states.url" options="states.options" events="states.events"&gt;&lt;/geopoints&gt;
+&lt;/div&gt;</pre>
+
+			<p class="padded"> JavaScript </p>
+
+			<pre>
+$scope.states = {
+	url: "../data/AirNow_Sites_PM2.5.geojson",
+	events: {
+		click: function(e, m) {
+			var lat = e.latLng.lat();
+			var lng = e.latLng.lng();
+			var name = m.getProperty("siteName");
+			alert(lat + " " + lng + " " + name);
+		}
+	}
+}</pre>
+
+			<p class="padded"> Parameters </p>
+
+			<table class="table">
+				<tr>
+			    <th>Param</th>
+			    <th>Type</th>		
+			    <th>Details</th>
+			  </tr>
+			  <tr ng-repeat="item in parameters">
+			  	<td ng-bind-html="item.name"></td>
+			  	<td ng-bind-html="item.type"></td>
+			  	<td ng-bind-html="item.details"></td>
+			  </tr>
+			</table>
+
+			<p class="error"> Known Issues </p>
+
+			<ul class="small-list">
+				<li> multipolygons not rendering </li>
+			</ul>
+
+		</div>
+
+	</div>
+
+</div>

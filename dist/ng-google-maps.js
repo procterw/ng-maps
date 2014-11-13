@@ -621,8 +621,10 @@ angular.module('ng-data-map', []);;angular.module('ng-data-map')
       scope: {
         coords: '=', //array of coordinate pairs
         options: '=',
+        properties: '=',
         events: '=',
-        visible: '='
+        visible: '=',
+        decimals: '='
       },
       require: '^map',
       link: function($scope, $element, $attrs, parent) {
@@ -635,6 +637,14 @@ angular.module('ng-data-map', []);;angular.module('ng-data-map')
 
           var points = [];
 
+          var round = function(val) {
+            if ($scope.decimals || $scope.decimals === 0) {
+              return Math.round(Math.pow(10, $scope.decimals) * val) / Math.pow(10, $scope.decimals);
+            } else {
+              return val;
+            }
+          };
+
           var newCoords = function(coords) {
 
             angular.forEach(points, function(p) {
@@ -643,12 +653,29 @@ angular.module('ng-data-map', []);;angular.module('ng-data-map')
 
             points = [];
 
-            angular.forEach(coords, function(c) {
+            angular.forEach(coords, function(c, i) {
+
               var opts = $scope.options;
               opts.position = new google.maps.LatLng(c[0], c[1]);
               opts.map = map;
               var point = new google.maps.Marker(opts);
+
+              angular.forEach($scope.events, function(val, key) {
+                google.maps.event.addListener(point, key, function(e) {
+                  val(e, this, MapObjects);
+                });
+              });
+
+              google.maps.event.addListener(point, "drag", function() {
+                $scope.$apply(function() {
+                  var lat = round(point.getPosition().lat());
+                  var lng = round(point.getPosition().lng());
+                  $scope.coords[i] = [lat, lng];
+                });
+              });
+
               points.push(point);
+
             });
 
           };
@@ -685,12 +712,116 @@ angular.module('ng-data-map', []);;angular.module('ng-data-map')
           parent.getMap();
         }, function() {
 
+          // Get the map
           var map = parent.getMap();
+
+          // Array of all polygons
+          var polygons = [];
+
+          // Watch options
+          $scope.$watch(function() {
+            return $scope.options;
+          }, function() {
+            angular.forEach(polygons, function(p) {
+              var opts = $scope.options ? $scope.options(p, MapObjects) : {};
+              opts.fillOpacity = $scope.opacity ? $scope.opacity/100 : 1;
+              p.setOptions(opts);
+            });
+          });
+
+          // Watch opacity
+          $scope.$watch(function() {
+            return $scope.opacity;
+          }, function() {
+            angular.forEach(polygons, function(p) {
+              p.setOptions({fillOpacity: $scope.opacity / 100});
+            });
+          });
+
+          $scope.$watch(function() {
+            return $scope.visible;
+          }, function() {
+            angular.forEach(polygons, function(p) {
+              p.setVisible($scope.visible);
+            });
+          });
+
+          // When the coords changes, make new polygons
+          $scope.$watch(function() {
+            return $scope.coords;
+          }, function() {
+            newData($scope.coords);
+          });
+
+          var newData = function(coords) {
+
+            // Remove each existing polygon from the map
+            angular.forEach(polygons, function(p) {
+              p.setMap(null);
+            });
+            
+            // Reset polygon array
+            polygons = [];
+
+            angular.forEach(coords, function(c, i) {
+
+              var path = [];
+
+              // Express each coordinate pair as a google maps object
+              for (var j = 0; j < c.length; j++) {
+                for (var k = 0; k < c[j].length; k++) {
+                  console.log(c[j])
+                  path.push(new google.maps.LatLng(c[j][k][0], c[j][k][1]));
+                }
+              }
+
+              // Create a new polygon
+              var polygon = new google.maps.Polygon({
+                paths: path
+              });
+
+              // Assign properties to polygon for some use
+              if($scope.properties) {
+                polygon.properties = $scope.properties[i];
+              }
+
+              // Set map
+              polygon.setMap(map);
+
+              // Create polygon options with opacity
+              var opts = $scope.options ? $scope.options(polygon, MapObjects) : {};
+              opts.fillOpacity = $scope.opacity ? $scope.opacity/100 : 1;
+
+              // Set options
+              polygon.setOptions(opts);
+
+              // Helper function so multimarkers' API matches data layer
+              // Do I really need this?
+              polygon.getProperty = function(p) {
+                return this.properties[p];
+              };
+
+              // Add to polygons array
+              polygons.push(polygon);
+
+              // For each event, add a listener. Also provides access to the map and parent scope
+              // For some reason, the val function requires "this" instead of "polygon"
+              angular.forEach($scope.events, function(val, key) {
+                google.maps.event.addListener(polygon, key, function(e) {
+                  val(e, this, MapObjects);
+                });
+              });
+
+
+            });
+
+          };
 
         });
       }
     };
-  }]);;angular.module('ng-data-map')
+  }]);
+;angular.module('ng-data-map')
   .directive('polylines', ['MapObjects', function(MapObjects) {
     return {
     restrict: 'E',
@@ -709,6 +840,22 @@ angular.module('ng-data-map', []);;angular.module('ng-data-map')
         var map = parent.getMap();
 
         var lines = [];
+
+        $scope.$watch('coords', function() {
+          newData($scope.coords);
+        });
+
+        $scope.$watch('visible', function() {
+          angular.forEach(lines, function(l) {
+            l.setVisible($scope.visible);
+          });
+        });
+
+        $scipe.$watch('options', function() {
+          angular.forEach(lines, function(l) {
+            l.setOptions($scope.options)
+          });
+        });
 
         var newData = function(coords) {
 
@@ -738,21 +885,7 @@ angular.module('ng-data-map', []);;angular.module('ng-data-map')
           });
         };
 
-        $scope.$watch('coords', function() {
-          newData($scope.coords);
-        });
-
-        $scope.$watch('visible', function() {
-          angular.forEach(lines, function(l) {
-            l.setVisible($scope.visible);
-          });
-        });
-
-        $scipe.$watch('options', function() {
-          angular.forEach(lines, function(l) {
-            l.setOptions($scope.options)
-          });
-        })
+        
 
       });
 

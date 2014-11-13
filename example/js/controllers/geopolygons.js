@@ -11,7 +11,7 @@ angular.module('App')
     };
 
 	$scope.states = {
-		url: "../data/states.geojson"
+		url: "data/states.geojson"
 	}
 
 		$scope.parameters = [

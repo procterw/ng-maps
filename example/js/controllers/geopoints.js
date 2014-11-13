@@ -11,7 +11,7 @@ angular.module('App')
     };
 
 	$scope.stations = {
-		url: "../data/AirNow_Sites_PM2.5.geojson",
+		url: "data/AirNow_Sites_PM2.5.geojson",
 		events: {
 			click: function(e, m) {
 				var lat = e.latLng.lat();

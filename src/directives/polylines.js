@@ -18,6 +18,22 @@ angular.module('ng-data-map')
 
         var lines = [];
 
+        $scope.$watch('coords', function() {
+          newData($scope.coords);
+        });
+
+        $scope.$watch('visible', function() {
+          angular.forEach(lines, function(l) {
+            l.setVisible($scope.visible);
+          });
+        });
+
+        $scipe.$watch('options', function() {
+          angular.forEach(lines, function(l) {
+            l.setOptions($scope.options)
+          });
+        });
+
         var newData = function(coords) {
 
           angular.forEach(lines, function(l) {
@@ -46,21 +62,7 @@ angular.module('ng-data-map')
           });
         };
 
-        $scope.$watch('coords', function() {
-          newData($scope.coords);
-        });
-
-        $scope.$watch('visible', function() {
-          angular.forEach(lines, function(l) {
-            l.setVisible($scope.visible);
-          });
-        });
-
-        $scipe.$watch('options', function() {
-          angular.forEach(lines, function(l) {
-            l.setOptions($scope.options)
-          });
-        })
+        
 
       });
 

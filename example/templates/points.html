@@ -1,0 +1,73 @@
+<div ng-controller="points">
+
+	<div class="row">
+
+		<div class="col-sm-12">
+			<div map ng-transclude class="google-map" center="map.center" options="map.options"> 
+
+				<points coords="points.coords" options="points.options" events="points.events" decimals="points.decimals"></points>
+
+			</div>
+		<div>
+
+	</div>
+
+	{{points.coords}}
+
+
+	<div class="row">
+
+		<div class="col-sm-12">
+
+
+			<p class="description"> Creates multiple points from a GeoJSON Feature Collection of points. Requires a URL to a .GeoJSON file. 
+				This example includes how to bind events to points.</p>
+
+			<p class="padded"> HTML </p>
+
+			<pre>
+&lt;div map ng-transclude class="google-map" center="map.center" options="map.options"&gt; 
+	&lt;geopoints url="stations.url" options="stations.options" events="stations.events"&gt;&lt;/geopoints&gt;
+&lt;/div&gt;</pre>
+
+			<p class="padded"> JavaScript </p>
+
+			<pre>
+$scope.stations = {
+	url: "../data/AirNow_Sites_PM2.5.geojson",
+	events: {
+		click: function(e, m) {
+			var lat = e.latLng.lat();
+			var lng = e.latLng.lng();
+			var name = m.getProperty("siteName");
+			alert(lat + " " + lng + " " + name);
+		}
+	}
+}</pre>
+
+			<p class="padded"> Parameters </p>
+
+			<table class="table">
+				<tr>
+			    <th>Param</th>
+			    <th>Type</th>		
+			    <th>Details</th>
+			  </tr>
+			  <tr ng-repeat="item in parameters">
+			  	<td ng-bind-html="item.name"></td>
+			  	<td ng-bind-html="item.type"></td>
+			  	<td ng-bind-html="item.details"></td>
+			  </tr>
+			</table>
+
+			<p class="error"> Known Issues </p>
+
+			<ul class="small-list">
+				<li> Issue 1 </li>
+			</ul>
+
+		</div>
+
+	</div>
+
+</div>
