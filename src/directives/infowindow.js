@@ -1,4 +1,4 @@
-angular.module('ng-data-map')
+angular.module('ngMaps')
   .directive('infowindow', function() {
     return {
       restrict: 'E',

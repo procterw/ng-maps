@@ -1,4 +1,4 @@
-angular.module('ng-data-map', []);;angular.module('ng-data-map')
+angular.module('ngMaps', []);;angular.module('ngMaps')
   .factory('MapObjects', function() {
 
     var API = {};
@@ -25,7 +25,7 @@ angular.module('ng-data-map', []);;angular.module('ng-data-map')
 
     return API;
 
-  });;angular.module('ng-data-map')
+  });;angular.module('ngMaps')
   .directive('circles', ['MapObjects', function(MapObjects) {
   return {
       restrict: 'E',
@@ -106,7 +106,7 @@ angular.module('ng-data-map', []);;angular.module('ng-data-map')
 
       }
     };
-}]);angular.module('ng-data-map')
+}]);angular.module('ngMaps')
   .directive('control', function() {
     return {
       restrict: 'E',
@@ -143,7 +143,7 @@ angular.module('ng-data-map', []);;angular.module('ng-data-map')
 
       }
     };
-  });;angular.module('ng-data-map')
+  });;angular.module('ngMaps')
   .directive('geopoints', ['MapObjects', '$http', function(MapObjects, $http) {
     return {
       restrict: 'E',
@@ -244,7 +244,7 @@ angular.module('ng-data-map', []);;angular.module('ng-data-map')
         });
       }
     };
-  }]);;angular.module('ng-data-map')
+  }]);;angular.module('ngMaps')
   .directive('geopolygons', ['MapObjects', '$http', function(MapObjects, $http) {
     return {
       restrict: 'E',
@@ -375,7 +375,7 @@ angular.module('ng-data-map', []);;angular.module('ng-data-map')
         });
       }
     };
-  }]);;angular.module('ng-data-map')
+  }]);;angular.module('ngMaps')
   .directive('infowindow', function() {
     return {
       restrict: 'E',
@@ -416,7 +416,7 @@ angular.module('ng-data-map', []);;angular.module('ng-data-map')
         };
       }
     };
-  });;angular.module('ng-data-map')
+  });;angular.module('ngMaps')
   .directive('map', ['MapObjects', function(MapObjects) {
     return {
       restrict: 'AE',
@@ -460,7 +460,7 @@ angular.module('ng-data-map', []);;angular.module('ng-data-map')
       }
     };
   }]);
-;angular.module('ng-data-map')
+;angular.module('ngMaps')
   .directive('marker', ['MapObjects', function(MapObjects) {
     return {
       restrict: 'E',
@@ -537,7 +537,7 @@ angular.module('ng-data-map', []);;angular.module('ng-data-map')
         });
       }
     };
-  }]);;angular.module('ng-data-map')
+  }]);;angular.module('ngMaps')
   .directive('overlay', ['MapObjects', function(MapObjects) {
 
     return {
@@ -614,7 +614,7 @@ angular.module('ng-data-map', []);;angular.module('ng-data-map')
 
     };
 
-  }]);;angular.module('ng-data-map')
+  }]);;angular.module('ngMaps')
   .directive('points', ['MapObjects', function(MapObjects) {
     return {
       restrict: 'E',
@@ -694,7 +694,7 @@ angular.module('ng-data-map', []);;angular.module('ng-data-map')
 
       }
     };
-  }]);;angular.module('ng-data-map')
+  }]);;angular.module('ngMaps')
   .directive('polygons', ['MapObjects', function(MapObjects) {
     return {
       restrict: 'E',
@@ -821,7 +821,7 @@ angular.module('ng-data-map', []);;angular.module('ng-data-map')
       }
     };
   }]);
-;angular.module('ng-data-map')
+;angular.module('ngMaps')
   .directive('polylines', ['MapObjects', function(MapObjects) {
     return {
     restrict: 'E',
@@ -891,7 +891,7 @@ angular.module('ng-data-map', []);;angular.module('ng-data-map')
 
     }
   };
-  }]);;angular.module('ng-data-map')
+  }]);;angular.module('ngMaps')
   .directive('rectangles', ['MapObjects', function(MapObjects) {
   return {
       restrict: 'E',

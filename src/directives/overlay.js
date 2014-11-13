@@ -1,4 +1,4 @@
-angular.module('ng-data-map')
+angular.module('ngMaps')
   .directive('overlay', ['MapObjects', function(MapObjects) {
 
     return {

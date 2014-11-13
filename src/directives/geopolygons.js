@@ -1,4 +1,4 @@
-angular.module('ng-data-map')
+angular.module('ngMaps')
   .directive('geopolygons', ['MapObjects', '$http', function(MapObjects, $http) {
     return {
       restrict: 'E',

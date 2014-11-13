@@ -1,1 +1,1 @@
-angular.module('ng-data-map', []);
+angular.module('ngMaps', []);
