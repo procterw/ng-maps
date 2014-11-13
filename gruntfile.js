@@ -2,6 +2,15 @@ module.exports = function(grunt) {
 
   // Project configuration.
     grunt.initConfig({
+      concat: {
+        options: {
+          separator: ';',
+        },
+        dist: {
+          src : ['src/app.js', 'src/services/*.js', 'src/controllers/*.js', 'src/directives/*.js'],
+          dest : 'dist/ng-google-maps.js'
+        },
+      },
       uglify: {
         options: {
           mangle: false
@@ -9,7 +18,7 @@ module.exports = function(grunt) {
         build: {
           files: [{
             src : ['src/app.js', 'src/services/*.js', 'src/controllers/*.js', 'src/directives/*.js'],
-            dest : 'dist/ng-data-map.js'
+            dest : 'dist/ng-google-maps.min.js'
           },
           {
             src: ['example/js/app.js', 'example/js/services/*.js', 'example/js/controllers/*.js', 'example/js/directives/*.js'],
@@ -21,8 +30,10 @@ module.exports = function(grunt) {
 
     // Load the plugin that provides the "uglify" task.
     grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-contrib-concat');
+    
 
     // Default task(s).
-    grunt.registerTask('default', ['uglify']);
+    grunt.registerTask('default', ['uglify', 'concat']);
 
 };
