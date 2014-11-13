@@ -1,4 +1,6 @@
-ng-google-maps
+ng-maps
 ==============
 
-A Google Maps directive for AngularJS that makes data manipulation and visualization easier. Map objects dynamically change to fit your model. Wow!
+A Google Maps directive for data intensive AngularJS apps.
+
+This project is currently in development but will have full functionality and documentation by December 2014.
