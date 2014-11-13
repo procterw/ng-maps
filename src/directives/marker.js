@@ -22,8 +22,8 @@ angular.module('ng-data-map')
           var decimals = $scope.decimals;
 
           var events = $scope.events ? $scope.events : {};
-          var options = $scope.options ? $scope.options : {};
 
+          var options = $scope.options ? $scope.options : {};
 
           var round = function(val) {
             if (decimals || decimals === 0) {

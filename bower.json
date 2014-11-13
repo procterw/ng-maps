@@ -1,0 +1,26 @@
+{
+  "name": "ng-data-map",
+  "version": "0.1.0",
+  "homepage": "https://github.com/procterw/ng-data-map",
+  "authors": [
+    "Will <procterw@gmail.com>"
+  ],
+  "description": "A Google Maps directive for data intensive AngularJS apps",
+  "main": "dist/ng-data-map.js",
+  "keywords": [
+    "Angular",
+    "Google",
+    "Maps"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "example",
+    "data"
+  ],
+  "dependencies": {
+    "angular": "~1.2.24"
+  }
+}

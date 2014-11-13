@@ -56,6 +56,12 @@ angular.module('ng-data-map')
           });
         });
 
+        $scipe.$watch('options', function() {
+          angular.forEach(lines, function(l) {
+            l.setOptions($scope.options)
+          });
+        })
+
       });
 
     }

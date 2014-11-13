@@ -35,8 +35,13 @@ angular.module('ng-data-map')
               angular.forEach(markers, function(marker) {
                   marker.setVisible($scope.visible);
               });
-            
-          });          
+          });
+
+          $scope.$watch(function() {
+            return $scope.url;
+          }, function() {
+            newData($scope.url);
+          });
 
           var newData = function(url) {
 
