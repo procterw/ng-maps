@@ -8,7 +8,7 @@ module.exports = function(grunt) {
         },
         dist: {
           src : ['src/app.js', 'src/services/*.js', 'src/controllers/*.js', 'src/directives/*.js'],
-          dest : 'dist/ng-google-maps.js'
+          dest : 'dist/ng-maps.js'
         },
       },
       uglify: {
@@ -18,7 +18,7 @@ module.exports = function(grunt) {
         build: {
           files: [{
             src : ['src/app.js', 'src/services/*.js', 'src/controllers/*.js', 'src/directives/*.js'],
-            dest : 'dist/ng-google-maps.min.js'
+            dest : 'dist/ng-maps.min.js'
           },
           {
             src: ['example/js/app.js', 'example/js/services/*.js', 'example/js/controllers/*.js', 'example/js/directives/*.js'],
