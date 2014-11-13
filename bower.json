@@ -14,10 +14,10 @@
   ],
   "license": "MIT",
   "ignore": [
-    "**/.*",
+    "gruntfile.js",
+    "dataMap.js",
     "node_modules",
     "bower_components",
-    "example",
     "data"
   ],
   "dependencies": {
