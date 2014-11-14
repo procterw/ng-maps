@@ -28,7 +28,7 @@ angular.module('ngMaps')
           });
         });
 
-        $scipe.$watch('options', function() {
+        $scope.$watch('options', function() {
           angular.forEach(lines, function(l) {
             l.setOptions($scope.options)
           });

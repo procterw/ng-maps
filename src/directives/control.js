@@ -1,9 +1,14 @@
+// TODO
+// add a watch on visible
+// figure out how to evaluate angular in the innerHTML
+
 angular.module('ngMaps')
   .directive('control', function() {
     return {
       restrict: 'E',
       scope: {
-        position: '@'
+        position: '@',
+        visible: '='
       },
       require: '^map',
       link: function($scope, $element, $attrs, parent) {
@@ -24,15 +29,11 @@ angular.module('ngMaps')
             var controlDiv = document.createElement('div');
 
             map.controls[google.maps.ControlPosition[position]].pop();
-            controlDiv.innerHTML = $element[0].innerHTML;
+            if ($scope.visible !== false) { controlDiv.innerHTML = $element[0].innerHTML; }
             map.controls[google.maps.ControlPosition[position]].push(controlDiv);
 
           });
-
-
         });
-
-
       }
     };
   });
