@@ -23,8 +23,8 @@ angular.module('ngMaps')
           $scope.$watch(function() {
             return $scope.options;
           }, function() {
-            angular.forEach(markers, function(marker) {
-              marker.setOptions($scope.options(marker, MapObjects));
+            angular.forEach(markers, function(m, i) {
+              marker.setOptions($scope.options(m, map, i, MapObjects));
             });
           });
 
@@ -57,9 +57,7 @@ angular.module('ngMaps')
 
               angular.forEach(data.features, function(m, i) {
 
-                var opts = $scope.options ? $scope.options(m, MapObjects) : function() {
-                  return {};
-                };
+                var opts = $scope.options ? $scope.options(m, map, i, MapObjects) : {};
 
                 // Initial options since markers require a map and position
                 opts.position = new google.maps.LatLng(m.geometry.coordinates[1], m.geometry.coordinates[0]);
@@ -86,7 +84,7 @@ angular.module('ngMaps')
                 // For each event, add a listener. Also provides access to the map and parent scope
                 angular.forEach($scope.events, function(val, key) {
                   google.maps.event.addListener(marker, key, function(e) {
-                    val(e, marker, MapObjects, markers);
+                    val(e, marker, i, MapObjects, markers);
                   });
                 });
 

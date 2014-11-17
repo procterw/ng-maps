@@ -33,7 +33,8 @@ angular.module('ngMaps', []);;angular.module('ngMaps')
         geometries: '=',
         events: '=',
         visible: '=',
-        options: '='
+        options: '=',
+        opacity: '='
       },
       require: '^map',
       link: function($scope, $element, $attrs, parent) {
@@ -46,19 +47,19 @@ angular.module('ngMaps', []);;angular.module('ngMaps')
           var map = parent.getMap();
 
           // List of circles
-          var circleList = [];
+          var circles = [];
 
           // Watch for changes in visibility
           $scope.$watch('visible', function() {
-            angular.forEach(circleList, function(c) {
+            angular.forEach(circles, function(c) {
               c.setVisible($scope.visible)
             })
           })
 
           // Watch for changes in options
           $scope.$watch('options', function() {
-            angular.forEach(circleList, function(c) {
-              c.setOptions(options)
+            angular.forEach(circles, function(c, i) {
+              c.setOptions($scope.options(c, map, i, MapObjects));
             })
           })
 
@@ -67,33 +68,42 @@ angular.module('ngMaps', []);;angular.module('ngMaps')
             newData();
           })
 
+          // Watch for changes in opacity
+          $scope.$watch('opacity', function() {
+            if ($scope.opacity) {
+              angular.forEach(circles, function(c) {
+                c.setOptions({fillOpacity: $scope.opacity / 100});
+              });
+            }
+          });
+
           // Make a new collection of circles
-          newData = function() {
+          var newData = function() {
 
             // Remove each object from map
-            angular.forEach(circleList, function(c){
+            angular.forEach(circles, function(c){
               c.setMap(null);
             })
 
             // Delete objects
-            circleList = [];
+            circles = [];
 
             // Create new objects
-            angular.forEach($scope.geometries, function(c) {
-              var opts = $scope.options ? $scope.options : {};
+            angular.forEach($scope.geometries, function(c, i) {
+
+              var opts = $scope.options ? $scope.options(c, map, i, MapObjects) : {};
               opts.center = new google.maps.LatLng(c.center[0], c.center[1]);
               opts.radius = c.radius;
               opts.map = map;
 
               var circle = new google.maps.Circle(opts);
-              circleList.push(circle)
+              circles.push(circle)
 
               angular.forEach($scope.events, function(val, key) {
                 google.maps.event.addListener(circle, key, function(e) {
-                  val(e, this, MapObjects);
+                  val(e, this, i, MapObjects, circles);
                 });
               });
-
 
             })
           }
@@ -169,8 +179,8 @@ angular.module('ngMaps')
           $scope.$watch(function() {
             return $scope.options;
           }, function() {
-            angular.forEach(markers, function(marker) {
-              marker.setOptions($scope.options(marker, MapObjects));
+            angular.forEach(markers, function(m, i) {
+              marker.setOptions($scope.options(m, map, i, MapObjects));
             });
           });
 
@@ -203,9 +213,7 @@ angular.module('ngMaps')
 
               angular.forEach(data.features, function(m, i) {
 
-                var opts = $scope.options ? $scope.options(m, MapObjects) : function() {
-                  return {};
-                };
+                var opts = $scope.options ? $scope.options(m, map, i, MapObjects) : {};
 
                 // Initial options since markers require a map and position
                 opts.position = new google.maps.LatLng(m.geometry.coordinates[1], m.geometry.coordinates[0]);
@@ -232,7 +240,7 @@ angular.module('ngMaps')
                 // For each event, add a listener. Also provides access to the map and parent scope
                 angular.forEach($scope.events, function(val, key) {
                   google.maps.event.addListener(marker, key, function(e) {
-                    val(e, marker, MapObjects, markers);
+                    val(e, marker, i, MapObjects, markers);
                   });
                 });
 
@@ -270,37 +278,31 @@ angular.module('ngMaps')
           var polygons = [];
 
           // Watch options
-          $scope.$watch(function() {
-            return $scope.options;
-          }, function() {
-            angular.forEach(polygons, function(p) {
-              var opts = $scope.options ? $scope.options(p, MapObjects) : {};
+          $scope.$watch('options', function() {
+            angular.forEach(polygons, function(p, i) {
+              var opts = $scope.options ? $scope.options(p, map, i, MapObjects) : {};
               opts.fillOpacity = $scope.opacity ? $scope.opacity/100 : 1;
               p.setOptions(opts);
             });
           });
 
           // Watch opacity
-          $scope.$watch(function() {
-            return $scope.opacity;
-          }, function() {
-            angular.forEach(polygons, function(p) {
-              p.setOptions({fillOpacity: $scope.opacity / 100});
-            });
+          $scope.$watch('opacity', function() {
+            if($scope.opacity) {
+              angular.forEach(polygons, function(p) {
+                p.setOptions({fillOpacity: $scope.opacity / 100});
+              });
+            }
           });
 
-          $scope.$watch(function() {
-            return $scope.visible;
-          }, function() {
+          $scope.$watch('visible', function() {
             angular.forEach(polygons, function(p) {
               p.setVisible($scope.visible);
             });
           });
 
           // When the URL changes, make new polygons
-          $scope.$watch(function() {
-            return $scope.url;
-          }, function() {
+          $scope.$watch('url', function() {
             newData($scope.url);
           });
 
@@ -333,7 +335,7 @@ angular.module('ngMaps')
               });
 
               // Create polygon options with opacity
-              var opts = $scope.options ? $scope.options(p, MapObjects) : {};
+              var opts = $scope.options ? $scope.options(p, i, map, MapObjects) : {};
               opts.fillOpacity = $scope.opacity ? $scope.opacity/100 : 1;
 
               // Set options
@@ -403,11 +405,20 @@ angular.module('ngMaps')
               return $element[0].innerHTML + $scope.position;
             }, function(oldVal, newVal) {
 
+              console.log("HUH")
+
               // if(oldVal != newVal) {
 
-              infowindow.setContent($element[0].innerHTML);
-              infowindow.setPosition($scope.position);
-              infowindow.open(map);
+                if ($scope.position.constructor === Array) {
+                  var pos = new google.maps.LatLng($scope.position[0], $scope.position[1]);
+                } else {
+                  var pos = $scope.position;
+                }
+
+
+                infowindow.setContent($element[0].innerHTML);
+                infowindow.setPosition(pos);
+                infowindow.open(map);
 
               // }
 
@@ -646,6 +657,22 @@ angular.module('ngMaps')
             }
           };
 
+          $scope.$watch('coords', function() {
+            newCoords($scope.coords);
+          });
+
+          $scope.$watch('visible', function() {
+            angular.forEach(points, function(p) {
+              p.setVisible($scope.visible);
+            });
+          });
+
+          $scope.$watch('options', function() {
+            angular.forEach(points, function(p, i) {
+              p.setOptions($scope.options(p, map, i, MapObjects));
+            });
+          });
+
           var newCoords = function(coords) {
 
             angular.forEach(points, function(p) {
@@ -656,7 +683,7 @@ angular.module('ngMaps')
 
             angular.forEach(coords, function(c, i) {
 
-              var opts = $scope.options;
+              var opts = $scope.options ? $scope.options(c, i, map, MapObjects) : {};
               opts.position = new google.maps.LatLng(c[0], c[1]);
               opts.map = map;
               var point = new google.maps.Marker(opts);
@@ -681,15 +708,7 @@ angular.module('ngMaps')
 
           };
 
-          $scope.$watch('coords', function() {
-            newCoords($scope.coords);
-          });
 
-          $scope.$watch('visible', function() {
-            angular.forEach(points, function(p) {
-              p.setVisible($scope.visible);
-            });
-          });
 
         });
 
@@ -720,9 +739,7 @@ angular.module('ngMaps')
           var polygons = [];
 
           // Watch options
-          $scope.$watch(function() {
-            return $scope.options;
-          }, function() {
+          $scope.$watch('options', function() {
             angular.forEach(polygons, function(p) {
               var opts = $scope.options ? $scope.options(p, MapObjects) : {};
               opts.fillOpacity = $scope.opacity ? $scope.opacity/100 : 1;
@@ -731,26 +748,20 @@ angular.module('ngMaps')
           });
 
           // Watch opacity
-          $scope.$watch(function() {
-            return $scope.opacity;
-          }, function() {
+          $scope.$watch('opacity', function() {
             angular.forEach(polygons, function(p) {
               p.setOptions({fillOpacity: $scope.opacity / 100});
             });
           });
 
-          $scope.$watch(function() {
-            return $scope.visible;
-          }, function() {
+          $scope.$watch('visible', function() {
             angular.forEach(polygons, function(p) {
               p.setVisible($scope.visible);
             });
           });
 
           // When the coords changes, make new polygons
-          $scope.$watch(function() {
-            return $scope.coords;
-          }, function() {
+          $scope.$watch('coords', function() {
             newData($scope.coords);
           });
 
@@ -766,35 +777,26 @@ angular.module('ngMaps')
 
             angular.forEach(coords, function(c, i) {
 
-              var path = [];
+              // create polygon options with set opacity
+              var opts = $scope.options ? $scope.options(polygon, MapObjects) : {};
+              opts.fillOpacity = $scope.opacity ? $scope.opacity/100 : 1;
+              opts.path = [];
+              opts.map = map;
 
               // Express each coordinate pair as a google maps object
               for (var j = 0; j < c.length; j++) {
                 for (var k = 0; k < c[j].length; k++) {
-                  console.log(c[j])
-                  path.push(new google.maps.LatLng(c[j][k][0], c[j][k][1]));
+                  opts.path.push(new google.maps.LatLng(c[j][k][0], c[j][k][1]));
                 }
               }
 
               // Create a new polygon
-              var polygon = new google.maps.Polygon({
-                paths: path
-              });
+              var polygon = new google.maps.Polygon(opts);
 
               // Assign properties to polygon for some use
               if($scope.properties) {
                 polygon.properties = $scope.properties[i];
               }
-
-              // Set map
-              polygon.setMap(map);
-
-              // Create polygon options with opacity
-              var opts = $scope.options ? $scope.options(polygon, MapObjects) : {};
-              opts.fillOpacity = $scope.opacity ? $scope.opacity/100 : 1;
-
-              // Set options
-              polygon.setOptions(opts);
 
               // Helper function so multimarkers' API matches data layer
               // Do I really need this?
@@ -854,7 +856,7 @@ angular.module('ngMaps')
 
         $scope.$watch('options', function() {
           angular.forEach(lines, function(l) {
-            l.setOptions($scope.options)
+            l.setOptions($scope.options(l, map, MapObjects))
           });
         });
 
@@ -869,21 +871,21 @@ angular.module('ngMaps')
           // loop through each array of array of coordinates
           angular.forEach(coords, function(l) {
 
-            var line = [];
+            var opts = $scope.options ? $scope.options(l, map, MapObjects) : {};
+            opts.path = [];
 
-              // loop through each array of coordinates
-              angular.forEach(l, function(c) {
-                line.push(new google.maps.LatLng(c[0], c[1]));
-              });
+            // loop through each array of coordinates
+            angular.forEach(l, function(c) {
+              opts.path.push(new google.maps.LatLng(c[0], c[1]));
+            });
 
-            var opts = $scope.options;
-            opts.path = line;
             opts.map = map;
             var polyline = new google.maps.Polyline(opts);
 
             lines.push(polyline);
 
           });
+
         };
 
         
@@ -893,14 +895,16 @@ angular.module('ngMaps')
     }
   };
   }]);;angular.module('ngMaps')
-  .directive('rectangles', ['MapObjects', function(MapObjects) {
+  .directive('rectangles', ['MapObjects', '$rootScope', function(MapObjects, $rootScope) {
   return {
       restrict: 'E',
       scope: {
         geometries: '=',
         events: '=',
         visible: '=',
-        options: '='
+        options: '=',
+        opacity: '=',
+        decimals: '='
       },
       require: '^map',
       link: function($scope, $element, $attrs, parent) {
@@ -909,9 +913,95 @@ angular.module('ngMaps')
           parent.getMap();
         }, function() {
 
+          // Set map
           var map = parent.getMap();
 
-          // LOOK AT CIRCLES.JS for more
+          // List of circles
+          var rectangles = [];
+
+          var decimals = $scope.decimals;
+
+          var round = function(val) {
+            if (decimals || decimals === 0) {
+              return Math.round(Math.pow(10, decimals) * val) / Math.pow(10, decimals);
+            } else {
+              return val;
+            }
+          };
+
+          // Watch for changes in visibility
+          $scope.$watch('visible', function() {
+            angular.forEach(rectangles, function(r) {
+              r.setVisible($scope.visible)
+            })
+          })
+
+          // Watch for changes in options
+          $scope.$watch('options', function() {
+            angular.forEach(rectangles, function(r, i) {
+              r.setOptions($scope.options(r, map, i, MapObjects));
+            })
+          })
+
+          // Watch for changes in data
+          $scope.$watch('geometries', function() {
+            newData();
+          })
+
+          // Watch for changes in opacity
+          $scope.$watch('opacity', function() {
+            if ($scope.opacity) {
+              angular.forEach(rectangles, function(r) {
+                r.setOptions({fillOpacity: $scope.opacity / 100});
+              });
+            }
+          });
+
+          // Make a new collection of circles
+          var newData = function() {
+
+            // Remove each object from map
+            angular.forEach(rectangles, function(r){
+              r.setMap(null);
+            })
+
+            // Delete objects
+            rectangles = [];
+
+            // Create new objects
+            angular.forEach($scope.geometries, function(r, i) {
+
+              var SW = new google.maps.LatLng(r[0][0], r[0][1]);
+              var NE = new google.maps.LatLng(r[1][0], r[1][1]);
+
+              var opts = $scope.options ? $scope.options(r, map, i, MapObjects) : {};
+              // Bounds are constructed at SW and NE corners
+              opts.bounds = new google.maps.LatLngBounds(SW,NE);  
+              opts.map = map;
+
+              var rect = new google.maps.Rectangle(opts);
+              rectangles.push(rect)
+
+              angular.forEach($scope.events, function(val, key) {
+                google.maps.event.addListener(rect, key, function(e) {
+                  val(e, this, i, MapObjects, rectangles);
+                });
+              });
+
+              // If editable, apply bound changes to rootscope when the rectangle is edited
+              google.maps.event.addListener(rect, 'bounds_changed', function() {
+                var b = rect.getBounds();
+                var SW = b.getSouthWest();
+                var NE = b.getNorthEast();
+                $scope.geometries[i] = [[round(SW.k),round(SW.B)],[round(NE.k),round(NE.B)]];
+                $rootScope.$apply()
+              })
+
+            })
+          }
+
+          
+
           
 
         });

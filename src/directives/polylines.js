@@ -30,7 +30,7 @@ angular.module('ngMaps')
 
         $scope.$watch('options', function() {
           angular.forEach(lines, function(l) {
-            l.setOptions($scope.options)
+            l.setOptions($scope.options(l, map, MapObjects))
           });
         });
 
@@ -45,21 +45,21 @@ angular.module('ngMaps')
           // loop through each array of array of coordinates
           angular.forEach(coords, function(l) {
 
-            var line = [];
+            var opts = $scope.options ? $scope.options(l, map, MapObjects) : {};
+            opts.path = [];
 
-              // loop through each array of coordinates
-              angular.forEach(l, function(c) {
-                line.push(new google.maps.LatLng(c[0], c[1]));
-              });
+            // loop through each array of coordinates
+            angular.forEach(l, function(c) {
+              opts.path.push(new google.maps.LatLng(c[0], c[1]));
+            });
 
-            var opts = $scope.options;
-            opts.path = line;
             opts.map = map;
             var polyline = new google.maps.Polyline(opts);
 
             lines.push(polyline);
 
           });
+
         };
 
         

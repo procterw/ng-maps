@@ -25,11 +25,20 @@ angular.module('ngMaps')
               return $element[0].innerHTML + $scope.position;
             }, function(oldVal, newVal) {
 
+              console.log("HUH")
+
               // if(oldVal != newVal) {
 
-              infowindow.setContent($element[0].innerHTML);
-              infowindow.setPosition($scope.position);
-              infowindow.open(map);
+                if ($scope.position.constructor === Array) {
+                  var pos = new google.maps.LatLng($scope.position[0], $scope.position[1]);
+                } else {
+                  var pos = $scope.position;
+                }
+
+
+                infowindow.setContent($element[0].innerHTML);
+                infowindow.setPosition(pos);
+                infowindow.open(map);
 
               // }
 

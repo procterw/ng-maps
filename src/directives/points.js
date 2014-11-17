@@ -29,6 +29,22 @@ angular.module('ngMaps')
             }
           };
 
+          $scope.$watch('coords', function() {
+            newCoords($scope.coords);
+          });
+
+          $scope.$watch('visible', function() {
+            angular.forEach(points, function(p) {
+              p.setVisible($scope.visible);
+            });
+          });
+
+          $scope.$watch('options', function() {
+            angular.forEach(points, function(p, i) {
+              p.setOptions($scope.options(p, map, i, MapObjects));
+            });
+          });
+
           var newCoords = function(coords) {
 
             angular.forEach(points, function(p) {
@@ -39,7 +55,7 @@ angular.module('ngMaps')
 
             angular.forEach(coords, function(c, i) {
 
-              var opts = $scope.options;
+              var opts = $scope.options ? $scope.options(c, i, map, MapObjects) : {};
               opts.position = new google.maps.LatLng(c[0], c[1]);
               opts.map = map;
               var point = new google.maps.Marker(opts);
@@ -64,15 +80,7 @@ angular.module('ngMaps')
 
           };
 
-          $scope.$watch('coords', function() {
-            newCoords($scope.coords);
-          });
 
-          $scope.$watch('visible', function() {
-            angular.forEach(points, function(p) {
-              p.setVisible($scope.visible);
-            });
-          });
 
         });
 

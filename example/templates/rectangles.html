@@ -1,0 +1,17 @@
+<div ng-controller="rectangles">
+
+	<div class="row">
+
+		<div class="col-sm-12">
+			<div map ng-transclude class="google-map" center="map.center" options="map.options"> 
+
+				<rectangles geometries="rect.geometries" options="rect.options"></rectangles>
+
+			</div>
+		<div>
+
+		{{rect.geometries}}
+
+	</div>
+
+</div>

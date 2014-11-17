@@ -23,37 +23,31 @@ angular.module('ngMaps')
           var polygons = [];
 
           // Watch options
-          $scope.$watch(function() {
-            return $scope.options;
-          }, function() {
-            angular.forEach(polygons, function(p) {
-              var opts = $scope.options ? $scope.options(p, MapObjects) : {};
+          $scope.$watch('options', function() {
+            angular.forEach(polygons, function(p, i) {
+              var opts = $scope.options ? $scope.options(p, map, i, MapObjects) : {};
               opts.fillOpacity = $scope.opacity ? $scope.opacity/100 : 1;
               p.setOptions(opts);
             });
           });
 
           // Watch opacity
-          $scope.$watch(function() {
-            return $scope.opacity;
-          }, function() {
-            angular.forEach(polygons, function(p) {
-              p.setOptions({fillOpacity: $scope.opacity / 100});
-            });
+          $scope.$watch('opacity', function() {
+            if($scope.opacity) {
+              angular.forEach(polygons, function(p) {
+                p.setOptions({fillOpacity: $scope.opacity / 100});
+              });
+            }
           });
 
-          $scope.$watch(function() {
-            return $scope.visible;
-          }, function() {
+          $scope.$watch('visible', function() {
             angular.forEach(polygons, function(p) {
               p.setVisible($scope.visible);
             });
           });
 
           // When the URL changes, make new polygons
-          $scope.$watch(function() {
-            return $scope.url;
-          }, function() {
+          $scope.$watch('url', function() {
             newData($scope.url);
           });
 
@@ -86,7 +80,7 @@ angular.module('ngMaps')
               });
 
               // Create polygon options with opacity
-              var opts = $scope.options ? $scope.options(p, MapObjects) : {};
+              var opts = $scope.options ? $scope.options(p, i, map, MapObjects) : {};
               opts.fillOpacity = $scope.opacity ? $scope.opacity/100 : 1;
 
               // Set options

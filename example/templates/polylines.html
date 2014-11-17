@@ -1,11 +1,11 @@
-<div ng-controller="geopolygons">
+<div ng-controller="polylines">
 
 	<div class="row">
 
 		<div class="col-sm-12">
 			<div map ng-transclude class="google-map" center="map.center" options="map.options" zoom="map.zoom"> 
 
-				<geopolygons url="states.url" options="states.options" events="states.events"></geopolygons>
+				<polylines coords="polylines.coords" options="polylines.options"></polylines>
 
 			</div>
 		<div>

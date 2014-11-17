@@ -17,8 +17,10 @@ angular.module('App')
 				[47,-123],
 				[48,-122]
 			],
-			options: {
-				draggable: true
+			options: function(p, map, i) {
+				return {
+					draggable: true
+				}
 			},
 			events: {
 				click: function(e, m) {

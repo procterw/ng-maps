@@ -1,0 +1,19 @@
+<div ng-controller="infowindow">
+
+	<div class="row">
+
+		<div class="col-sm-12">
+			<div map ng-transclude class="google-map" center="map.center" events="map.events" options="map.options"> 
+
+				<points coords="points.coords"></points>
+				<infowindow position="infowindow.position">
+					<h4> Hello! </h4>
+					My position is {{infowindow.position}}
+				</infowindow>
+
+			</div>
+		<div>
+
+	</div>
+
+</div>

@@ -24,6 +24,24 @@ var app = angular.module('App', ['ngRoute', 'ngAnimate', 'ui.slider', 'ngMaps', 
     when('/polygons', {
         templateUrl: 'templates/polygons.html'
     }).
+    when('/polylines', {
+        templateUrl: 'templates/polylines.html'
+    }).
+    when('/circles', {
+        templateUrl: 'templates/circles.html'
+    }).
+    when('/rectangles', {
+        templateUrl: 'templates/rectangles.html'
+    }).
+    when('/overlay', {
+        templateUrl: 'templates/overlay.html'
+    }).
+    when('/control', {
+        templateUrl: 'templates/control.html'
+    }).
+    when('/infowindow', {
+        templateUrl: 'templates/infowindow.html'
+    }).
     otherwise({
         redirectTo: '/map'
     });

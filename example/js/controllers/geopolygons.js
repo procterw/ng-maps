@@ -2,12 +2,12 @@ angular.module('App')
 	.controller('geopolygons', ['$scope', function($scope){
 
 	$scope.map = {
-      center: [39, -121],
+      center: [40, -100],
       options: {
-      	zoom: 6,
       	streetViewControl: false,
       	scrollwheel: false
-      }
+      },
+      zoom: 4
     };
 
 	$scope.states = {
