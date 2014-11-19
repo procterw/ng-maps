@@ -3,11 +3,11 @@ angular.module('ngMaps')
     return {
       restrict: 'E',
       scope: {
-        url: '=',
-        events: '=',
-        options: '=',
-        visible: '=',
-        opacity: '='
+        url: '=',     // string
+        events: '=',  // object {event:function(), event:function()}
+        options: '=', // function() { return {} }
+        visible: '=', // boolean
+        opacity: '='  // int <= 100
       },
       require: '^map',
       link: function($scope, $element, $attrs, parent) {
@@ -51,70 +51,118 @@ angular.module('ngMaps')
             newData($scope.url);
           });
 
+          // Takes a polygon or multipolygon and adds additional funtionality
+          function PolygonCollection(p, i) {
+
+            this.type = p.geometry.type;
+            this.properties = p.properties;
+
+            this.setOptions = function(o) {
+              angular.forEach(polygons, function(p) {
+                p.setOptions(o);
+              });
+            };
+
+            this.setVisible = function(o) {
+              angular.forEach(polygons, function(p) {
+                p.setVisible(o);
+              });
+            };
+
+            this.getMap = function(o) {
+              angular.forEach(polygons, function(p) {
+                p.getMap(o);
+              });
+            };
+
+            // All of the polygon objects in this collection
+            var polygons = [];
+
+            var opts = $scope.options ? $scope.options(p, i, map, MapObjects) : {};
+            opts.fillOpacity = $scope.opacity ? $scope.opacity/100 : 1;
+
+            if (this.type === "MultiPolygon") {
+
+              angular.forEach(p.geometry.coordinates, function(c) {
+                angular.forEach(c, function(c2) {
+                  // Each c2 is a single polygon
+                  var coords = [];
+                  // Create google map latlngs
+                  angular.forEach(c2, function(c3) {
+                    coords.push(new google.maps.LatLng(c3[1], c3[0]))
+                  });
+                  // New polygon
+                  var polygon = new google.maps.Polygon({
+                    paths: coords
+                  });
+                  // Set options and map
+                  polygon.setOptions(opts);
+                  polygon.setMap(map);
+                  // Add to polygon array
+                  polygons.push(polygon);
+                });
+              });
+
+            } else { // Normal polygon
+
+              var coords = [];
+              angular.forEach(p.geometry.coordinates, function(c) {
+                // Create google map latlngs
+                angular.forEach(c, function(c2) {
+                  coords.push(new google.maps.LatLng(c2[1], c2[0]))
+                });
+              });
+              // New polygon
+              var polygon = new google.maps.Polygon({
+                paths: coords
+              });
+              // Set options and map
+              polygon.setOptions(opts);
+              polygon.setMap(map);
+              // Add to polygon array
+              polygons.push(polygon);
+
+            }
+
+            this.polygons = polygons;
+
+          };
+ 
+
+
+
+
           var newData = function(url) {
 
             // Fetch the data
             $http.get(url).success(function(data) {
 
-            // Remove each existing polygon from the map
-            angular.forEach(polygons, function(p) {
-              p.setMap(null);
-            });
-            
-            // Reset polygon array
-            polygons = [];
+              // Remove each existing polygon from the map
+              angular.forEach(polygons, function(p) {
+                p.setMap(null);
+              });
+              
+              // Reset polygon array
+              polygons = [];
 
-            angular.forEach(data.features, function(p, i) {
+              // For each poly OR multipoly, 
+              angular.forEach(data.features, function(p, i) {
 
-              // Express each coordinate pair as a google maps object
-              for (var j = 0; j < p.geometry.coordinates.length; j++) {
-                var coords = p.geometry.coordinates[j];
-                for (var k = 0; k < coords.length; k++) {
-                  coords[k] = new google.maps.LatLng(coords[k][1], coords[k][0]);
-                }
-              }
+                  var PC = new PolygonCollection(p, i);
 
-              // Create a new polygon
-              var polygon = new google.maps.Polygon({
-                paths: p.geometry.coordinates
+                  polygons.push(PC);
+
+                  angular.forEach(PC.polygons, function(polygon) {
+                    angular.forEach($scope.events, function(val, key) {
+                      google.maps.event.addListener(polygon, key, function(e) {
+                        val(e, PC, MapObjects);
+                      });
+                    });
+                  })
+                  
               });
 
-              // Create polygon options with opacity
-              var opts = $scope.options ? $scope.options(p, i, map, MapObjects) : {};
-              opts.fillOpacity = $scope.opacity ? $scope.opacity/100 : 1;
-
-              // Set options
-              polygon.setOptions(opts);
-
-              // Set map
-              polygon.setMap(map);
-
-              // Assign properties to polygon for some use
-              polygon.properties = p.properties;
-
-              // Assign geometry to polygon for some use
-              polygon.geometry = p.geometry;
-
-              // Helper function so multimarkers' API matches data layer
-              polygon.getProperty = function(p) {
-                return this.properties[p];
-              };
-
-              // Add to polygons array
-              polygons.push(polygon);
-
-              // For each event, add a listener. Also provides access to the map and parent scope
-              // For some reason, the val function requires "this" instead of "polygon"
-              angular.forEach($scope.events, function(val, key) {
-                google.maps.event.addListener(polygon, key, function(e) {
-                  val(e, this, MapObjects);
-                });
-              });
-
-
             });
-
-          });
 
           };
 

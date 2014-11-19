@@ -3,12 +3,12 @@ angular.module('ngMaps')
   return {
       restrict: 'E',
       scope: {
-        geometries: '=',
-        events: '=',
-        visible: '=',
-        options: '=',
-        opacity: '=',
-        decimals: '='
+        bounds: '=',      // [ [ [[SW]],[[NE]] ] ] OR google maps LatLngBounds 
+        events: '=',      // object {event:function(), event:function()}
+        visible: '=',     // boolean
+        options: '=',     // function() { return {} }
+        opacity: '=',     // int
+        decimals: '='     // int
       },
       require: '^map',
       link: function($scope, $element, $attrs, parent) {
@@ -36,21 +36,21 @@ angular.module('ngMaps')
           // Watch for changes in visibility
           $scope.$watch('visible', function() {
             angular.forEach(rectangles, function(r) {
-              r.setVisible($scope.visible)
-            })
-          })
+              r.setVisible($scope.visible);
+            });
+          });
 
           // Watch for changes in options
           $scope.$watch('options', function() {
             angular.forEach(rectangles, function(r, i) {
               r.setOptions($scope.options(r, map, i, MapObjects));
-            })
-          })
+            });
+          });
 
           // Watch for changes in data
-          $scope.$watch('geometries', function() {
+          $scope.$watch('bounds', function() {
             newData();
-          })
+          });
 
           // Watch for changes in opacity
           $scope.$watch('opacity', function() {
@@ -67,24 +67,29 @@ angular.module('ngMaps')
             // Remove each object from map
             angular.forEach(rectangles, function(r){
               r.setMap(null);
-            })
+            });
 
             // Delete objects
             rectangles = [];
 
             // Create new objects
-            angular.forEach($scope.geometries, function(r, i) {
-
-              var SW = new google.maps.LatLng(r[0][0], r[0][1]);
-              var NE = new google.maps.LatLng(r[1][0], r[1][1]);
+            angular.forEach($scope.bounds, function(r, i) {
 
               var opts = $scope.options ? $scope.options(r, map, i, MapObjects) : {};
-              // Bounds are constructed at SW and NE corners
-              opts.bounds = new google.maps.LatLngBounds(SW,NE);  
+
+              // This assumes that if bounds isn't an array it's already a LatLngBounds object
+              if (r.constructor === Array) {
+                var SW = new google.maps.LatLng(r[0][0], r[0][1]);
+                var NE = new google.maps.LatLng(r[1][0], r[1][1]);
+                opts.bounds = new google.maps.LatLngBounds(SW,NE);  
+              } else {
+                opts.bounds = r;
+              }
+
               opts.map = map;
 
               var rect = new google.maps.Rectangle(opts);
-              rectangles.push(rect)
+              rectangles.push(rect);
 
               angular.forEach($scope.events, function(val, key) {
                 google.maps.event.addListener(rect, key, function(e) {
@@ -97,12 +102,12 @@ angular.module('ngMaps')
                 var b = rect.getBounds();
                 var SW = b.getSouthWest();
                 var NE = b.getNorthEast();
-                $scope.geometries[i] = [[round(SW.k),round(SW.B)],[round(NE.k),round(NE.B)]];
-                $rootScope.$apply()
-              })
+                $scope.bounds[i] = [[round(SW.k),round(SW.B)],[round(NE.k),round(NE.B)]];
+                $rootScope.$apply();
+              });
 
-            })
-          }
+            });
+          };
 
           
 

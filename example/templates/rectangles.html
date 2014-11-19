@@ -5,13 +5,13 @@
 		<div class="col-sm-12">
 			<div map ng-transclude class="google-map" center="map.center" options="map.options"> 
 
-				<rectangles geometries="rect.geometries" options="rect.options"></rectangles>
+				<rectangles bounds="rect.bounds" options="rect.options"></rectangles>
 
 			</div>
 		<div>
 
-		{{rect.geometries}}
-
 	</div>
+
+	<small>Bounds: {{rect.bounds}}</small>
 
 </div>

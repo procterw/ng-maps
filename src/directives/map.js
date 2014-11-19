@@ -3,10 +3,10 @@ angular.module('ngMaps')
     return {
       restrict: 'AE',
       scope: {
-        center: '=',  // Starting position
-        zoom: '=',    // Starting zoom
-        events: '=',  // Events
-        options: '='  // Options
+        center: '=',      // array [lat, lng]
+        zoom: '=',        // int
+        events: '=',      // object {event:function(), event:function()}
+        options: '=',     // function() { return {} }
       },
       controller: function($scope) {
         // This function allows child directives to access the map

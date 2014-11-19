@@ -3,8 +3,9 @@
 	<div class="row">
 
 		<div class="col-sm-12">
-			<div map ng-transclude class="google-map" center="map.center" options="map.options"> 
+			<div map ng-transclude class="google-map" center="map.center" zoom="map.zoom" options="map.options"> 
 
+				<overlay url="overlay.url" bounds="overlay.bounds"></overlay>
 
 			</div>
 		<div>

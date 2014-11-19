@@ -3,11 +3,11 @@ angular.module('ngMaps')
   return {
       restrict: 'E',
       scope: {
-        geometries: '=',
-        events: '=',
-        visible: '=',
-        options: '=',
-        opacity: '='
+        geometries: '=',  // array [{}, {}]
+        events: '=',      // object {event:function(), event:function()}
+        visible: '=',     // boolean
+        options: '=',     // function() { return {} }
+        opacity: '='      // int <= 100
       },
       require: '^map',
       link: function($scope, $element, $attrs, parent) {

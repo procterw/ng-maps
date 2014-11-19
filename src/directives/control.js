@@ -7,8 +7,8 @@ angular.module('ngMaps')
     return {
       restrict: 'E',
       scope: {
-        position: '@',
-        visible: '='
+        position: '@',  // string, camelcase i.e. topLeft, rightBottom
+        visible: '='    // boolean
       },
       require: '^map',
       link: function($scope, $element, $attrs, parent) {

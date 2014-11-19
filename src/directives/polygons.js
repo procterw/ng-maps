@@ -3,11 +3,11 @@ angular.module('ngMaps')
     return {
       restrict: 'E',
       scope: {
-        coords: '=',
-        options: '=',
-        properties: '=',
-        opacity: '=',
-        visible: '='
+        coords: '=',        // array TODO change this to bounds
+        options: '=',       // function() { return {} }
+        properties: '=',    // array [{}, {}]
+        opacity: '=',       // int
+        visible: '='        // boolean
       },
       require: '^map',
       link: function($scope, $element, $attrs, parent) {

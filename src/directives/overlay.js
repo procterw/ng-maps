@@ -4,10 +4,10 @@ angular.module('ngMaps')
     return {
       restrict: 'E',
       scope: {
-        url: '=',
-        opacity: '=',
-        bounds: '=',
-        visible: '='
+        url: '=',     // String, path to image
+        opacity: '=', // 0 <= Int <= 100
+        bounds: '=',  // Array of SW, NE OR Google bounds object
+        visible: '='  // Boolean
       },
       require: '^map',
       link: function($scope, $element, $attrs, parent) {
@@ -38,16 +38,36 @@ angular.module('ngMaps')
           };
 
           var newOverlay = function() {
+
+            // Remove previous overlay
             deleteOverlay();
-            var overlay = new google.maps.GroundOverlay($scope.url, $scope.bounds, {
+
+            var bounds; 
+
+            // This assumes that if bounds isn't an array it's already a LatLngBounds object
+            if ($scope.bounds.constructor === Array) {
+              var SW = new google.maps.LatLng($scope.bounds[0][0], $scope.bounds[0][1]);
+              var NE = new google.maps.LatLng($scope.bounds[1][0], $scope.bounds[1][1]);
+              bounds = new google.maps.LatLngBounds(SW,NE);  
+            } else {
+              bounds = $scope.bounds;
+            }
+
+            // Make new overlay
+            var overlay = new google.maps.GroundOverlay($scope.url, bounds, {
               clickable: false
             });
+
+            // Set opacity
             overlay.setOpacity(parseOpacity() / 100);
+
+            // Set visible
             if ($scope.visible !== false) {
               overlay.setMap(map);
             } else {
               overlay.setMap(null);
             }
+
             return overlay;
           };
 

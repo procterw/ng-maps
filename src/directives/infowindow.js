@@ -3,7 +3,7 @@ angular.module('ngMaps')
     return {
       restrict: 'E',
       scope: {
-        position: '=',
+        position: '=',    // string, camelcase i.e. topLeft, rightBottom
       },
       require: '^map',
       compile: function(tElement, tAttrs) {

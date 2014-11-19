@@ -1,0 +1,60 @@
+<div ng-controller="map">
+
+	<div class="row">
+
+		<div class="col-sm-12">
+			<div map ng-transclude class="google-map" center="map.center" options="map.options"> </div>
+		<div>
+
+	</div>
+
+
+	<div class="row">
+
+		<div class="col-sm-12">
+
+			<p class="description"> Creates a &lt;div&gt; containing a Google Map instance. Requires a height property. Other ng-data-map directives can be placed inside this directive. Requires a center parameter.</p>
+
+			<p class="padded"> HTML </p>
+
+			<pre>&lt;div map ng-transclude class="google-map" center="map.center" options="map.options"&gt; &lt;/div&gt;</pre>
+
+			<p class="padded"> JavaScript </p>
+
+			<pre>
+			$scope.map = {
+			  center: [39, -121],
+			  options: { 
+				  zoom: 4,
+				  streetViewControl: false,
+				  scrollwheel: false
+				}
+			};
+			</pre>
+
+			<p class="padded"> Parameters </p>
+
+			<table class="table">
+				<tr>
+			    <th>Param</th>
+			    <th>Type</th>		
+			    <th>Details</th>
+			  </tr>
+			  <tr ng-repeat="item in parameters">
+			  	<td ng-bind-html="item.name"></td>
+			  	<td ng-bind-html="item.type"></td>
+			  	<td ng-bind-html="item.details"></td>
+			  </tr>
+			</table>
+
+			<p class="error"> Known Issues </p>
+
+			<ul class="small-list">
+				<li> currently not possible to use as an element i.e. &lt;map&gt; </li>
+			</ul>
+
+		</div>
+
+	</div>
+
+</div>

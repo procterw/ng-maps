@@ -1,0 +1,67 @@
+<div ng-controller="marker">
+
+	<div class="row">
+
+		<div class="col-sm-12">
+			<div map ng-transclude class="google-map" center="map.center" options="map.options"> 
+
+				<marker position="marker.position" decimals="marker.decimals" options="marker.options"></marker>
+
+			</div>
+		<div>
+
+	</div>
+
+
+	<div class="row">
+
+		<div class="col-sm-12">
+
+			<small>position: {{marker.position}}</small>
+
+			<p class="description"> Creates a Google Maps Marker instance. Requires either a position parameter or lat / lng parameters. There is no limit to the number of marker directives that can be added, but consider using "points" or "geopoints" for larger datasets.</p>
+
+			<p class="padded"> HTML </p>
+
+			<pre>
+&lt;div map ng-transclude class="google-map" center="map.center" options="map.options"&gt; 
+	&lt;marker position="marker.position" round="marker.round" options="marker.options"&gt;&lt;/marker&gt;
+&lt;/div&gt;</pre>
+
+			<p class="padded"> JavaScript </p>
+
+			<pre>
+$scope.marker = {
+	position: [39, -121],
+	round: 4,
+	options: {
+		draggable: true
+	}
+}</pre>
+
+			<p class="padded"> Parameters </p>
+
+			<table class="table">
+				<tr>
+			    <th>Param</th>
+			    <th>Type</th>		
+			    <th>Details</th>
+			  </tr>
+			  <tr ng-repeat="item in parameters">
+			  	<td ng-bind-html="item.name"></td>
+			  	<td ng-bind-html="item.type"></td>
+			  	<td ng-bind-html="item.details"></td>
+			  </tr>
+			</table>
+
+			<p class="error"> Known Issues </p>
+
+			<ul class="small-list">
+				<li> Issue 1 </li>
+			</ul>
+
+		</div>
+
+	</div>
+
+</div>

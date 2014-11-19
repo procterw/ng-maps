@@ -5,13 +5,12 @@
 		<div class="col-sm-12">
 			<div map ng-transclude class="google-map" center="map.center" options="map.options"> 
 
-				<control position="rightTop">
-					<img src="" />
-				</control>
+				<marker position="marker.position" decimals="marker.decimals" options="marker.options"></marker>
 
 				<control position="rightBottom">
-					<h4> This is a control example </h4>
-					<p> Make this more exiting </p>
+					<div class="control-example">
+						<h4>The marker is at {{marker.position}}</h4>
+					</div>
 				</control>
 
 			</div>

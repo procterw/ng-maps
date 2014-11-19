@@ -10,24 +10,4 @@ angular.module('App')
       }
     };
 
-    $scope.parameters = [
-
-    	{
-    		name: "center",
-    		type: "array",
-    		details: "An array of two numbers."
-    	},
-    	{
-    		name: "options",
-    		type: "object",
-    		details: "Object properties follow <a href='https://developers.google.com/maps/documentation/javascript/reference#MapOptions'>MapOptions object specification</a>"
-    	},
-    	{
-    		name: "events",
-    		type: "object",
-    		details: "Object properties follow <a href='https://developers.google.com/maps/documentation/javascript/reference#Map'>Map events specification</a>"
-    	}
-
-    ]
-
 	}]);

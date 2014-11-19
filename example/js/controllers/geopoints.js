@@ -22,29 +22,4 @@ angular.module('App')
 		}
 	}
 
-		$scope.parameters = [
-
-    	{
-    		name: "url",
-    		type: "string",
-    		details: "A path to a .geojson file"
-    	},
-    	{
-    		name: "visible",
-    		type: "boolean",
-    		details: "Is this layer visible?"
-    	},
-    	{
-    		name: "options",
-    		type: "object",
-    		details: "Object properties follow <a href='https://developers.google.com/maps/documentation/javascript/reference#MarkerOptions'>MarkerOptions object specification</a>"
-    	},
-    	{
-    		name: "events",
-    		type: "object",
-    		details: "Object properties follow <a href='https://developers.google.com/maps/documentation/javascript/reference#Marker'>Marker events specification</a>"
-    	}
-
-    ]
-
 	}]);

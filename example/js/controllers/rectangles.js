@@ -4,14 +4,13 @@ angular.module('App')
 		$scope.map = {
 	      center: [39, -121],
 	      options: {
-	      	zoom: 6,
 	      	streetViewControl: false,
 	      	scrollwheel: false
 	      }
 	    };
 
 	    $scope.rect = {
-	    	geometries: [
+	    	bounds: [
 	    		[
 	    			[38,-122], [39,-121]
 	    		],

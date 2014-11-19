@@ -138,12 +138,19 @@ p {
 	font-size: 0.8em;
 }
 
-div[ng-view].ng-enter {
+/*div[ng-view].ng-enter {
     -webkit-animation: fadeIn 0.3s;
     animation: fadeIn 0.3s;
+    animation-delay: 1s;
 }
 
 div[ng-view].ng-leave {
     -webkit-animation: fadeOut 0.1s;
     animation: fadeOut 0.1s;
-}
+}*/
+
+
+
+
+
+

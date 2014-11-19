@@ -1,0 +1,149 @@
+body, html {
+	font-family: "source-sans-pro",sans-serif;
+	color: rgb(50,50,50);
+	font-size: 1.1em;
+}
+
+pre {
+	border-radius: 0;
+}
+
+h4 {
+	padding: 10px;
+	margin: 0;
+	font-style: italic;
+}
+
+/*h3 {
+	background-color: #e67e22;
+	color: white;
+	font-weight: 500;
+}*/
+
+h5 {
+	font-size: 0.8em;
+	font-weight: 500;
+}
+
+p {
+	font-size: 1em;
+	font-weight: 500;
+}
+
+.padded {
+	padding-left: 7px;
+	margin-top: 20px;
+	font-weight: 700;
+}
+
+.error {
+	padding-left: 7px;
+	margin-top: 20px;
+	font-weight: 700;
+	color: #D91E18;
+}
+
+.description {
+	padding: 7px;
+	margin-top: 14px;
+	font-style: italic;
+}
+
+.fixed {
+	position: fixed;
+}
+
+
+.side-list {
+	list-style: none;
+	font-size: 1em;
+	padding: 0px;
+}
+
+
+.link-option {
+	padding: 10px;
+	text-decoration: none;
+	background-color: white;
+	color: rgb(50,50,50);
+	font-weight: 500;
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+
+.link-option:hover {
+	text-decoration: none;
+	background-color: #d35400;
+	color: white;
+}
+
+.margined {
+	margin-bottom: 1.61em;
+}
+
+.selected {
+	background-color: #e67e22;
+	color: white;
+}
+
+.navbar-default {
+	background-color: #e67e22;
+	border: none;
+	height: 160px;
+	border-bottom: 7px solid #d35400;
+	-webkit-box-shadow: 3px 4px 3px 0px rgba(0,0,0,0.2);
+	-moz-box-shadow: 3px 4px 3px 0px rgba(0,0,0,0.2);
+	box-shadow: 3px 4px 3px 0px rgba(0,0,0,0.2);
+}
+
+.navbar-default a {
+	text-decoration: none;
+}
+
+.title {
+	font-size: 2em;
+	margin-top: 1.2em;
+	color: white;
+	display:inline-block; 
+	font-weight: normal;
+	border-bottom: 2px solid rgba(255,255,255,0);
+	-webkit-transition: border 0.1s linear;
+  -moz-transition: border 0.1s linear;
+  -ms-transition: border 0.1s linear;
+  -o-transition: border 0.1s linear;
+  transition: border 0.1s linear;
+
+}
+
+.title:hover {
+	border-bottom: 2px solid white;
+	box-sizing: border-box;
+}
+
+.subtitle {
+	font-style: italic;
+	color: white;
+	margin: 0;
+}
+
+.google-map {
+	height: 500px;
+}
+
+.small-list {
+	list-style: none;
+	padding: 7px;
+	margin: 0;
+	font-size: 0.8em;
+}
+
+div[ng-view].ng-enter {
+    -webkit-animation: fadeIn 0.3s;
+    animation: fadeIn 0.3s;
+}
+
+div[ng-view].ng-leave {
+    -webkit-animation: fadeOut 0.1s;
+    animation: fadeOut 0.1s;
+}

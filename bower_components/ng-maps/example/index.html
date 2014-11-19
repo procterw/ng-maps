@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="App">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <base href="/ng-maps/example/">
+
+  <title>ng-maps</title>
+
+  <script src="//use.typekit.net/nnj4fgx.js"></script>
+  <script>try{Typekit.load();}catch(e){}</script>
+
+  <!-- this hides ugliness before the page loads -->
+  <style type="text/css">
+    [ng\:cloak], [ng-cloak], .ng-cloak {  display: none !important; }
+  </style>
+
+</head>
+
+<body>
+
+  <header class="navbar navbar-default margin-large">
+    <div class="container">
+        <a href="#map"><h1 class="title"> ng-maps </h1> </a>
+        <h5 class="subtitle">a Google Maps directive for data intensive AngularJS apps</h5>
+    </div>
+  </header> 
+
+  <!-- the view: templates will be loaded here-->
+
+  <div class="container main" ng-controller="Main" ng-cloak>
+
+    <div class="row">
+
+      {{test}}
+
+      <div class="col-sm-3">
+
+        <ul class="side-list">
+          <li class="directive-option" ng-repeat="item in options">
+            <a class="link-option" ng-class="{selected: '/' + item === location()}" ng-href="#{{item}}">{{item}}</a>
+          </li>
+        </ul>
+
+      </div>
+
+      <div class="col-sm-8 col-sm-offset-1 margined">
+
+        <div ng-view class="view-animate"></div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+
+  <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.css">
+  <link rel="stylesheet" href="../bower_components/angular-slider/slider.css">
+  <link rel="stylesheet" href="animate.css"> 
+  <link rel="stylesheet" href="style.css">
+
+  <script src='//maps.googleapis.com/maps/api/js?libraries=geometry'></script>
+  <script src="../bower_components/angular/angular.min.js"></script>
+  <script src="../bower_components/angular-sanitize/angular-sanitize.min.js"></script>
+  <script src="../dist/ng-maps.min.js"></script>
+  <script src="../bower_components/angular-animate/angular-animate.js"></script>
+  <script src="../bower_components/angular-route/angular-route.js"></script>
+  <script src="../bower_components/angular-slider/slider.js"></script>
+
+  <script src="build.js"></script>
+  
+
+</body>
+</html>

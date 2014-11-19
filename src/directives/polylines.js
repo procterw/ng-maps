@@ -3,9 +3,9 @@ angular.module('ngMaps')
     return {
     restrict: 'E',
     scope: {
-      coords: '=', //array of coordinate pairs
-      options: '=',
-      visible: '='
+      coords: '=',    // array [[[lat, lng]]]
+      options: '=',   // function() { return {} }
+      visible: '='    // boolean
     },
     require: '^map',
     link: function($scope, $element, $attrs, parent) {

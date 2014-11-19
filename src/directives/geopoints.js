@@ -3,10 +3,10 @@ angular.module('ngMaps')
     return {
       restrict: 'E',
       scope: {
-        url: '=',
-        events: '=',
-        options: '=',
-        visible: '='
+        url: '=',         // string  
+        events: '=',      // object {event:function(), event:function()}
+        visible: '=',     // boolean
+        options: '=',     // function() { return {} }
       },
       require: '^map',
       link: function($scope, $element, $attrs, parent) {

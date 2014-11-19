@@ -3,12 +3,12 @@ angular.module('ngMaps')
     return {
       restrict: 'E',
       scope: {
-        coords: '=', //array of coordinate pairs
-        options: '=',
-        properties: '=',
-        events: '=',
-        visible: '=',
-        decimals: '='
+        coords: '=',        // array []
+        options: '=',       // function() { return {} }
+        properties: '=',    // array [{}, {}]
+        events: '=',        // object {event:function(), event:function()}
+        visible: '=',       // boolean
+        decimals: '='       // int
       },
       require: '^map',
       link: function($scope, $element, $attrs, parent) {

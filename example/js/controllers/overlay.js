@@ -2,12 +2,20 @@ angular.module('App')
 	.controller('overlay', ['$scope', function($scope){
 
 		$scope.map = {
-	      center: [47.5, -122.5],
+	      center: [39, -100],
 	      options: {
-	      	zoom: 6,
 	      	streetViewControl: false,
 	      	scrollwheel: false
-	      }
+	      },
+	      zoom: 4
 	    };
+
+	   $scope.overlay = {
+	  	url: "data/overlays/Apr_00Z_H.png",
+	  	bounds: [
+	  		[23.02083, -124.9792],
+	  		[50.97917, -65.02084]
+	  	]
+	   }
 
 	}]);
