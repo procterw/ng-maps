@@ -1,5 +1,5 @@
 angular.module('ngMaps')
-  .directive('points', ['MapObjects', function(MapObjects) {
+  .directive('points', [function() {
     return {
       restrict: 'E',
       scope: {
@@ -21,6 +21,8 @@ angular.module('ngMaps')
 
           var points = [];
 
+          var properties = $scope.properties ? $scope.properties : [];
+
           var round = function(val) {
             if ($scope.decimals || $scope.decimals === 0) {
               return Math.round(Math.pow(10, $scope.decimals) * val) / Math.pow(10, $scope.decimals);
@@ -41,7 +43,7 @@ angular.module('ngMaps')
 
           $scope.$watch('options', function() {
             angular.forEach(points, function(p, i) {
-              p.setOptions($scope.options(p, map, i, MapObjects));
+              p.setOptions($scope.options(c, properties, map, i));
             });
           });
 
@@ -55,14 +57,14 @@ angular.module('ngMaps')
 
             angular.forEach(coords, function(c, i) {
 
-              var opts = $scope.options ? $scope.options(c, i, map, MapObjects) : {};
+              var opts = $scope.options ? $scope.options(c, properties, i, map) : {};
               opts.position = new google.maps.LatLng(c[0], c[1]);
               opts.map = map;
               var point = new google.maps.Marker(opts);
 
               angular.forEach($scope.events, function(val, key) {
                 google.maps.event.addListener(point, key, function(e) {
-                  val(e, this, MapObjects);
+                  val(e, this, map, points);
                 });
               });
 

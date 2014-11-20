@@ -1,5 +1,5 @@
 angular.module('ngMaps')
-  .directive('rectangles', ['MapObjects', '$rootScope', function(MapObjects, $rootScope) {
+  .directive('rectangles', ['$rootScope', function($rootScope) {
   return {
       restrict: 'E',
       scope: {
@@ -19,6 +19,8 @@ angular.module('ngMaps')
 
           // Set map
           var map = parent.getMap();
+
+          var properties = $scope.properties ? $scope.properties : [];
 
           // List of circles
           var rectangles = [];
@@ -43,7 +45,7 @@ angular.module('ngMaps')
           // Watch for changes in options
           $scope.$watch('options', function() {
             angular.forEach(rectangles, function(r, i) {
-              r.setOptions($scope.options(r, map, i, MapObjects));
+              r.setOptions($scope.options(r, properties, map, i));
             });
           });
 
@@ -75,7 +77,7 @@ angular.module('ngMaps')
             // Create new objects
             angular.forEach($scope.bounds, function(r, i) {
 
-              var opts = $scope.options ? $scope.options(r, map, i, MapObjects) : {};
+              var opts = $scope.options ? $scope.options(r, properties, map, i) : {};
 
               // This assumes that if bounds isn't an array it's already a LatLngBounds object
               if (r.constructor === Array) {
@@ -93,7 +95,7 @@ angular.module('ngMaps')
 
               angular.forEach($scope.events, function(val, key) {
                 google.maps.event.addListener(rect, key, function(e) {
-                  val(e, this, i, MapObjects, rectangles);
+                  val(e, this, i, rectangles);
                 });
               });
 

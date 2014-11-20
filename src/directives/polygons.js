@@ -1,5 +1,5 @@
 angular.module('ngMaps')
-  .directive('polygons', ['MapObjects', function(MapObjects) {
+  .directive('polygons', [function() {
     return {
       restrict: 'E',
       scope: {
@@ -23,10 +23,12 @@ angular.module('ngMaps')
           // Array of all polygons
           var polygons = [];
 
+          var properties = $scope.properties ? $scope.properties : [];
+
           // Watch options
           $scope.$watch('options', function() {
             angular.forEach(polygons, function(p) {
-              var opts = $scope.options ? $scope.options(p, MapObjects) : {};
+              var opts = $scope.options ? $scope.options(p, properties, i, map) : {};
               opts.fillOpacity = $scope.opacity ? $scope.opacity/100 : 1;
               p.setOptions(opts);
             });
@@ -63,7 +65,7 @@ angular.module('ngMaps')
             angular.forEach(coords, function(c, i) {
 
               // create polygon options with set opacity
-              var opts = $scope.options ? $scope.options(polygon, MapObjects) : {};
+              var opts = $scope.options ? $scope.options(c, properties, map, i) : {};
               opts.fillOpacity = $scope.opacity ? $scope.opacity/100 : 1;
               opts.path = [];
               opts.map = map;
@@ -96,7 +98,7 @@ angular.module('ngMaps')
               // For some reason, the val function requires "this" instead of "polygon"
               angular.forEach($scope.events, function(val, key) {
                 google.maps.event.addListener(polygon, key, function(e) {
-                  val(e, this, MapObjects);
+                  val(e, this, map, polygons);
                 });
               });
 

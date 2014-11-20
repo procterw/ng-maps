@@ -1,5 +1,5 @@
 angular.module('ngMaps')
-  .directive('geopolygons', ['MapObjects', '$http', function(MapObjects, $http) {
+  .directive('geopolygons', ['$http', function($http) {
     return {
       restrict: 'E',
       scope: {
@@ -25,7 +25,7 @@ angular.module('ngMaps')
           // Watch options
           $scope.$watch('options', function() {
             angular.forEach(polygons, function(p, i) {
-              var opts = $scope.options ? $scope.options(p, map, i, MapObjects) : {};
+              var opts = $scope.options ? $scope.options(p.geometry, p.properties, map, i) : {};
               opts.fillOpacity = $scope.opacity ? $scope.opacity/100 : 1;
               p.setOptions(opts);
             });
@@ -78,7 +78,7 @@ angular.module('ngMaps')
             // All of the polygon objects in this collection
             var polygons = [];
 
-            var opts = $scope.options ? $scope.options(p, i, map, MapObjects) : {};
+            var opts = $scope.options ? $scope.options(p.geometry, p.properties, i, map) : {};
             opts.fillOpacity = $scope.opacity ? $scope.opacity/100 : 1;
 
             if (this.type === "MultiPolygon") {
@@ -129,9 +129,6 @@ angular.module('ngMaps')
           };
  
 
-
-
-
           var newData = function(url) {
 
             // Fetch the data
@@ -155,7 +152,7 @@ angular.module('ngMaps')
                   angular.forEach(PC.polygons, function(polygon) {
                     angular.forEach($scope.events, function(val, key) {
                       google.maps.event.addListener(polygon, key, function(e) {
-                        val(e, PC, MapObjects);
+                        val(e, PC, map, polygons);
                       });
                     });
                   })

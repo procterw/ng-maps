@@ -1,5 +1,7 @@
 angular.module('ngMaps')
-  .directive('overlay', ['MapObjects', function(MapObjects) {
+  .directive('overlay', [, function() {
+
+    //TODO add events
 
     return {
       restrict: 'E',

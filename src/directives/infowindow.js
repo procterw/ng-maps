@@ -5,7 +5,8 @@ angular.module('ngMaps')
       scope: {
         options: '=',
         position: '=',    // string, camelcase i.e. topLeft, rightBottom
-        visible: '='
+        visible: '=',
+        events: '='
       },
       require: '^map',
       compile: function(tElement, tAttrs) {
@@ -31,6 +32,8 @@ angular.module('ngMaps')
               } else {
                 var pos = $scope.position;
               }
+
+              // TODO: event handling
 
               infowindow.setContent($element[0].innerHTML);
               infowindow.setPosition(pos);

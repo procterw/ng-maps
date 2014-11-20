@@ -1,5 +1,5 @@
 angular.module('ngMaps')
-  .directive('map', ['MapObjects', function(MapObjects) {
+  .directive('map', [function() {
     return {
       restrict: 'AE',
       scope: {
@@ -33,7 +33,7 @@ angular.module('ngMaps')
         // For each event, add a listener. Also provides access to the map
         angular.forEach(events, function(val, key) {
           google.maps.event.addListener(map, key, function(e) {
-            val(e, MapObjects);
+            val(e, map);
           });
         });
 

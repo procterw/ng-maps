@@ -21,8 +21,8 @@ module.exports = function(grunt) {
             dest : 'dist/ng-maps.min.js'
           },
           {
-            src: ['example/js/app.js', 'example/js/services/*.js', 'example/js/controllers/*.js', 'example/js/directives/*.js'],
-            dest: 'example/build.js'
+            src: ['site/js/app.js', 'site/js/services/*.js', 'site/js/controllers/*.js', 'site/js/directives/*.js'],
+            dest: 'site/build.js'
           }]
         }
       }

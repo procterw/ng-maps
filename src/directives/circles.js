@@ -1,5 +1,5 @@
 angular.module('ngMaps')
-  .directive('circles', ['MapObjects', function(MapObjects) {
+  .directive('circles', [function()) {
   return {
       restrict: 'E',
       scope: {
@@ -7,7 +7,8 @@ angular.module('ngMaps')
         events: '=',      // object {event:function(), event:function()}
         visible: '=',     // boolean
         options: '=',     // function() { return {} }
-        opacity: '='      // int <= 100
+        opacity: '=',      // int <= 100
+        properties: '='
       },
       require: '^map',
       link: function($scope, $element, $attrs, parent) {
@@ -22,6 +23,8 @@ angular.module('ngMaps')
           // List of circles
           var circles = [];
 
+          var properties = $scope.properties ? $scope.properties : [];
+
           // Watch for changes in visibility
           $scope.$watch('visible', function() {
             angular.forEach(circles, function(c) {
@@ -32,7 +35,7 @@ angular.module('ngMaps')
           // Watch for changes in options
           $scope.$watch('options', function() {
             angular.forEach(circles, function(c, i) {
-              c.setOptions($scope.options(c, map, i, MapObjects));
+              c.setOptions($scope.options(c, properties, map, i));
             })
           })
 
@@ -64,7 +67,7 @@ angular.module('ngMaps')
             // Create new objects
             angular.forEach($scope.geometries, function(c, i) {
 
-              var opts = $scope.options ? $scope.options(c, map, i, MapObjects) : {};
+              var opts = $scope.options ? $scope.options(c, properties, map, i) : {};
               opts.center = new google.maps.LatLng(c.center[0], c.center[1]);
               opts.radius = c.radius;
               opts.map = map;
@@ -74,7 +77,7 @@ angular.module('ngMaps')
 
               angular.forEach($scope.events, function(val, key) {
                 google.maps.event.addListener(circle, key, function(e) {
-                  val(e, this, i, MapObjects, circles);
+                  val(e, this, circles, i);
                 });
               });
 

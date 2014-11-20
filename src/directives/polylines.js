@@ -1,5 +1,5 @@
 angular.module('ngMaps')
-  .directive('polylines', ['MapObjects', function(MapObjects) {
+  .directive('polylines', [function() {
     return {
     restrict: 'E',
     scope: {
@@ -16,6 +16,8 @@ angular.module('ngMaps')
 
         var map = parent.getMap();
 
+        var properties = $scope.properties ? $scope.properties : [];
+
         var lines = [];
 
         $scope.$watch('coords', function() {
@@ -29,8 +31,8 @@ angular.module('ngMaps')
         });
 
         $scope.$watch('options', function() {
-          angular.forEach(lines, function(l) {
-            l.setOptions($scope.options(l, map, MapObjects))
+          angular.forEach(lines, function(l, i) {
+            l.setOptions($scope.options(l, properties, map, i))
           });
         });
 
@@ -45,7 +47,7 @@ angular.module('ngMaps')
           // loop through each array of array of coordinates
           angular.forEach(coords, function(l) {
 
-            var opts = $scope.options ? $scope.options(l, map, MapObjects) : {};
+            var opts = $scope.options ? $scope.options(l, properties, map, i) : {};
             opts.path = [];
 
             // loop through each array of coordinates
@@ -57,6 +59,12 @@ angular.module('ngMaps')
             var polyline = new google.maps.Polyline(opts);
 
             lines.push(polyline);
+
+            angular.forEach($scope.events, function(val, key) {
+              google.maps.event.addListener(polyline, key, function(e) {
+                val(e, this, map, lines);
+              });
+            });
 
           });
 

@@ -1,5 +1,5 @@
 angular.module('ngMaps')
-  .directive('marker', ['MapObjects', function(MapObjects) {
+  .directive('marker', [function() {
     return {
       restrict: 'E',
       scope: {
@@ -20,8 +20,6 @@ angular.module('ngMaps')
           var map = parent.getMap();
 
           var decimals = $scope.decimals;
-
-          var events = $scope.events ? $scope.events : {};
 
           var opts = $scope.options? $scope.options() : {};
 
@@ -47,9 +45,9 @@ angular.module('ngMaps')
           var marker = new google.maps.Marker(opts);
 
           // For each event, add a listener. Also provides access to the map and parent scope
-          angular.forEach(events, function(val, key) {
+          angular.forEach($scope.events, function(val, key) {
             google.maps.event.addListener(marker, key, function(e) {
-              val(e, marker, MapObjects);
+              val(e, marker, map);
             });
           });
 

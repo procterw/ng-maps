@@ -484,14 +484,14 @@
 
 
   <h1 id="events"> Events </h1>
-  <p>Event objects consist of key value pairs where keys are the names of events and values are callback functions which handle that event. Which events are available depends on which directive you're using. The callback functions typically pass the event (typically a <a href="https://developers.google.com/maps/documentation/javascript/reference#MouseEvent">google.maps.MouseEvent</a>, the object, and <a href="#documentation#MapObjects">MapObjects</a> as parameters.</p>
+  <p>Event objects consist of key value pairs where keys are the names of events and values are callback functions which handle that event. Which events are available depends on which directive you're using. The callback function's arguments are the event (typically a <a href="https://developers.google.com/maps/documentation/javascript/reference#MouseEvent">google.maps.MouseEvent</a>, the object, the map, and an array of all map objects in that directive.</p>
   <pre>
 $scope.points = {
   events: {
-    click: function(e, p, MapObjects) {
+    click: function(e, p, map, points) {
       // some action here
     },
-    drag: function(e, p, MapObjects) {
+    drag: function(e, p, map, points) {
       // some action here
     }
   } 
@@ -501,11 +501,11 @@ $scope.points = {
   <h1 id="options"> Options </h1>
   <p>Options are defined as functions instead of as objects. This allows you to define the directive's options as a function of your data. The function should always return an object that follows the Google Maps object specification for that class.</p>
   <h3>points, geopoints, polygons, geopolygons, polylines, circles, rectangles</h3>
-  <p>For directives which create multiple map objects, the options function has four arguemnts: the individual object, the map, the index of that object, and <a href="#documentation#MapObjects">MapObjects</a>. In the following example, each geopolygon's opacity would be a function of its index.</p>
+  <p>For directives which create multiple map objects, the options function has four arguments: the coordinates at that index, the properties at that index, a reference to the map, and the index. In the following example, each geopolygon's opacity would be a function of its index.</p>
     <pre>
 $scope.geopolygons = {
-  options: function(p, map, i, MapObjects) {
-    var opacity = 100 / i;
+  options: function(g, p, map, i) {
+    var opacity = someFunction(i)
     return {
       fillColor: 'red',
       fillOpacity: opacity
