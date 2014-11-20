@@ -12,10 +12,10 @@ angular.module('App')
 
 	   $scope.overlay = {
 	  	url: "data/overlays/Apr_00Z_H.png",
-	  	bounds: [
-	  		[23.02083, -124.9792],
-	  		[50.97917, -65.02084]
-	  	]
+	  	bounds: {
+	  		SW: [23.02083, -124.9792],
+	  		NW: [50.97917, -65.02084]
+	  	}
 	   }
 
 	}]);

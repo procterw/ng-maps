@@ -5,7 +5,7 @@
 
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <base href="/ng-maps/example/">
+  <base href="/ng-maps/site/">
 
   <title>ng-maps</title>
 
@@ -24,35 +24,25 @@
   <header class="navbar navbar-default margin-large">
     <div class="container">
         <a href="#map"><h1 class="title"> ng-maps </h1> </a>
-        <h5 class="subtitle">a Google Maps directive for data intensive AngularJS apps</h5>
+        </br>
+        <h3 class="subtitle">a Google Maps directive for AngularJS</h3>
     </div>
   </header> 
 
   <!-- the view: templates will be loaded here-->
 
-  <div class="container main" ng-controller="Main" ng-cloak>
+  <div class="container main margined" ng-controller="Main" ng-cloak>
 
-    <div class="row">
+    <div ng-view></div>
 
-      {{test}}
 
-      <div class="col-sm-3">
 
-        <ul class="side-list">
+        <!-- <ul class="side-list">
           <li class="directive-option" ng-repeat="item in options">
             <a class="link-option" ng-class="{selected: '/' + item === location()}" ng-href="#{{item}}">{{item}}</a>
           </li>
-        </ul>
+        </ul> -->
 
-      </div>
-
-      <div class="col-sm-8 col-sm-offset-1 margined">
-
-        <div ng-view class="view-animate"></div>
-
-      </div>
-
-    </div>
 
   </div>
 

@@ -7,6 +7,7 @@ angular.module('ngMaps')
         options: '=',       // function() { return {} }
         properties: '=',    // array [{}, {}]
         opacity: '=',       // int
+        events: '=',
         visible: '='        // boolean
       },
       require: '^map',

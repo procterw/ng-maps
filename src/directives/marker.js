@@ -23,7 +23,9 @@ angular.module('ngMaps')
 
           var events = $scope.events ? $scope.events : {};
 
-          var options = $scope.options ? $scope.options : {};
+          var options = $scope.options ? $scope.options : function() { return {} };
+
+          var opts = options($scope.position, map, MapObjects)
 
           var round = function(val) {
             if (decimals || decimals === 0) {
@@ -49,7 +51,7 @@ angular.module('ngMaps')
           // For each event, add a listener. Also provides access to the map and parent scope
           angular.forEach(events, function(val, key) {
             google.maps.event.addListener(marker, key, function(e) {
-              val(e, MapObjects);
+              val(e, marker, MapObjects);
             });
           });
 

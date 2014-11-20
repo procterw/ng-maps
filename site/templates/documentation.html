@@ -1,0 +1,500 @@
+<div class="row">
+
+
+  <div class="col-md-8 col-md-offset-2">
+
+  <h1 id="directives">Directives</h1>
+
+  <h2>map</h2>
+  <p>Creates an instance of the <a href="https://developers.google.com/maps/documentation/javascript/reference#Map">google.maps.Map class.</a></p>
+  <table class="table table-bordered">
+    <thead>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
+    </thead>
+    <tbody>
+      <tr>
+        <td>center</td>
+        <td>array</td>
+        <td>Initial center of the map. Takes an array of two numbers, [lat, lng].</td>
+      </tr>
+      <tr>
+        <td>events</td>
+        <td>object</td>
+        <td>See documentation for <a href="#documentation#events"> events </a>. Available events can be found on the <a href="https://developers.google.com/maps/documentation/javascript/reference#Map">Google Maps API.</a></td>
+      </tr>
+      <tr>
+        <td>options</td>
+        <td>function</td>
+        <td>See documentation for <a href="#documentation#options"> options </a>. Available options can be found on the <a href="https://developers.google.com/maps/documentation/javascript/reference#MapOptions">Google Maps API.</a></td>
+      </tr>
+      <tr>
+        <td>zoom</td>
+        <td>number</td>
+        <td>Initial map zoom level.</td>
+      </tr>
+    </tbody>
+  </table>
+
+
+  <h2>marker</h2>
+  <p>Creates an instance of the <a href="https://developers.google.com/maps/documentation/javascript/reference#Marker">google.maps.Marker class.</a></p>
+  <table class="table table-bordered">
+    <thead>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
+    </thead>
+    <tbody>
+      <tr>
+        <td>decimals</td>
+        <td>number</td>
+        <td>Integer which defines how many decimal places the coordinates are rouded to when the marker is dragged.</td>
+      </tr>
+      <tr>
+        <td>events</td>
+        <td>object</td>
+        <td>See documentation for <a href="#documentation#events"> events </a>. Available events can be found on the <a href="https://developers.google.com/maps/documentation/javascript/reference#Marker">Google Maps API.</a></td>
+      </tr>
+      <tr>
+        <td>lat</td>
+        <td>number</td>
+        <td>Instead of 'position', lat and lng can be used to separetly define the markers position.</td>
+      </tr>
+      <tr>
+        <td>lng</td>
+        <td>number</td>
+        <td>Instead of 'position', lat and lng can be used to separetly define the markers position.</td>
+      </tr>
+      <tr>
+        <td>options</td>
+        <td>function</td>
+        <td>See documentation for <a href="#documentation#options"> options </a>. Available options can be found on the <a href="https://developers.google.com/maps/documentation/javascript/reference#MarkerOptions">Google Maps API.</a></td>
+      </tr>
+      <tr>
+        <td>position</td>
+        <td>array</td>
+        <td>Position of the marker. Takes an array of two numbers, [lat, lng].</td>
+      </tr>
+    </tbody>
+  </table>
+
+
+
+
+  <h2>points</h2>
+  <p>Creates one or more instances of the <a href="https://developers.google.com/maps/documentation/javascript/reference#Marker">google.maps.Marker class</a></p>
+  <table class="table table-bordered">
+    <thead>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
+    </thead>
+    <tbody>
+      <tr>
+        <td>coords</td>
+        <td>array</td>
+        <td>Array of positions for each marker. Each position is an array of two numbers, [lat, lng].</td>
+      </tr>
+      <tr>
+        <td>decimals</td>
+        <td>number</td>
+        <td>Integer which defines how many decimal places the coordinates are rouded to when the markers are dragged.</td>
+      </tr>
+      <tr>
+        <td>events</td>
+        <td>object</td>
+        <td>See documentation for <a href="#documentation#events"> events </a>. Available events can be found on the <a href="https://developers.google.com/maps/documentation/javascript/reference#Marker">Google Maps API.</a></td>
+      </tr>
+      <tr>
+        <td>options</td>
+        <td>function</td>
+        <td>See documentation for <a href="#documentation#options"> options </a>. Available options can be found on the <a href="https://developers.google.com/maps/documentation/javascript/reference#MarkerOptions">Google Maps API.</a></td>
+      </tr>
+      <tr>
+        <td>properties</td>
+        <td>array</td>
+        <td>Array of equal length to coords. Each index should be an object describing some properties for the cooresponding object in coords at that index.</td>
+      </tr>
+      <tr>
+        <td>visible</td>
+        <td>boolean</td>
+        <td>If false, all objects will be hidden from the map.</td>
+      </tr>
+    </tbody>
+  </table>
+
+
+
+
+  <h2>geopoints</h2>
+  <p>Creates one or more instances of the <a href="https://developers.google.com/maps/documentation/javascript/reference#Marker">google.maps.Marker class</a> from an external <a href="http://geojson.org/geojson-spec.html#introduction">GeoJSON</a> file.</p>
+  <table class="table table-bordered">
+    <thead>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
+    </thead>
+    <tbody>
+      <tr>
+        <td>events</td>
+        <td>object</td>
+        <td>See documentation for <a href="#documentation#events"> events </a>. Available events can be found on the <a href="https://developers.google.com/maps/documentation/javascript/reference#Marker">Google Maps API.</a></td>
+      </tr>
+      <tr>
+        <td>options</td>
+        <td>function</td>
+        <td>See documentation for <a href="#documentation#options"> options </a>. Available options can be found on the <a href="https://developers.google.com/maps/documentation/javascript/reference#MarkerOptions">Google Maps API.</a></td>
+      </tr>
+      <tr>
+        <td>url</td>
+        <td>string</td>
+        <td>A string which contains the path to the GeoJSON file.</td>
+      </tr>
+      <tr>
+        <td>visible</td>
+        <td>boolean</td>
+        <td>If false, all objects will be hidden from the map.</td>
+      </tr>
+    </tbody>
+  </table>
+
+
+
+
+  <h2>polygons</h2>
+  <p>Creates one or more instances of the <a href="https://developers.google.com/maps/documentation/javascript/reference#Polygon">google.maps.Polygon class</a>. Also simulates multipolygon objects.</p>
+  <table class="table table-bordered">
+    <thead>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
+    </thead>
+    <tbody>
+      <tr>
+        <td>coords</td>
+        <td>array</td>
+        <td>Array of polygon and/or multipolygon coordinates. The structure is [[[[lat, lng]]]]. The first array contains all of the polygons / multipolygons. Each index is another array of each polygon within those (a single polygon would have a length of one, a multipolygon would have a length greater than one). Each index is an array of coordinate pairs, defined as [lat, lng].</td>
+      </tr>
+      <tr>
+        <td>events</td>
+        <td>object</td>
+        <td>See documentation for <a href="#documentation#events"> events </a>. Available events can be found on the <a href="https://developers.google.com/maps/documentation/javascript/reference#Polygon">Google Maps API.</a></td>
+      </tr>
+      <tr>
+        <td>opacity</td>
+        <td>number</td>
+        <td>The opacity for each object. Should be a number between 0 and 100.</td>
+      </tr>
+      <tr>
+        <td>options</td>
+        <td>function</td>
+        <td>See documentation for <a href="#documentation#options"> options </a>. Available options can be found on the <a href="https://developers.google.com/maps/documentation/javascript/reference#PolygonOptions">Google Maps API.</a></td>
+      </tr>
+      <tr>
+        <td>properties</td>
+        <td>array</td>
+        <td>Array of equal length to coords. Each index should be an object describing some properties for the cooresponding object in coords at that index.</td>
+      </tr>
+      <tr>
+        <td>visible</td>
+        <td>boolean</td>
+        <td>If false, all objects will be hidden from the map.</td>
+      </tr>
+    </tbody>
+  </table>
+
+
+
+
+  <h2>geopolygons</h2>
+  <p>Creates one or more instances of the <a href="https://developers.google.com/maps/documentation/javascript/reference#Polygon">google.maps.Polygon class</a> from an external <a href="http://geojson.org/geojson-spec.html#introduction">GeoJSON</a> file. Also simulates multipolygon objects.</p>
+  <table class="table table-bordered">
+    <thead>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
+    </thead>
+    <tbody>
+      <tr>
+        <td>events</td>
+        <td>object</td>
+        <td>See documentation for <a href="#documentation#events"> events </a>. Available events can be found on the <a href="https://developers.google.com/maps/documentation/javascript/reference#Polygon">Google Maps API.</a></td>
+      </tr>
+      <tr>
+        <td>opacity</td>
+        <td>number</td>
+        <td>The opacity for each object. Should be a number between 0 and 100.</td>
+      </tr>
+      <tr>
+        <td>options</td>
+        <td>function</td>
+        <td>See documentation for <a href="#documentation#options"> options </a>. Available options can be found on the <a href="https://developers.google.com/maps/documentation/javascript/reference#PolygonOptions">Google Maps API.</a></td>
+      </tr>
+      <tr>
+        <td>url</td>
+        <td>array</td>
+        <td>A string which contains the path to the GeoJSON file.</td>
+      </tr>
+      <tr>
+        <td>visible</td>
+        <td>boolean</td>
+        <td>If false, all objects will be hidden from the map.</td>
+      </tr>
+    </tbody>
+  </table>
+
+
+
+
+  <h2>polylines</h2>
+  <p>Creates one or more instances of the <a href="https://developers.google.com/maps/documentation/javascript/reference#Polyline">google.maps.Polyline class</a></p>
+  <table class="table table-bordered">
+    <thead>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
+    </thead>
+    <tbody>
+      <tr>
+        <td>coords</td>
+        <td>array</td>
+        <td>Array of positions for each polyline. Each index is an array of coordinates defining a line, where each coordinate is defined as [lat, lng].</td>
+      </tr>
+      <tr>
+        <td>events</td>
+        <td>object</td>
+        <td>See documentation for <a href="#documentation#events"> events </a>. Available events can be found on the <a href="https://developers.google.com/maps/documentation/javascript/reference#PolylineOptions">Google Maps API.</a></td>
+      </tr>
+      <tr>
+        <td>options</td>
+        <td>function</td>
+        <td>See documentation for <a href="#documentation#options"> options </a>. Available options can be found on the <a href="https://developers.google.com/maps/documentation/javascript/reference#Polyline">Google Maps API.</a></td>
+      </tr>
+      <tr>
+        <td>visible</td>
+        <td>boolean</td>
+        <td>If false, all objects will be hidden from the map.</td>
+      </tr>
+    </tbody>
+  </table>
+
+
+
+
+  <h2>circles</h2>
+  <p>Creates one or more instances of the <a href="https://developers.google.com/maps/documentation/javascript/reference#Circle">google.maps.Circle class.</a></p>
+  <table class="table table-bordered">
+    <thead>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
+    </thead>
+    <tbody>
+      <tr>
+        <td>events</td>
+        <td>object</td>
+        <td>See documentation for <a href="#documentation#events"> events </a>. Available events can be found on the <a href="https://developers.google.com/maps/documentation/javascript/reference#Circle">Google Maps API.</a></td>
+      </tr>
+      <tr>
+        <td>geometries</td>
+        <td>array</td>
+        <td>An array defining the center and radius of each circle. Structure is [{center = [lat,lng], radius = number}, ...]. Radius is in meters.</td>
+      </tr>
+      <tr>
+        <td>opacity</td>
+        <td>number</td>
+        <td>The opacity for each object. Should be a number between 0 and 100.</td>
+      </tr>
+      <tr>
+        <td>options</td>
+        <td>function</td>
+        <td>See documentation for <a href="#documentation#options"> options </a>. Available options can be found on the <a href="https://developers.google.com/maps/documentation/javascript/reference#CircleOptions">Google Maps API.</a></td>
+      </tr>
+      <tr>
+        <td>visible</td>
+        <td>boolean</td>
+        <td>If false, all objects will be hidden from the map.</td>
+      </tr>
+    </tbody>
+  </table>
+
+
+
+
+
+  <h2>rectangles</h2>
+  <p>Creates one or more instances of the <a href="https://developers.google.com/maps/documentation/javascript/reference#Rectangle">google.maps.Rectangle class.</a></p>
+  <table class="table table-bordered">
+    <thead>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
+    </thead>
+    <tbody>
+      <tr>
+        <td>bounds</td>
+        <td>array</td>
+        <td>An array defining the SW and NE bounds of each rectangle. Structure is [ {SW: SW, NE: NE}, ... ] where SW and NE are google.maps.LatLngBounds OR coordinates defined as [lat, lng].</td>
+      </tr>
+      <tr>
+        <td>decimals</td>
+        <td>array</td>
+        <td>Integer which defines how many decimal places the coordinates are rouded to when the rectangles is dragged. Only applicable if the editable option is true.</td>
+      </tr>
+      <tr>
+        <td>events</td>
+        <td>object</td>
+        <td>See documentation for <a href="#documentation#events"> events </a>. Available events can be found on the <a href="https://developers.google.com/maps/documentation/javascript/reference#Rectangle">Google Maps API.</a></td>
+      </tr>
+      <tr>
+        <td>opacity</td>
+        <td>number</td>
+        <td>The opacity for each object. Should be a number between 0 and 100.</td>
+      </tr>
+      <tr>
+        <td>options</td>
+        <td>function</td>
+        <td>See documentation for <a href="#documentation#options"> options </a>. Available options can be found on the <a href="https://developers.google.com/maps/documentation/javascript/reference#RectangleOptions">Google Maps API.</a></td>
+      </tr>
+      <tr>
+        <td>visible</td>
+        <td>boolean</td>
+        <td>If false, all objects will be hidden from the map.</td>
+      </tr>
+    </tbody>
+  </table>
+
+
+
+
+  <h2>overlay</h2>
+  <p>Creates a single instance of the <a href="https://developers.google.com/maps/documentation/javascript/reference#GroundOverlay">google.maps.GroundOverlay class.</a></p>
+  <table class="table table-bordered">
+    <thead>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
+    </thead>
+    <tbody>
+      <tr>
+        <td>bounds</td>
+        <td>object</td>
+        <td>The SW and NE bounds of the overlay image. Structure is {SW: SW, NE: NE} where SW and NE are google.maps.LatLngBounds OR coordinates defined as [lat, lng].</td>
+      </tr>
+      <tr>
+        <td>opacity</td>
+        <td>number</td>
+        <td>The opacity for the overlay. Should be a number between 0 and 100.</td>
+      </tr>
+      <tr>
+        <td>url</td>
+        <td>string</td>
+        <td>A string which contains the path to the image file.</td>
+      </tr>
+      <tr>
+        <td>visible</td>
+        <td>boolean</td>
+        <td>If false, all objects will be hidden from the map.</td>
+      </tr>
+    </tbody>
+  </table>
+
+
+
+
+
+  <h2>control</h2>
+  <p>Creates a single instance of a <a href="https://developers.google.com/maps/documentation/javascript/controls#CustomControls"> custom Google Maps control. </a></p>
+  <table class="table table-bordered">
+    <thead>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
+    </thead>
+    <tbody>
+      <tr>
+        <td>position</td>
+        <td>string</td>
+        <td>Position of the control. Should be a string written in camel case, such as "bottomLeft" or "rightTop".</td>
+      </tr>
+      <tr>
+        <td>visible</td>
+        <td>boolean</td>
+        <td>If false, the control will be hidden from the map.</td>
+      </tr>
+    </tbody>
+  </table>
+
+
+
+
+  <h2>infowindow</h2>
+  <p>Creates a single instances of the <a href="https://developers.google.com/maps/documentation/javascript/reference#InfoWindow"> google.maps.Indowindow class.</a></p>
+  <table class="table table-bordered">
+    <thead>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
+    </thead>
+    <tbody>
+      <tr>
+        <td>position</td>
+        <td>string</td>
+        <td>Position of the control. Should be a string written in camel case, such as "bottomLeft" or "rightTop".</td>
+      </tr>
+      <tr>
+        <td>visible</td>
+        <td>boolean</td>
+        <td>Position of the marker, defined as [lat, lng].</td>
+      </tr>
+    </tbody>
+  </table>
+
+
+
+  <h1 id="events"> Events </h1>
+  <p>Event objects consist of key value pairs where keys are the names of events and values are callback functions which handle that event. Which events are available depends on which directive you're using. The callback functions typically pass the event (typically a <a href="https://developers.google.com/maps/documentation/javascript/reference#MouseEvent">google.maps.MouseEvent</a>, the object, and <a href="#documentation#MapObjects">MapObjects</a> as parameters.</p>
+  <pre>
+$scope.points = {
+  events: {
+    click: function(e, p, MapObjects) {
+      // some action here
+    },
+    drag: function(e, p, MapObjects) {
+      // some action here
+    }
+  } 
+}</pre>
+  <p> In this case, functions care bound to the click and drag option. Because this events object will be used as a property in a points directive, these functions will be bound to every marker in that directive. The syntax is the same for every directive, regardless of how many objects are in them.   </p> 
+
+  <h1 id="options"> Options </h1>
+  <p>Options are defined as functions instead of as objects. This allows you to define the directive's options as a function of your data. The function should always return an object that follows the Google Maps object specification for that class.</p>
+    <pre>
+$scope.polygons = {
+  options: function(p, map, i, MapObjects) {
+    var opacity = getFillOpacity(p, i);
+    return {
+      fillColor: 'red',
+      fillOpacity: opacity
+    }
+  }
+}</pre>
+  <p>In this made up example, each polygon has a different opacity, which is defined by some imaginary function which returns a value based on each polygons index and properties. You can't set the return objects values to be functions, so always calculate the values first and then return those.</p>
+  <p>The options are slighty different for the "map" and "marker" directives. Because these are always single instances with no properties the function has no arguments. Therefore, just do something like the following:</p>
+      <pre>
+$scope.marker = {
+  options: function() {
+    return {
+      draggable: true
+    }
+  }
+}</pre>
+
+  <h1 id="options"> MapObjects </h1>
+
+</div>
+
+
+<div>

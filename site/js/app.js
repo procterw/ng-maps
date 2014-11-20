@@ -6,44 +6,50 @@ var app = angular.module('App', ['ngRoute', 'ngAnimate', 'ui.slider', 'ngMaps', 
 
 	$routeProvider.
 
-	when('/map', {
+    when('examples', {
+        redirectTo: '/'
+    }).
+	when('examples/map', {
 		templateUrl: 'templates/map.html'
 	}).
-    when('/marker', {
+    when('examples/marker', {
         templateUrl: 'templates/marker.html'
     }).
-    when('/points', {
+    when('examples/points', {
         templateUrl: 'templates/points.html'
     }).
-    when('/geopoints', {
+    when('examples/geopoints', {
         templateUrl: 'templates/geopoints.html'
     }).
-    when('/geopolygons', {
+    when('examples/geopolygons', {
         templateUrl: 'templates/geopolygons.html'
     }).
-    when('/polygons', {
+    when('examples/polygons', {
         templateUrl: 'templates/polygons.html'
     }).
-    when('/polylines', {
+    when('examples/polylines', {
         templateUrl: 'templates/polylines.html'
     }).
-    when('/circles', {
+    when('examples/circles', {
         templateUrl: 'templates/circles.html'
     }).
-    when('/rectangles', {
+    when('examples/rectangles', {
         templateUrl: 'templates/rectangles.html'
     }).
-    when('/overlay', {
+    when('examples/overlay', {
         templateUrl: 'templates/overlay.html'
     }).
-    when('/control', {
+    when('examples/control', {
         templateUrl: 'templates/control.html'
     }).
-    when('/infowindow', {
+    when('examples/infowindow', {
         templateUrl: 'templates/infowindow.html'
     }).
+    when('/documentation', {
+        templateUrl: 'templates/documentation.html'
+    }).
     otherwise({
-        redirectTo: '/map'
+        redirectTo: '/'
     });
 
 

@@ -20,7 +20,8 @@ angular.module('ngMaps')
         var events = $scope.events;
         var center = $scope.center;
 
-        var options = $scope.options ? $scope.options : {};
+        var options = $scope.options ? $scope.options : function(){ return {} };
+        var opts = options()
 
         var latitude = center ? center[0] : 47.6;
         var longitude = center ? center[1] : -122.3;
