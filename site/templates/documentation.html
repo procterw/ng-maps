@@ -339,14 +339,14 @@
         <td>An array defining the SW and NE bounds of each rectangle. Structure is [ {SW: SW, NE: NE}, ... ] where SW and NE are google.maps.LatLngBounds OR coordinates defined as [lat, lng].</td>
       </tr>
       <tr>
+        <td>events</td>
+        <td>object</td>
+        <td>See documentation for <a href="#documentation#events"> events </a>. Available events can be found on the <a href="https://developers.google.com/maps/documentation/javascript/reference#Circle">Google Maps API.</a></td>
+      </tr>
+      <tr>
         <td>decimals</td>
         <td>array</td>
         <td>Integer which defines how many decimal places the coordinates are rouded to when the rectangles is dragged. Only applicable if the editable option is true.</td>
-      </tr>
-      <tr>
-        <td>events</td>
-        <td>object</td>
-        <td>See documentation for <a href="#documentation#events"> events </a>. Available events can be found on the <a href="https://developers.google.com/maps/documentation/javascript/reference#Rectangle">Google Maps API.</a></td>
       </tr>
       <tr>
         <td>opacity</td>
@@ -369,6 +369,15 @@
 
 
 
+
+
+
+
+
+
+
+
+
   <h2>overlay</h2>
   <p>Creates a single instance of the <a href="https://developers.google.com/maps/documentation/javascript/reference#GroundOverlay">google.maps.GroundOverlay class.</a></p>
   <table class="table table-bordered">
@@ -384,9 +393,19 @@
         <td>The SW and NE bounds of the overlay image. Structure is {SW: SW, NE: NE} where SW and NE are google.maps.LatLngBounds OR coordinates defined as [lat, lng].</td>
       </tr>
       <tr>
+        <td>events</td>
+        <td>object</td>
+        <td>See documentation for <a href="#documentation#events"> events </a>. Available events can be found on the <a href="https://developers.google.com/maps/documentation/javascript/reference#GroundOverlay">Google Maps API.</a></td>
+      </tr>
+      <tr>
         <td>opacity</td>
         <td>number</td>
         <td>The opacity for the overlay. Should be a number between 0 and 100.</td>
+      </tr>
+      <tr>
+        <td>options</td>
+        <td>function</td>
+        <td>See documentation for <a href="#documentation#options"> options </a>. Available options can be found on the <a href="https://developers.google.com/maps/documentation/javascript/reference#GroundOverlayOptions">Google Maps API.</a></td>
       </tr>
       <tr>
         <td>url</td>
@@ -440,6 +459,16 @@
     </thead>
     <tbody>
       <tr>
+        <td>events</td>
+        <td>object</td>
+        <td>See documentation for <a href="#documentation#events"> events </a>. Available events can be found on the <a href="https://developers.google.com/maps/documentation/javascript/reference#InfoWindow">Google Maps API.</a></td>
+      </tr>
+      <tr>
+        <td>options</td>
+        <td>function</td>
+        <td>See documentation for <a href="#documentation#options"> options </a>. Available options can be found on the <a href="https://developers.google.com/maps/documentation/javascript/reference#InfoWindowOptions">Google Maps API.</a></td>
+      </tr>
+      <tr>
         <td>position</td>
         <td>string</td>
         <td>Position of the control. Should be a string written in camel case, such as "bottomLeft" or "rightTop".</td>
@@ -447,7 +476,7 @@
       <tr>
         <td>visible</td>
         <td>boolean</td>
-        <td>Position of the marker, defined as [lat, lng].</td>
+        <td>Position of the marker, defined as [lat, lng] OR as a google.maps.LatLng.</td>
       </tr>
     </tbody>
   </table>
@@ -471,18 +500,20 @@ $scope.points = {
 
   <h1 id="options"> Options </h1>
   <p>Options are defined as functions instead of as objects. This allows you to define the directive's options as a function of your data. The function should always return an object that follows the Google Maps object specification for that class.</p>
+  <h3>points, geopoints, polygons, geopolygons, polylines, circles, rectangles</h3>
+  <p>For directives which create multiple map objects, the options function has four arguemnts: the individual object, the map, the index of that object, and <a href="#documentation#MapObjects">MapObjects</a>. In the following example, each geopolygon's opacity would be a function of its index.</p>
     <pre>
-$scope.polygons = {
+$scope.geopolygons = {
   options: function(p, map, i, MapObjects) {
-    var opacity = getFillOpacity(p, i);
+    var opacity = 100 / i;
     return {
       fillColor: 'red',
       fillOpacity: opacity
     }
   }
 }</pre>
-  <p>In this made up example, each polygon has a different opacity, which is defined by some imaginary function which returns a value based on each polygons index and properties. You can't set the return objects values to be functions, so always calculate the values first and then return those.</p>
-  <p>The options are slighty different for the "map" and "marker" directives. Because these are always single instances with no properties the function has no arguments. Therefore, just do something like the following:</p>
+  <h3>map, marker, overlay, infowindow</h3>
+  <p>For directives which create a single object, the function passes no arguments. Simply return an object which specifies the appropriate options.</p>
       <pre>
 $scope.marker = {
   options: function() {

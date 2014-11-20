@@ -431,7 +431,9 @@ angular.module('ngMaps')
     return {
       restrict: 'E',
       scope: {
+        options: '=',
         position: '=',    // string, camelcase i.e. topLeft, rightBottom
+        visible: '='
       },
       require: '^map',
       compile: function(tElement, tAttrs) {
@@ -444,31 +446,23 @@ angular.module('ngMaps')
 
             var map = parent.getMap();
 
-            var infowindow = new google.maps.InfoWindow({
-              content: null,
-              position: null
-            });
+            var opts = $scope.options? $scope.options() : {};
+
+            var infowindow = new google.maps.InfoWindow(opts);
 
             $scope.$watch(function() {
               return $element[0].innerHTML + $scope.position;
             }, function(oldVal, newVal) {
 
-              console.log("HUH")
+              if ($scope.position.constructor === Array) {
+                var pos = new google.maps.LatLng($scope.position[0], $scope.position[1]);
+              } else {
+                var pos = $scope.position;
+              }
 
-              // if(oldVal != newVal) {
-
-                if ($scope.position.constructor === Array) {
-                  var pos = new google.maps.LatLng($scope.position[0], $scope.position[1]);
-                } else {
-                  var pos = $scope.position;
-                }
-
-
-                infowindow.setContent($element[0].innerHTML);
-                infowindow.setPosition(pos);
-                infowindow.open(map);
-
-              // }
+              infowindow.setContent($element[0].innerHTML);
+              infowindow.setPosition(pos);
+              infowindow.open(map);
 
             });
 
@@ -498,7 +492,7 @@ angular.module('ngMaps')
         var events = $scope.events;
         var center = $scope.center;
 
-        var options = $scope.options ? $scope.options : {};
+        var options = $scope.options? $scope.options() : {};
 
         var latitude = center ? center[0] : 47.6;
         var longitude = center ? center[1] : -122.3;
@@ -545,7 +539,7 @@ angular.module('ngMaps')
 
           var events = $scope.events ? $scope.events : {};
 
-          var options = $scope.options ? $scope.options : {};
+          var opts = $scope.options? $scope.options() : {};
 
           var round = function(val) {
             if (decimals || decimals === 0) {
@@ -563,15 +557,15 @@ angular.module('ngMaps')
             }
           };
 
-          options.position = curPosition();
-          options.map = map;
+          opts.position = curPosition();
+          opts.map = map;
 
-          var marker = new google.maps.Marker(options);
+          var marker = new google.maps.Marker(opts);
 
           // For each event, add a listener. Also provides access to the map and parent scope
           angular.forEach(events, function(val, key) {
             google.maps.event.addListener(marker, key, function(e) {
-              val(e, MapObjects);
+              val(e, marker, MapObjects);
             });
           });
 
@@ -604,7 +598,9 @@ angular.module('ngMaps')
       restrict: 'E',
       scope: {
         url: '=',     // String, path to image
+        events: '=',
         opacity: '=', // 0 <= Int <= 100
+        options: '=',
         bounds: '=',  // Array of SW, NE OR Google bounds object
         visible: '='  // Boolean
       },
@@ -652,10 +648,10 @@ angular.module('ngMaps')
               bounds = $scope.bounds;
             }
 
+            var opts = $scope.options? $scope.options() : {};
+
             // Make new overlay
-            var overlay = new google.maps.GroundOverlay($scope.url, bounds, {
-              clickable: false
-            });
+            var overlay = new google.maps.GroundOverlay($scope.url, bounds, opts);
 
             // Set opacity
             overlay.setOpacity(parseOpacity() / 100);
@@ -791,6 +787,7 @@ angular.module('ngMaps')
         options: '=',       // function() { return {} }
         properties: '=',    // array [{}, {}]
         opacity: '=',       // int
+        events: '=',
         visible: '='        // boolean
       },
       require: '^map',

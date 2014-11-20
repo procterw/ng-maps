@@ -5,7 +5,9 @@ angular.module('ngMaps')
       restrict: 'E',
       scope: {
         url: '=',     // String, path to image
+        events: '=',
         opacity: '=', // 0 <= Int <= 100
+        options: '=',
         bounds: '=',  // Array of SW, NE OR Google bounds object
         visible: '='  // Boolean
       },
@@ -53,10 +55,10 @@ angular.module('ngMaps')
               bounds = $scope.bounds;
             }
 
+            var opts = $scope.options? $scope.options() : {};
+
             // Make new overlay
-            var overlay = new google.maps.GroundOverlay($scope.url, bounds, {
-              clickable: false
-            });
+            var overlay = new google.maps.GroundOverlay($scope.url, bounds, opts);
 
             // Set opacity
             overlay.setOpacity(parseOpacity() / 100);
