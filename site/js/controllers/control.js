@@ -4,15 +4,15 @@ angular.module('App')
 		$scope.map = {
       center: [47.5, -122.5],
       options: function() {
-          return {
-          	streetViewControl: false,
-          	scrollwheel: false
-          }
+        return {
+        	streetViewControl: false,
+        	scrollwheel: false
+        }
       }
     };
 
-    $scope.test = function() {
-    	console.log("WOW")
+    $scope.click = function() {
+    	alert($scope.marker.position);
     }
 
 	  $scope.marker = {

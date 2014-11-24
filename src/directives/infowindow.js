@@ -1,5 +1,5 @@
 angular.module('ngMaps')
-  .directive('infowindow', function() {
+  .directive('infowindow', ['$compile', function($compile) {
     return {
       restrict: 'E',
       scope: {
@@ -38,7 +38,10 @@ angular.module('ngMaps')
 
               // TODO: event handling
 
-              infowindow.setContent($element[0].innerHTML);
+              var content = $element.html();
+              var compiled = $compile($element.html())($scope.$parent.$parent);
+
+              infowindow.setContent(compiled[0]);
               infowindow.setPosition(pos);
               infowindow.open(map);
 
@@ -48,4 +51,4 @@ angular.module('ngMaps')
         };
       }
     };
-  });
+  }]);

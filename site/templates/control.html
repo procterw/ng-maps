@@ -9,8 +9,8 @@
 
         <control position="rightBottom">
           <div class="control-example">
-            <h4>The marker is at {{marker.position}}</h4>
-            <button ng-click='test()'>click me</button>
+            <h5>The marker is at {{marker.position}}</h5>
+            <button class="btn btn-primary" ng-click='click()'>Click Me</button>
           </div>
         </control>
 
@@ -29,12 +29,16 @@
 <pre>$scope.map = {
   center: [47.5, -122.5],
   options: function() {
-      return {
-        streetViewControl: false,
-        scrollwheel: false
-      }
+    return {
+      streetViewControl: false,
+      scrollwheel: false
+    }
   }
 };
+
+$scope.click = function() {
+  alert($scope.marker.position);
+}
 
 $scope.marker = {
   position: [47.5, -122.5],
@@ -47,17 +51,18 @@ $scope.marker = {
       <h3> HTML </h3>
 
 <pre>
-&lt;div map ng-transclude class=&quot;google-map&quot; center=&quot;map.center&quot; options=&quot;map.options&quot;&gt; 
+&lt;map ng-transclude class=&quot;google-map&quot; center=&quot;map.center&quot; options=&quot;map.options&quot;&gt; 
 
   &lt;marker position=&quot;marker.position&quot; decimals=&quot;marker.decimals&quot; options=&quot;marker.options&quot;&gt;&lt;/marker&gt;
 
   &lt;control position=&quot;rightBottom&quot;&gt;
     &lt;div class=&quot;control-example&quot;&gt;
-      &lt;h4&gt;The marker is at {{marker.position}}&lt;/h4&gt;
+      &lt;h5&gt;The marker is at {{marker.position}}&lt;/h5&gt;
+      &lt;button class=&quot;btn btn-primary&quot; ng-click='click()'&gt;Click Me&lt;/button&gt;
     &lt;/div&gt;
   &lt;/control&gt;
 
-&lt;/div&gt;</pre>
+&lt;/map&gt;</pre>
 
     </div>
 

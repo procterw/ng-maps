@@ -25,7 +25,7 @@ angular.module('ngMaps')
           var position = $scope.position.split(/(?=[A-Z])/).join("_").toUpperCase();
 
           $scope.$watch(function() {
-            $element[0].style.display = "none";
+            $element[0].style.display = "none"; // important: without this the HTML content won't display
             return $element[0].innerHTML;
           }, function() {
 

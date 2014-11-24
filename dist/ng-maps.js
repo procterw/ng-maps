@@ -119,7 +119,7 @@ angular.module('ngMaps')
           var position = $scope.position.split(/(?=[A-Z])/).join("_").toUpperCase();
 
           $scope.$watch(function() {
-            $element[0].style.display = "none";
+            $element[0].style.display = "none"; // important: without this the HTML content won't display
             return $element[0].innerHTML;
           }, function() {
 
@@ -407,7 +407,7 @@ angular.module('ngMaps')
       }
     };
   }]);;angular.module('ngMaps')
-  .directive('infowindow', function() {
+  .directive('infowindow', ['$compile', function($compile) {
     return {
       restrict: 'E',
       scope: {
@@ -446,7 +446,10 @@ angular.module('ngMaps')
 
               // TODO: event handling
 
-              infowindow.setContent($element[0].innerHTML);
+              var content = $element.html();
+              var compiled = $compile($element.html())($scope.$parent.$parent);
+
+              infowindow.setContent(compiled[0]);
               infowindow.setPosition(pos);
               infowindow.open(map);
 
@@ -456,7 +459,7 @@ angular.module('ngMaps')
         };
       }
     };
-  });;angular.module('ngMaps')
+  }]);;angular.module('ngMaps')
   .directive('map', [function() {
     return {
       restrict: 'AE',

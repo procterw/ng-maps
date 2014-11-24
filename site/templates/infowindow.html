@@ -5,8 +5,10 @@
     <div class="col-sm-12">
       <map ng-transclude class="google-map" center="map.center" events="map.events" options="map.options"> 
         <infowindow ng-hide="true" position="infowindow.position">
-          <h4> Hello! </h4>
-          My position is {{infowindow.position}}
+          <div>
+            <h4> Hello! </h4>
+            My position is {{infowindow.position}}
+          </div>
         </infowindow>
 
       </map>
@@ -44,14 +46,14 @@ $scope.infowindow = {
       <h3> HTML </h3>
 
 <pre>
-&lt;div map ng-transclude class=&quot;google-map&quot; center=&quot;map.center&quot; events=&quot;map.events&quot; options=&quot;map.options&quot;&gt; 
+&lt;map ng-transclude class=&quot;google-map&quot; center=&quot;map.center&quot; events=&quot;map.events&quot; options=&quot;map.options&quot;&gt; 
 
   &lt;infowindow position=&quot;infowindow.position&quot;&gt;
     &lt;h4&gt; Hello! &lt;/h4&gt;
     My position is &#123;&#123;infowindow.position}}
   &lt;/infowindow&gt;
 
-&lt;/div&gt;</pre>
+&lt;/map&gt;</pre>
 
     </div>
 
