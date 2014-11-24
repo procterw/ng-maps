@@ -14,24 +14,30 @@ angular.module('App')
 
 	$scope.states = {
 		url: "data/states.geojson",
-    options: function() {
+    options: function(geometry, properties, map, i) {
       return {
-        fillColor: 'orange',
+        fillColor: '#4DAF7C',
         strokeWeight: 1,
-        strokeColor: 'white'
+        strokeColor: '#43896E'
       }
     },
     events: {
-      mouseover: function() {
+      mouseover: function(e, p, map, polygons) {
         p.setOptions({
           strokeWeight: 4,
-          zindex: 100
+          zIndex: 900
         })
       },
-      mouseout: function() {
+      mouseout: function(e, p, map, polygons) {
         p.setOptions({
           strokeWeight: 1,
-          zindex: 0
+          zIndex: 0
+        })
+      },
+      click: function(e, p, map, polygons) {
+        var opacity = Math.random();
+        p.setOptions({
+          fillOpacity: opacity
         })
       }
     }
