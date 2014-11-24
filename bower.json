@@ -1,6 +1,6 @@
 {
   "name": "ng-data-map",
-  "version": "0.1.22",
+  "version": "1.0.0",
   "homepage": "https://github.com/procterw/ng-google-maps",
   "authors": [
     "Will <procterw@gmail.com>"
@@ -19,7 +19,8 @@
     "gruntfile.js",
     "dataMap.js",
     "node_modules",
-    "bower_components"
+    "bower_components",
+    "site"
   ],
   "dependencies": {
     "angular": "~1.2.24"
