@@ -1,6 +1,8 @@
 ng-maps
 ==============
 
+[Find examples and documentation on the ng-maps website](http://willleahy.info/ng-maps/#/)
+
 ng-maps offers a set of Google Maps directives for AngularJS. The focus is on 
 
 ##Dependencies
