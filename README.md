@@ -32,6 +32,3 @@ Finally, be sure to include ng-maps in your angular.module definition:
 var app = angular.module('App', ['ngMaps'])
 ```
 Now you're ready to get started!
-
-##Directives
-####Map
