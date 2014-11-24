@@ -36,14 +36,14 @@ angular.module('ngMaps')
           });
 
           $scope.$watch('visible', function() {
-            angular.forEach(points, function(p) {
-              p.setVisible($scope.visible);
+            angular.forEach(points, function(c) {
+              c.setVisible($scope.visible);
             });
           });
 
           $scope.$watch('options', function() {
-            angular.forEach(points, function(p, i) {
-              p.setOptions($scope.options(c, properties, map, i));
+            angular.forEach(points, function(c, i) {
+              c.setOptions($scope.options(c, properties, map, i));
             });
           });
 

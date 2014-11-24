@@ -1,0 +1,11 @@
+<div class="col-md-2">
+<ul class="side-list">
+  <li class="directive-option" ng-repeat="item in options" ng-class="{selected:item===selected}" ng-click="click(item)">
+    {{item}}
+  </li>
+</ul>
+</div>
+
+<div class="col-md-10	">
+	<ng-include src='template()'></ng-include>
+</div>

@@ -17,7 +17,6 @@ angular.module('ngMaps')
       transclude: true,
       link: function($scope, elem, attrs) {
 
-        var events = $scope.events;
         var center = $scope.center;
 
         var options = $scope.options? $scope.options() : {};
@@ -26,12 +25,22 @@ angular.module('ngMaps')
         var longitude = center ? center[1] : -122.3;
 
         options.center = new google.maps.LatLng(latitude, longitude);
-        options.zoom = $scope.zoom ? $scope.zoom : 8;
 
-        var map = new google.maps.Map(elem[0], options);
+        if ($scope.zoom) {
+          options.zoom = $scope.zoom;
+        } else if (!options.zoom) {
+          options.zoom = 6; // default
+        }
+
+        // Create div for the map to be drawn in which inherits the parent classes
+        var t1 = document.createElement('div');
+        t1.className = attrs.class;
+        elem.append(t1);
+
+        var map = new google.maps.Map(t1, options);
 
         // For each event, add a listener. Also provides access to the map
-        angular.forEach(events, function(val, key) {
+        angular.forEach($scope.events, function(val, key) {
           google.maps.event.addListener(map, key, function(e) {
             val(e, map);
           });

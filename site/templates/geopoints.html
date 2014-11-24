@@ -1,15 +1,61 @@
 <div ng-controller="geopoints">
 
-	<div class="row">
+  <div class="row">
 
-		<div class="col-sm-12">
-			<div map ng-transclude class="google-map" center="map.center" options="map.options"> 
+    <div class="col-sm-12">
+      <map ng-transclude class="google-map" center="map.center" options="map.options"> 
 
-				<geopoints url="stations.url" options="stations.options" events="stations.events"></geopoints>
+        <geopoints url="stations.url" options="stations.options" events="stations.events"></geopoints>
 
-			</div>
-		<div>
-
-	</div>
+      </map>
+    <div>
 
 </div>
+
+  <div class="row">
+
+    <div class="col-sm-12">
+
+      <h3> JavaScript </h3>
+
+<pre>$scope.map = {
+  center: [39, -121],
+  options: function() {
+    return {
+      streetViewControl: false,
+      scrollwheel: false
+    }
+  }
+};
+
+$scope.points = {
+  url: "data/AirNow_Sites_PM2.5.geojson",
+  options: function(geometry, properties, map, i) {
+    // Make even numbered markers draggable for some reason
+    var draggable = i%2 === 0;
+    return {
+      draggable: draggable
+    };
+  }
+  events: {
+    click: function(e, marker, map, markers) {
+      var lat = e.latLng.lat();
+      var lng = e.latLng.lng();
+      var name = marker.getProperty("siteName");
+      alert(lat + " " + lng + " " + name);
+    }
+  }
+};</pre>
+
+      <h3> HTML </h3>
+
+<pre>
+&lt;div map ng-transclude class=&quot;google-map&quot; center=&quot;map.center&quot; options=&quot;map.options&quot;&gt; 
+
+  &lt;geopoints url=&quot;points.url&quot; options=&quot;points.options&quot; events=&quot;points.events&quot;&gt;&lt;/geopoints&gt;
+
+&lt;/div&gt;</pre>
+
+    </div>
+
+  </div>

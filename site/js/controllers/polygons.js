@@ -3,11 +3,13 @@ angular.module('App')
 
 		$scope.map = {
       center: [25, -70],
-      options: {
-      	streetViewControl: false,
-      	scrollwheel: false
-      },
-      zoom: 4
+      options: function() {
+          return {
+          	zoom: 5,
+          	streetViewControl: false,
+          	scrollwheel: false
+          }
+      }
     };
 
 		$scope.polygons = {
@@ -25,7 +27,7 @@ angular.module('App')
 			    [26.774252, -79.190262],
 			  ]],
 			],
-			options: function(m) {
+			options: function(geometry, properties, map, i) {
 				return {
 					fillColor: "#e67e22",
 					strokeColor: "#d35400"

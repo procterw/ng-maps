@@ -1,9 +1,15 @@
 angular.module('App')
 	.controller('Main', ['$scope', '$location', function($scope, $location){
 
-		$scope.location = function() {
-			return $location.path();
-		};
+		$scope.template = function() {
+			return "templates/" + $scope.selected + ".html"
+		}
+
+		$scope.selected = "map"
+
+		$scope.click = function(item) {
+			$scope.selected = item;
+		}
 
 		$scope.options = [
 			"map",

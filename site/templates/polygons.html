@@ -1,15 +1,67 @@
 <div ng-controller="polygons">
 
-	<div class="row">
+  <div class="row">
 
-		<div class="col-sm-12">
-			<div map ng-transclude class="google-map" center="map.center" options="map.options" zoom="map.zoom"> 
+    <div class="col-sm-12">
+      <map ng-transclude class="google-map" center="map.center" options="map.options" zoom="map.zoom"> 
 
-				<polygons coords="polygons.coords" options="polygons.options" events="polygons.events" opacity="polygons.opacity"></polygons>
+        <polygons coords="polygons.coords" options="polygons.options" events="polygons.events" opacity="polygons.opacity"></polygons>
 
-			</div>
-		<div>
-
-	</div>
+      </map>
+    <div>
 
 </div>
+
+  <div class="row">
+
+    <div class="col-sm-12">
+
+      <h3> JavaScript </h3>
+
+<pre>   $scope.map = {
+  center: [25, -70],
+  options: function() {
+      return {
+        zoom: 5,
+        streetViewControl: false,
+        scrollwheel: false
+      }
+  }
+};
+
+$scope.polygons = {
+  coords: [
+    [[
+      [25.774252, -80.190262],
+      [18.466465, -66.118292],
+      [32.321384, -64.75737],
+      [25.774252, -80.190262],
+    ]],
+    [[
+      [26.774252, -79.190262],
+      [19.466465, -65.118292],
+      [33.321384, -64.75737],
+      [26.774252, -79.190262],
+    ]],
+  ],
+  options: function(geometry, properties, map, i) {
+    return {
+      fillColor: "#e67e22",
+      strokeColor: "#d35400"
+    }
+  },
+  opacity: 50
+};</pre>
+
+      <h3> HTML </h3>
+
+<pre>
+&lt;div map ng-transclude class=&quot;google-map&quot; center=&quot;map.center&quot; options=&quot;map.options&quot; zoom=&quot;map.zoom&quot;&gt; 
+
+  &lt;polygons coords=&quot;polygons.coords&quot; options=&quot;polygons.options&quot; events=&quot;polygons.events&quot; opacity=&quot;polygons.opacity&quot;&gt;&lt;/polygons&gt;
+
+&lt;/div&gt;</pre>
+
+    </div>
+
+  </div>

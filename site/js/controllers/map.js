@@ -3,10 +3,16 @@ angular.module('App')
 
 		$scope.map = {
       center: [39, -121],
-      options: {
-      	zoom: 4,
-      	streetViewControl: false,
-      	scrollwheel: false
+      options: function() {
+          return {
+            streetViewControl: false,
+            scrollwheel: false
+          }
+      },
+      events: {
+        click: function(e, map) {
+          alert(e.latLng.lat() + " " + e.latLng.lng());
+        }
       }
     };
 

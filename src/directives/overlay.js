@@ -1,5 +1,5 @@
 angular.module('ngMaps')
-  .directive('overlay', [, function() {
+  .directive('overlay', [function() {
 
     //TODO add events
 
@@ -48,10 +48,9 @@ angular.module('ngMaps')
 
             var bounds; 
 
-            // This assumes that if bounds isn't an array it's already a LatLngBounds object
-            if ($scope.bounds.constructor === Array) {
-              var SW = new google.maps.LatLng($scope.bounds[0][0], $scope.bounds[0][1]);
-              var NE = new google.maps.LatLng($scope.bounds[1][0], $scope.bounds[1][1]);
+            if ($scope.bounds.constructor === Object) {
+              var SW = new google.maps.LatLng($scope.bounds.SW[0], $scope.bounds.SW[1]);
+              var NE = new google.maps.LatLng($scope.bounds.NE[0], $scope.bounds.NE[1]);
               bounds = new google.maps.LatLngBounds(SW,NE);  
             } else {
               bounds = $scope.bounds;

@@ -45,7 +45,7 @@ angular.module('ngMaps')
           lines = [];
 
           // loop through each array of array of coordinates
-          angular.forEach(coords, function(l) {
+          angular.forEach(coords, function(l, i) {
 
             var opts = $scope.options ? $scope.options(l, properties, map, i) : {};
             opts.path = [];

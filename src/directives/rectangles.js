@@ -77,12 +77,14 @@ angular.module('ngMaps')
             // Create new objects
             angular.forEach($scope.bounds, function(r, i) {
 
+              console.log(r)
+
               var opts = $scope.options ? $scope.options(r, properties, map, i) : {};
 
               // This assumes that if bounds isn't an array it's already a LatLngBounds object
-              if (r.constructor === Array) {
-                var SW = new google.maps.LatLng(r[0][0], r[0][1]);
-                var NE = new google.maps.LatLng(r[1][0], r[1][1]);
+              if (r.constructor === Object) {
+                var SW = new google.maps.LatLng(r.SW[0], r.SW[1]);
+                var NE = new google.maps.LatLng(r.NE[0], r.NE[1]);
                 opts.bounds = new google.maps.LatLngBounds(SW,NE);  
               } else {
                 opts.bounds = r;
@@ -104,7 +106,7 @@ angular.module('ngMaps')
                 var b = rect.getBounds();
                 var SW = b.getSouthWest();
                 var NE = b.getNorthEast();
-                $scope.bounds[i] = [[round(SW.k),round(SW.B)],[round(NE.k),round(NE.B)]];
+                $scope.bounds[i] = { SW:[round(SW.k),round(SW.B)], NE:[round(NE.k),round(NE.B)]};
                 $rootScope.$apply();
               });
 

@@ -2,13 +2,14 @@ angular.module('App')
 	.controller('circles', ['$scope', function($scope){
 
 		$scope.map = {
-	      center: [39, -121],
-	      options: {
-	      	zoom: 6,
-	      	streetViewControl: false,
-	      	scrollwheel: false
-	      }
-	    };
+	    center: [39, -121],
+      options: function() {
+          return {
+          	streetViewControl: false,
+          	scrollwheel: false
+          }
+      }
+    };
 
 	    $scope.circles = {
 	    	geometries: [

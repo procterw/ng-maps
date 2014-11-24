@@ -3,11 +3,13 @@ angular.module('App')
 
 	$scope.map = {
       center: [40, -100],
-      options: {
-      	streetViewControl: false,
-      	scrollwheel: false
-      },
-      zoom: 4
+      options: function() {
+          return {
+            zoom: 4,
+            streetViewControl: false,
+            scrollwheel: false
+          }
+      }
     };
 
 	$scope.states = {
@@ -20,13 +22,13 @@ angular.module('App')
       }
     },
     events: {
-      mouseover: function(e, p) {
+      mouseover: function() {
         p.setOptions({
-          strokeWeight: 2,
+          strokeWeight: 4,
           zindex: 100
         })
       },
-      mouseout: function(e, p) {
+      mouseout: function() {
         p.setOptions({
           strokeWeight: 1,
           zindex: 0

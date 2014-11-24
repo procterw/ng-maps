@@ -24,13 +24,16 @@ angular.module('ngMaps')
             var infowindow = new google.maps.InfoWindow(opts);
 
             $scope.$watch(function() {
+              $element[0].style.display = "none";
               return $element[0].innerHTML + $scope.position;
             }, function(oldVal, newVal) {
+              
+              var pos;
 
               if ($scope.position.constructor === Array) {
-                var pos = new google.maps.LatLng($scope.position[0], $scope.position[1]);
+                pos = new google.maps.LatLng($scope.position[0], $scope.position[1]);
               } else {
-                var pos = $scope.position;
+                pos = $scope.position;
               }
 
               // TODO: event handling

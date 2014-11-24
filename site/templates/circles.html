@@ -1,15 +1,67 @@
 <div ng-controller="circles">
 
-	<div class="row">
+  <div class="row">
 
-		<div class="col-sm-12">
-			<div map ng-transclude class="google-map" center="map.center" options="map.options"> 
+    <div class="col-sm-12">
+      <map ng-transclude class="google-map" center="map.center" options="map.options"> 
 
-				<circles geometries="circles.geometries" options="circles.options"></circles>
+        <circles geometries="circles.geometries" options="circles.options"></circles>
 
-			</div>
-		<div>
-
-	</div>
+      </map>
+    <div>
 
 </div>
+
+  <div class="row">
+
+    <div class="col-sm-12">
+
+      <h3> JavaScript </h3>
+
+<pre>$scope.map = {
+  center: [39, -121],
+  options: function() {
+    return {
+      streetViewControl: false,
+      scrollwheel: false
+    }
+  }
+};
+
+$scope.circles = {
+  geometries: [
+    {
+      center: [39, -121],
+      radius: 10000
+    },
+    {
+      center: [39, -121],
+      radius: 50000
+    },
+    {
+      center: [39, -121],
+      radius: 100000
+    }
+  ],
+  options: function(c, map, i) {
+    var opacity = 1/(i+1)
+    return {
+      fillOpacity: opacity,
+      fillColor: "#e67e22",
+      strokeColor: "#d35400"
+    }
+  }
+}</pre>
+
+      <h3> HTML </h3>
+
+<pre>
+&lt;div map ng-transclude class=&quot;google-map&quot; center=&quot;map.center&quot; options=&quot;map.options&quot;&gt; 
+
+  &lt;circles geometries=&quot;circles.geometries&quot; options=&quot;circles.options&quot;&gt;&lt;/circles&gt;
+
+&lt;/div&gt;</pre>
+
+    </div>
+
+  </div>

@@ -23,9 +23,13 @@
 
   <header class="navbar navbar-default margin-large">
     <div class="container">
-        <a href="#map"><h1 class="title"> ng-maps </h1> </a>
-        </br>
-        <h3 class="subtitle">a Google Maps directive for AngularJS</h3>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#/examples">Examples</a></li>
+        <li><a href="#/documentation">Documentation</a></li>
+      </ul>
+    </div>
+    <div class="container">
+      <img src="maps-logo-01.svg" class="logo"></img><a href="#"><h1 class="title">ng-maps</h1></a>
     </div>
   </header> 
 
@@ -34,15 +38,6 @@
   <div class="container main margined" ng-controller="Main" ng-cloak>
 
     <div ng-view></div>
-
-
-
-        <!-- <ul class="side-list">
-          <li class="directive-option" ng-repeat="item in options">
-            <a class="link-option" ng-class="{selected: '/' + item === location()}" ng-href="#{{item}}">{{item}}</a>
-          </li>
-        </ul> -->
-
 
   </div>
 

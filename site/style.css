@@ -1,5 +1,5 @@
 body, html {
-  font-family: "source-sans-pro",sans-serif;
+  font-family: "freight-sans-pro",sans-serif;
   color: rgb(50,50,50);
   font-size: 1em;
 }
@@ -57,12 +57,12 @@ body, html {
 }
 
 .selected {
-  background-color: #e67e22;
+  background-color: #4DAF7C;
   color: white;
 }
 
 .navbar-default {
-  background-color: #e67e22;
+  background-color: #4DAF7C;
   border: none;
   height: 170px;
 }
@@ -119,6 +119,18 @@ div[ng-view].ng-leave {
     animation: fadeOut 0.1s;
 }*/
 
+h1, h2, h3, h4, h5 {
+  font-weight: 600;
+}
+
+.logo {
+  height: 4.5em;
+  padding: 7px;
+}
+
+.google-map {
+  height: 500px;
+}
 
 .margined {
   margin-bottom: 1.61em;
@@ -126,9 +138,10 @@ div[ng-view].ng-leave {
 
 
 .navbar-default {
-  background-color: #e67e22;
+  background-color: #4DAF7C;
   border: none;
-  height: 170px;
+  height: 175px;
+  text-align: center;
 }
 
 .navbar-default a {
@@ -136,12 +149,12 @@ div[ng-view].ng-leave {
 }
 
 .title {
-  font-size: 2.2em;
-  margin-top: 1.2em;
+  margin: 0;
+  font-size: 3.5em;
+  padding: 0 2px;
   color: white;
-  display:inline-block;   
-  font-weight: normal;
-  border-bottom: 2px solid rgba(255,255,255,0);
+  display:inline-block;
+  border-bottom: 3px solid rgba(255,255,255,0);
   -webkit-transition: border 0.1s linear;
   -moz-transition: border 0.1s linear;
   -ms-transition: border 0.1s linear;
@@ -150,18 +163,22 @@ div[ng-view].ng-leave {
 }
 
 .title:hover {
-  border-bottom: 2px solid white;
+  border-bottom: 3px solid white;
   box-sizing: border-box;
 }
 
-.subtitle {
-  margin: 0;
+.navbar-default .navbar-nav > li > a {
   color: white;
 }
 
+.navbar-default .navbar-nav > li > a:hover {
+  color: white;
+  background-color: #43896E;
+}
 
-
-
+.test {
+  display: none;
+}
 
 /*documentation*/
 
@@ -170,8 +187,38 @@ div[ng-view].ng-leave {
 }
 
 .table > thead:first-child > tr:first-child > th {
-  background-color: #e67e22;
+  background-color: #4DAF7C;
   color: white;
-  font-weight: 300;
+  font-weight: 400;
   border: none;
+}
+
+.side-list {
+  list-style: none;
+  font-size: 1em;
+  padding: 0px;
+}
+
+
+.directive-option {
+  font-size: 1.1em;
+  padding: 7px;
+  text-decoration: none;
+  background-color: white;
+  color: rgb(50,50,50);
+  font-weight: 500;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.selected {
+  background-color: #4DAF7C;
+  color: white;
+}
+
+.directive-option:hover {
+  text-decoration: none;
+  background-color: #43896E;
+  color: white;
 }

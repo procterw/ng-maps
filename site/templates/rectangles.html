@@ -1,17 +1,65 @@
 <div ng-controller="rectangles">
 
-	<div class="row">
+  <div class="row">
 
-		<div class="col-sm-12">
-			<div map ng-transclude class="google-map" center="map.center" options="map.options"> 
+    <div class="col-sm-12">
+      <map ng-transclude class="google-map" center="map.center" options="map.options"> 
 
-				<rectangles bounds="rect.bounds" options="rect.options"></rectangles>
+        <rectangles bounds="rect.bounds" options="rect.options"></rectangles>
 
-			</div>
-		<div>
+      </map>
+    <div>
 
-	</div>
-
-	<small>Bounds: {{rect.bounds}}</small>
 
 </div>
+
+  <div class="row">
+
+    <div class="col-sm-12">
+
+      <h3> JavaScript </h3>
+
+<pre> $scope.map = {
+  center: [39, -121],
+  options: function() {
+      return {
+        zoom: 8,
+        streetViewControl: false,
+        scrollwheel: false
+      }
+  }
+};
+
+$scope.rect = {
+  bounds: [
+    {
+      SW: [38,-122],
+      NE: [39,-121]
+    },
+    {
+      SW: [38.5,-121.5], 
+      NE: [39.5,-120.5]
+    }
+  ],
+  options: function(c, p, map, i) {
+    var edit = i === 0;
+    return {
+      editable: edit,
+      fillColor: "#e67e22",
+      strokeColor: "#d35400"
+    }
+  }
+}</pre>
+
+      <h3> HTML </h3>
+
+<pre>
+&lt;div map ng-transclude class=&quot;google-map&quot; center=&quot;map.center&quot; options=&quot;map.options&quot;&gt; 
+
+  &lt;rectangles bounds=&quot;rect.bounds&quot; options=&quot;rect.options&quot;&gt;&lt;/rectangles&gt;
+
+&lt;/div&gt;</pre>
+
+    </div>
+
+  </div>

@@ -1,21 +1,64 @@
 <div ng-controller="control">
 
-	<div class="row">
+  <div class="row">
 
-		<div class="col-sm-12">
-			<div map ng-transclude class="google-map" center="map.center" options="map.options"> 
+    <div class="col-sm-12">
+      <map ng-transclude class="google-map" center="map.center" options="map.options"> 
 
-				<marker position="marker.position" decimals="marker.decimals" options="marker.options"></marker>
+        <marker position="marker.position" decimals="marker.decimals" options="marker.options"></marker>
 
-				<control position="rightBottom">
-					<div class="control-example">
-						<h4>The marker is at {{marker.position}}</h4>
-					</div>
-				</control>
+        <control position="rightBottom">
+          <div class="control-example">
+            <h4>The marker is at {{marker.position}}</h4>
+            <button ng-click='test()'>click me</button>
+          </div>
+        </control>
 
-			</div>
-		<div>
+      </map>
+    <div>
 
-	</div>
 
 </div>
+
+  <div class="row">
+
+    <div class="col-sm-12">
+
+      <h3> JavaScript </h3>
+
+<pre>$scope.map = {
+  center: [47.5, -122.5],
+  options: function() {
+      return {
+        streetViewControl: false,
+        scrollwheel: false
+      }
+  }
+};
+
+$scope.marker = {
+  position: [47.5, -122.5],
+  decimals: 4,
+  options: function() {
+    return { draggable: true };
+  }
+}</pre>
+
+      <h3> HTML </h3>
+
+<pre>
+&lt;div map ng-transclude class=&quot;google-map&quot; center=&quot;map.center&quot; options=&quot;map.options&quot;&gt; 
+
+  &lt;marker position=&quot;marker.position&quot; decimals=&quot;marker.decimals&quot; options=&quot;marker.options&quot;&gt;&lt;/marker&gt;
+
+  &lt;control position=&quot;rightBottom&quot;&gt;
+    &lt;div class=&quot;control-example&quot;&gt;
+      &lt;h4&gt;The marker is at {{marker.position}}&lt;/h4&gt;
+    &lt;/div&gt;
+  &lt;/control&gt;
+
+&lt;/div&gt;</pre>
+
+    </div>
+
+  </div>

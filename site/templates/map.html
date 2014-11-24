@@ -1,11 +1,43 @@
 <div ng-controller="map">
 
-	<div class="row">
+  <div class="row">
 
-		<div class="col-sm-12">
-			<div map ng-transclude class="google-map" center="map.center" options="map.options"> </div>
-		<div>
+    <div class="col-sm-12">
 
-	</div>
+        <map class="google-map" center="map.center" options="map.options" events="map.events"> </map>
+
+    <div>
+
+  </div>
+
+  <div class="row">
+
+    <div class="col-sm-12">
+
+      <h3> JavaScript </h3>
+<pre>$scope.map = {
+  center: [39, -121],
+  options: function() {
+      return {
+        streetViewControl: false,
+        scrollwheel: false
+      }
+  },
+  events: {
+    click: function(e, map) {
+      alert(e.latLng.lat() + " " + e.latLng.lng());
+    }
+  }
+};</pre>
+      <h3> HTML </h3>
+<pre>
+&lt;div map ng-transclude class=&quot;google-map&quot; center=&quot;map.center&quot; options=&quot;map.options&quot; events=&quot;map.events&quot;&gt;
+
+&lt;/div&gt;</pre>
+
+
+    </div>
+
+  </div>
 
 </div>

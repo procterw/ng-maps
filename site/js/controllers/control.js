@@ -3,18 +3,23 @@ angular.module('App')
 
 		$scope.map = {
       center: [47.5, -122.5],
-      options: {
-      	zoom: 6,
-      	streetViewControl: false,
-      	scrollwheel: false
+      options: function() {
+          return {
+          	streetViewControl: false,
+          	scrollwheel: false
+          }
       }
     };
+
+    $scope.test = function() {
+    	console.log("WOW")
+    }
 
 	  $scope.marker = {
 			position: [47.5, -122.5],
       decimals: 4,
-			options: {
-				draggable: true
+			options: function() {
+				return { draggable: true };
 			}
 		}
 

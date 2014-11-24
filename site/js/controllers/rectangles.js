@@ -2,12 +2,15 @@ angular.module('App')
 	.controller('rectangles', ['$scope', function($scope){
 
 		$scope.map = {
-	      center: [39, -121],
-	      options: {
-	      	streetViewControl: false,
-	      	scrollwheel: false
-	      }
-	    };
+      center: [39, -121],
+      options: function() {
+          return {
+          	zoom: 8,
+          	streetViewControl: false,
+          	scrollwheel: false
+          }
+      }
+    };
 
 	    $scope.rect = {
 	    	bounds: [
@@ -20,12 +23,12 @@ angular.module('App')
 	    			NE: [39.5,-120.5]
 	    		}
 	    	],
-	    	options: function(c, map, i) {
+	    	options: function(c, p, map, i) {
 	    		var edit = i === 0;
 	    		return {
 	    			editable: edit,
 	    			fillColor: "#e67e22",
-					strokeColor: "#d35400"
+						strokeColor: "#d35400"
 	    		}
 	    	}
 	    }

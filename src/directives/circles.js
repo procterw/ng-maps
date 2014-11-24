@@ -1,5 +1,5 @@
 angular.module('ngMaps')
-  .directive('circles', [function()) {
+  .directive('circles', [function() {
   return {
       restrict: 'E',
       scope: {

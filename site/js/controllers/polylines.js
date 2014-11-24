@@ -3,12 +3,14 @@ angular.module('App')
 
 		$scope.map = {
 	      center: [25, -70],
-	      options: {
-	      	streetViewControl: false,
-	      	scrollwheel: false
-	      },
-	      zoom: 4
-	    };
+      options: function() {
+          return {
+          	zoom: 5,
+          	streetViewControl: false,
+          	scrollwheel: false
+          }
+      }
+    };
 
 		$scope.polylines = {
 			coords: [

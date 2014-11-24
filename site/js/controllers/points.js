@@ -3,10 +3,11 @@ angular.module('App')
 
 		$scope.map = {
       center: [47.5, -122.5],
-      options: {
-      	zoom: 6,
-      	streetViewControl: false,
-      	scrollwheel: false
+      options: function() {
+          return {
+          	streetViewControl: false,
+          	scrollwheel: false
+          }
       }
     };
 
@@ -17,14 +18,14 @@ angular.module('App')
 				[47,-123],
 				[48,-122]
 			],
-			options: function(p, map, i) {
+			options: function(c, p, i, map) {
 				return {
 					draggable: true
 				}
 			},
 			events: {
-				click: function(e, m) {
-					alert(e, m);
+				click: function(e, point, map, points) {
+					alert(point)
 				}
 			},
 			decimals: 3
