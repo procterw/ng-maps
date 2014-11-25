@@ -1,6 +1,6 @@
 // Main application. Reads in dependencies and handles configuration
 
-var app = angular.module('App', ['ngRoute', 'ngAnimate', 'ui.slider', 'ngMaps', 'ngSanitize'])
+var app = angular.module('App', ['ngRoute', 'ngAnimate', 'ngMaps'])
 
 .config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
 

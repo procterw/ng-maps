@@ -3,13 +3,24 @@ angular.module('App')
 
 		$scope.template = function() {
 			return "templates/" + $scope.selected + ".html"
-		}
+		};
 
-		$scope.selected = "map"
+		$scope.selected = "map";
 
 		$scope.click = function(item) {
 			$scope.selected = item;
-		}
+		};
+
+		$scope.titleMap = {
+			center: [32, 3],
+			options: function(){
+				return {
+					zoom: 5,
+					streetViewControl: false,
+          scrollwheel: false
+				}
+			}
+		};
 
 		$scope.options = [
 			"map",

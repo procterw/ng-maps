@@ -26,12 +26,12 @@ angular.module('App')
 		    		radius: 100000
 		    	}
 	    	],
-	    	options: function(c, map, i) {
+	    	options: function(geometry, properties, map, i) {
 	    		var opacity = 1/(i+1)
 	    		return {
 	    			fillOpacity: opacity,
 	    			fillColor: "#e67e22",
-					strokeColor: "#d35400"
+						strokeColor: "#d35400"
 	    		}
 	    	}
 	    }

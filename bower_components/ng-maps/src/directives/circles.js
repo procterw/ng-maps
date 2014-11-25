@@ -1,12 +1,14 @@
 angular.module('ngMaps')
-  .directive('circles', ['MapObjects', function(MapObjects) {
+  .directive('circles', [function() {
   return {
       restrict: 'E',
       scope: {
-        geometries: '=',
-        events: '=',
-        visible: '=',
-        options: '='
+        geometries: '=',  // array [{}, {}]
+        events: '=',      // object {event:function(), event:function()}
+        visible: '=',     // boolean
+        options: '=',     // function() { return {} }
+        opacity: '=',      // int <= 100
+        properties: '='
       },
       require: '^map',
       link: function($scope, $element, $attrs, parent) {
@@ -19,19 +21,21 @@ angular.module('ngMaps')
           var map = parent.getMap();
 
           // List of circles
-          var circleList = [];
+          var circles = [];
+
+          var properties = $scope.properties ? $scope.properties : [];
 
           // Watch for changes in visibility
           $scope.$watch('visible', function() {
-            angular.forEach(circleList, function(c) {
+            angular.forEach(circles, function(c) {
               c.setVisible($scope.visible)
             })
           })
 
           // Watch for changes in options
           $scope.$watch('options', function() {
-            angular.forEach(circleList, function(c) {
-              c.setOptions(options)
+            angular.forEach(circles, function(c, i) {
+              c.setOptions($scope.options(c, properties, map, i));
             })
           })
 
@@ -40,33 +44,42 @@ angular.module('ngMaps')
             newData();
           })
 
+          // Watch for changes in opacity
+          $scope.$watch('opacity', function() {
+            if ($scope.opacity) {
+              angular.forEach(circles, function(c) {
+                c.setOptions({fillOpacity: $scope.opacity / 100});
+              });
+            }
+          });
+
           // Make a new collection of circles
-          newData = function() {
+          var newData = function() {
 
             // Remove each object from map
-            angular.forEach(circleList, function(c){
+            angular.forEach(circles, function(c){
               c.setMap(null);
             })
 
             // Delete objects
-            circleList = [];
+            circles = [];
 
             // Create new objects
-            angular.forEach($scope.geometries, function(c) {
-              var opts = $scope.options ? $scope.options : {};
+            angular.forEach($scope.geometries, function(c, i) {
+
+              var opts = $scope.options ? $scope.options(c, properties, map, i) : {};
               opts.center = new google.maps.LatLng(c.center[0], c.center[1]);
               opts.radius = c.radius;
               opts.map = map;
 
               var circle = new google.maps.Circle(opts);
-              circleList.push(circle)
+              circles.push(circle)
 
               angular.forEach($scope.events, function(val, key) {
                 google.maps.event.addListener(circle, key, function(e) {
-                  val(e, this, MapObjects);
+                  val(e, this, circles, i);
                 });
               });
-
 
             })
           }

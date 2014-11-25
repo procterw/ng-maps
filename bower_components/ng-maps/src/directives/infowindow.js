@@ -1,9 +1,12 @@
 angular.module('ngMaps')
-  .directive('infowindow', function() {
+  .directive('infowindow', ['$compile', function($compile) {
     return {
       restrict: 'E',
       scope: {
-        position: '=',
+        options: '=',
+        position: '=',    // string, camelcase i.e. topLeft, rightBottom
+        visible: '=',
+        events: '='
       },
       require: '^map',
       compile: function(tElement, tAttrs) {
@@ -16,22 +19,31 @@ angular.module('ngMaps')
 
             var map = parent.getMap();
 
-            var infowindow = new google.maps.InfoWindow({
-              content: null,
-              position: null
-            });
+            var opts = $scope.options? $scope.options() : {};
+
+            var infowindow = new google.maps.InfoWindow(opts);
 
             $scope.$watch(function() {
+              $element[0].style.display = "none";
               return $element[0].innerHTML + $scope.position;
             }, function(oldVal, newVal) {
+              
+              var pos;
 
-              // if(oldVal != newVal) {
+              if ($scope.position.constructor === Array) {
+                pos = new google.maps.LatLng($scope.position[0], $scope.position[1]);
+              } else {
+                pos = $scope.position;
+              }
 
-              infowindow.setContent($element[0].innerHTML);
-              infowindow.setPosition($scope.position);
+              // TODO: event handling
+
+              var content = $element.html();
+              var compiled = $compile($element.html())($scope.$parent.$parent);
+
+              infowindow.setContent(compiled[0]);
+              infowindow.setPosition(pos);
               infowindow.open(map);
-
-              // }
 
             });
 
@@ -39,4 +51,4 @@ angular.module('ngMaps')
         };
       }
     };
-  });
+  }]);

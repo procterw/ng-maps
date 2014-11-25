@@ -18,7 +18,8 @@ h1, h2, h3, h4, h5 {
 }
 
 .short-map {
-  height: 200px;
+  height: 250px;
+  margin-bottom: 1.5em;
 }
 
 .margined {
@@ -76,8 +77,31 @@ h1, h2, h3, h4, h5 {
 }
 
 .landing-page h1 {
-  font-size: 2.5em;
-  margin: 1em 0 1.5em 0;
+  font-size: 4em;
+  position: relative;
+  top: 40%;
+  padding: 10px;
+  color: white;
+  -ms-transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+.subheader {
+
+}
+
+.green {
+  color: #4DAF7C;
+  font-weight: 700;
+}
+
+.tall {
+  height: 100%;
+  width: 100%;
+  pointer-events: none;
+  text-align: center;
+  background-color: rgba(0,0,0,0.3);
 }
 
 .landing-page h2 {
@@ -85,7 +109,7 @@ h1, h2, h3, h4, h5 {
 }
 
 .landing-page p, .landing-page pre {
-  margin-top: 15px;
+  margin-top: 25px;
 }
 
 .feature-list {

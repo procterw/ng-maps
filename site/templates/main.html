@@ -2,11 +2,30 @@
 
 
 
+  <div class="col-md-12 landing-page">
+
+    <map ng-transclude class="short-map" center="titleMap.center" options="titleMap.options"> 
+      <control position="topCenter">
+        <div class="tall">
+          <h1 class="centered"> A Google Maps directive for AngularJS</h1>
+        </div>
+      </control>
+    </map>
+
+  </div>
+
   <div class="col-md-8 col-md-offset-2 landing-page">
 
-    <h1 class="centered"> A Google Maps directive for AngularJS</h1>
+    <div class="row">
+      <div class="col-sm-6 col-sm-offset-3">
+        <a class="download-link" href="../dist/ng-maps.js" download="ng-maps.js"><button class='btn btn-primary btn-block'>ng-maps.js (32kb)s</button></a>
+      </div>
+      <div class="col-sm-6 col-sm-offset-3">
+        <a class="download-link"  href="../dist/ng-maps.min.js" download="ng-maps.min."><button class='btn btn-primary btn-block'>ng-maps.min.js (16kb)</button></a>
+      </div>
+    </div>
 
-    <p>Some kind of blurb goes here.</p>
+    <p class="subheader"><span class="green">ng-maps</span> is a package by <a href="http://mazamascience.com/">Mazama Science</a> made for building rich Google Maps applications with AngularJS. This directive is especially well suited for working with GIS and GeoJSON data and scales well with complexity.</p>
 
     <h2 id="features">Features</h2>
 
@@ -30,16 +49,9 @@
 
     <pre>bower install ng-maps</pre>
 
-    <p>You can also directly download the package here.</p>
+    <p>You can also directly download the package above.</p>
 
-    <div class="row">
-      <div class="col-sm-6 col-sm-offset-3">
-        <a class="download-link" href="../dist/ng-maps.js" download="ng-maps.js"><button class='btn btn-primary btn-block'>ng-maps.js (32kb)s</button></a>
-      </div>
-      <div class="col-sm-6 col-sm-offset-3">
-        <a class="download-link"  href="../dist/ng-maps.min.js" download="ng-maps.min."><button class='btn btn-primary btn-block'>ng-maps.min.js (16kb)</button></a>
-      </div>
-    </div>
+
 
     <h2 id="quickstart">Quickstart</h2>
 
@@ -62,7 +74,7 @@
 
     <map ng-transclude class="short-map"> </map>
 
-    <p>Easy! Now <a href='#examples'>visit the example page</a> to see some directives in action or browse through <a href='#documentation'>the documentaton</a> for a more in depth explanation of this package.</p>
+    <p>Easy! Now <a href='#examples'>visit the example page</a> to see some directives in action or browse through <a href='#documentation'>the documentation</a> for a more in depth explanation of this package.</p>
 <!-- 
   <div class="col-md-12 centered">
     <map ng-transclude class="short-map"> </map>

@@ -1,13 +1,14 @@
 angular.module('ngMaps')
-  .directive('polygons', ['MapObjects', function(MapObjects) {
+  .directive('polygons', [function() {
     return {
       restrict: 'E',
       scope: {
-        coords: '=',
-        options: '=',
-        properties: '=',
-        opacity: '=',
-        visible: '='
+        coords: '=',        // array TODO change this to bounds
+        options: '=',       // function() { return {} }
+        properties: '=',    // array [{}, {}]
+        opacity: '=',       // int
+        events: '=',
+        visible: '='        // boolean
       },
       require: '^map',
       link: function($scope, $element, $attrs, parent) {
@@ -22,38 +23,32 @@ angular.module('ngMaps')
           // Array of all polygons
           var polygons = [];
 
+          var properties = $scope.properties ? $scope.properties : [];
+
           // Watch options
-          $scope.$watch(function() {
-            return $scope.options;
-          }, function() {
+          $scope.$watch('options', function() {
             angular.forEach(polygons, function(p) {
-              var opts = $scope.options ? $scope.options(p, MapObjects) : {};
+              var opts = $scope.options ? $scope.options(p, properties, i, map) : {};
               opts.fillOpacity = $scope.opacity ? $scope.opacity/100 : 1;
               p.setOptions(opts);
             });
           });
 
           // Watch opacity
-          $scope.$watch(function() {
-            return $scope.opacity;
-          }, function() {
+          $scope.$watch('opacity', function() {
             angular.forEach(polygons, function(p) {
               p.setOptions({fillOpacity: $scope.opacity / 100});
             });
           });
 
-          $scope.$watch(function() {
-            return $scope.visible;
-          }, function() {
+          $scope.$watch('visible', function() {
             angular.forEach(polygons, function(p) {
               p.setVisible($scope.visible);
             });
           });
 
           // When the coords changes, make new polygons
-          $scope.$watch(function() {
-            return $scope.coords;
-          }, function() {
+          $scope.$watch('coords', function() {
             newData($scope.coords);
           });
 
@@ -69,35 +64,26 @@ angular.module('ngMaps')
 
             angular.forEach(coords, function(c, i) {
 
-              var path = [];
+              // create polygon options with set opacity
+              var opts = $scope.options ? $scope.options(c, properties, map, i) : {};
+              opts.fillOpacity = $scope.opacity ? $scope.opacity/100 : 1;
+              opts.path = [];
+              opts.map = map;
 
               // Express each coordinate pair as a google maps object
               for (var j = 0; j < c.length; j++) {
                 for (var k = 0; k < c[j].length; k++) {
-                  console.log(c[j])
-                  path.push(new google.maps.LatLng(c[j][k][0], c[j][k][1]));
+                  opts.path.push(new google.maps.LatLng(c[j][k][0], c[j][k][1]));
                 }
               }
 
               // Create a new polygon
-              var polygon = new google.maps.Polygon({
-                paths: path
-              });
+              var polygon = new google.maps.Polygon(opts);
 
               // Assign properties to polygon for some use
               if($scope.properties) {
                 polygon.properties = $scope.properties[i];
               }
-
-              // Set map
-              polygon.setMap(map);
-
-              // Create polygon options with opacity
-              var opts = $scope.options ? $scope.options(polygon, MapObjects) : {};
-              opts.fillOpacity = $scope.opacity ? $scope.opacity/100 : 1;
-
-              // Set options
-              polygon.setOptions(opts);
 
               // Helper function so multimarkers' API matches data layer
               // Do I really need this?
@@ -112,7 +98,7 @@ angular.module('ngMaps')
               // For some reason, the val function requires "this" instead of "polygon"
               angular.forEach($scope.events, function(val, key) {
                 google.maps.event.addListener(polygon, key, function(e) {
-                  val(e, this, MapObjects);
+                  val(e, this, map, polygons);
                 });
               });
 

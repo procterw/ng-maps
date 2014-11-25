@@ -18,16 +18,17 @@
     "gruntfile.js",
     "dataMap.js",
     "node_modules",
-    "bower_components"
+    "bower_components",
+    "site"
   ],
   "dependencies": {
     "angular": "~1.2.24"
   },
-  "_release": "3fd4ef4b36",
+  "_release": "a38c1155db",
   "_resolution": {
     "type": "branch",
     "branch": "master",
-    "commit": "3fd4ef4b36f5e5ce1c77886a5d7c2ae7e40a2b91"
+    "commit": "a38c1155db7b1bbfe4c49ca2ec08a2b2d85e773b"
   },
   "_source": "git://github.com/procterw/ng-maps.git",
   "_target": "*",

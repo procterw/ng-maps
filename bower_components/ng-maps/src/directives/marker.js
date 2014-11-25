@@ -1,14 +1,14 @@
 angular.module('ngMaps')
-  .directive('marker', ['MapObjects', function(MapObjects) {
+  .directive('marker', [function() {
     return {
       restrict: 'E',
       scope: {
-        options: '=',
-        events: '=',
-        position: '=',
-        lat: '=',
-        lng: '=',
-        decimals: '='
+        position: '=',    // array [lat, lng]
+        options: '=',     // function() { return {} }
+        events: '=',      // object {event:function(), event:function()}
+        lat: '=',         // float
+        lng: '=',         // float
+        decimals: '='     // Int
       },
       require: '^map',
       link: function($scope, $element, $attrs, parent) {
@@ -21,9 +21,7 @@ angular.module('ngMaps')
 
           var decimals = $scope.decimals;
 
-          var events = $scope.events ? $scope.events : {};
-
-          var options = $scope.options ? $scope.options : {};
+          var opts = $scope.options? $scope.options() : {};
 
           var round = function(val) {
             if (decimals || decimals === 0) {
@@ -41,15 +39,15 @@ angular.module('ngMaps')
             }
           };
 
-          options.position = curPosition();
-          options.map = map;
+          opts.position = curPosition();
+          opts.map = map;
 
-          var marker = new google.maps.Marker(options);
+          var marker = new google.maps.Marker(opts);
 
           // For each event, add a listener. Also provides access to the map and parent scope
-          angular.forEach(events, function(val, key) {
+          angular.forEach($scope.events, function(val, key) {
             google.maps.event.addListener(marker, key, function(e) {
-              val(e, MapObjects);
+              val(e, marker, map);
             });
           });
 
