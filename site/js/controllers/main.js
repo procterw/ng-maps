@@ -12,7 +12,7 @@ angular.module('App')
 		};
 
 		$scope.titleMap = {
-			center: [32, 3],
+			center: [50, 10],
 			options: function(){
 				return {
 					zoom: 5,

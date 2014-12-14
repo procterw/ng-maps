@@ -16,53 +16,66 @@
 
   <div class="col-md-8 col-md-offset-2 landing-page">
 
-    <div class="row">
-      <div class="col-sm-6 col-sm-offset-3">
-        <a class="download-link" href="../dist/ng-maps.js" download="ng-maps.js"><button class='btn btn-primary btn-block'>ng-maps.js (32kb)s</button></a>
-      </div>
-      <div class="col-sm-6 col-sm-offset-3">
-        <a class="download-link"  href="../dist/ng-maps.min.js" download="ng-maps.min."><button class='btn btn-primary btn-block'>ng-maps.min.js (16kb)</button></a>
-      </div>
-    </div>
+    <p><code>ng-maps</code> is package written by <a href="http://willleahy.info">Will Leahy</a> which makes it easy to write data intensive Google Maps applications.</p>
 
-    <p class="subheader"><span class="green">ng-maps</span> is a package by <a href="http://mazamascience.com/">Mazama Science</a> made for building rich Google Maps applications with AngularJS. This directive is especially well suited for working with GIS and GeoJSON data and scales well with complexity.</p>
+    <p><code>ng-maps</code> was written especially for making large amounts of GIS data interactive and customizable. It takes care of the dirty work and lets you focus purely on configuring your data’s behavior and appearance.</p>
 
-    <h2 id="features">Features</h2>
+    <p><code>ng-maps</code> is build on <a href="https://angularjs.org/">AngularJS</a>, a JavaScript framework which enhances HTML. This allows you to build your map using custom HTML tags, which makes structuring and scaling your application easy as pie.</p>
+
+    <p>This work was funded by Mazama Science and Pacific Wildland Fire Sciences Laboratory.</p>
+
+    <h3>Setup Instructions</h3>
+
+    <p>For a step-by-step guide on how to install and use <code>ng-maps</code> go to the <a href="#setup">install and setup</a>. If you're more experienced with angular look to the <a href="##quickstart">quickstart below.</a></p>
+
+
+
+    <h2 id="features">Technical Features</h2>
 
     <ul class="feature-list">
       <li>
-        <b>12 directives</b> for the most used Google Maps objects.
+        12 directives for the most used Google Maps objects.
       </li>
       <li>
-        Load as many <b>.geojson files</b> as you want on the same map. Google Maps data layer only allows for one file.
+        Load as many .geojson files as you want on the same map. Google Maps data layer only allows for one file.
       </li>
       <li>
-        Create <b>custom controls and infowindows</b> in raw HTML with whatever behavior you'd like.
+        Create custom controls and infowindows in raw HTML with whatever behavior you'd like.
       </li>
-      <li><b>Two way data binding</b> for Google Map objects. Changes to markers and editable rectangles update your model accordingly.
+      <li>
+        Two way data binding for Google Map objects. Changes to markers and editable rectangles update your model accordingly.
       </li>
     </ul>
 
+    
+
     <h2 id="install">Install</h2>
 
-    <p>To install with <a href="http://bower.io/">Bower</a> cd to your directory and enter the following:</p>
+    <p>To install with <a href="http://bower.io/">Bower</a> go to your directory in terminal and enter the following:</p>
 
     <pre>bower install ng-maps</pre>
 
-    <p>You can also directly download the package above.</p>
+    <p>You can also directly download the package</p>
+
+    <div class="row">
+      <div class="col-sm-3">
+        <a class="download-link" href="bower_components/ng-maps/dist/ng-maps.js" download="ng-maps.js"><button class='btn btn-primary btn-block'>ng-maps.js (32kb)s</button></a>
+        <a class="download-link"  href="bower_components/ng-maps/dist/ng-maps.min.js" download="ng-maps.min."><button class='btn btn-primary btn-block'>ng-maps.min.js (16kb)</button></a>
+      </div>
+    </div>
 
 
 
     <h2 id="quickstart">Quickstart</h2>
 
-    <p>All you need to get started is Google Maps, AngularJS, and ng-maps. Link to all of those three in your HTML in that order.</p>
+    <p>All you need to get started is Google Maps, AngularJS, and <code>ng-maps</code>. Link to all of those three in your HTML in that order.</p>
 
     <pre>
 &lt;script src='//maps.googleapis.com/maps/api/js'&gt;&lt;/script&gt;
 &lt;script src=&quot;//ajax.googleapis.com/ajax/libs/angularjs/1.3.3/angular.min.js&quot;&gt;&lt;/script&gt;
 &lt;script src=&quot;bower_components/ng-maps/dist/ng-maps.js&quot;&gt;&lt;/script&gt;</pre>
 
-    <p> Next, include ng-naps in your AngularJS app and you're set to jet.</p>
+    <p> Next, include <code>ng-maps</code> in your AngularJS app and you're set to jet.</p>
 
     <pre>var app = angular.module('App', ['ngMaps'])</pre>
 
@@ -70,11 +83,11 @@
 
     <pre>&lt;map ng-transclude class=&quot;short-map&quot;&gt; &lt;/map&gt;</pre>
 
-    <p><b>Important:</b> give your map a class with a height property in pixels or percentage. Because of how Google Maps is, each parent div needs a height if you choose to use a percentage height.</p>
+    <p class="important">Give your map a class with a height property in pixels or percentage. Because of how Google Maps is, each parent div needs a height if you choose to use a percentage height.</p>
 
     <map ng-transclude class="short-map"> </map>
 
-    <p>Easy! Now <a href='#examples'>visit the example page</a> to see some directives in action or browse through <a href='#documentation'>the documentation</a> for a more in depth explanation of this package.</p>
+    <p>Now <a href='#examples'>visit the example page</a> to see some directives in action or browse through <a href='#documentation'>the documentation</a> for a more in depth explanation of this package.</p>
 <!-- 
   <div class="col-md-12 centered">
     <map ng-transclude class="short-map"> </map>

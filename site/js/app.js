@@ -9,6 +9,9 @@ var app = angular.module('App', ['ngRoute', 'ngAnimate', 'ngMaps'])
     when('/', {
         templateUrl: 'templates/main.html'
     }).
+    when('/setup', {
+        templateUrl: 'templates/setup.html'
+    }).
     when('/examples', {
         templateUrl: 'templates/examples.html'
     }).

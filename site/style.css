@@ -8,6 +8,12 @@ h1, h2, h3, h4, h5 {
   font-weight: 600;
 }
 
+code {
+  color: #4DAF7C;
+  background-color: rgb(240,240,240);
+  font-size: 0.8em;
+}
+
 .logo {
   height: 50px;
   padding: 7px;
@@ -63,6 +69,10 @@ h1, h2, h3, h4, h5 {
   padding: 29px;
 }
 
+.navbar-default .navbar-nav > li > a:visited {
+  color: white;;
+}
+
 .navbar-default .navbar-nav > li > a:hover {
   color: white;
   background-color: #43896E;
@@ -74,6 +84,11 @@ h1, h2, h3, h4, h5 {
 
 .landing-page {
   font-size: 1.2em;
+}
+
+.important {
+  border-left: 5px solid #e74c3c;
+  padding-left: 10px;
 }
 
 .landing-page h1 {
@@ -108,12 +123,19 @@ h1, h2, h3, h4, h5 {
   margin-top: 2em;
 }
 
-.landing-page p, .landing-page pre {
+.landing-page p {
+  margin-top: 25px;
+}
+
+.landing-page pre {
+  overflow: auto;
+  word-wrap: normal;
+  white-space: pre;
   margin-top: 25px;
 }
 
 .feature-list {
-  list-style: none;
+  list-style-type: square;
   padding: 0;
 }
 
@@ -184,7 +206,8 @@ h1, h2, h3, h4, h5 {
 
 .btn-primary {
   background-color: #4DAF7C;
-  border: 1px solid #43896E;
+  border: none;
+  border-bottom: 3px solid #43896E;
   margin: 5px;
 }
 

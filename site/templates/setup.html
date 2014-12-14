@@ -1,0 +1,178 @@
+<div class="row">
+
+  <div class="col-md-8 col-md-offset-2 landing-page">
+
+    <h2>Install and Setup</h2>
+
+    <p>This tutorial will guide you through installing <code>ng-maps</code> and setting up a simple example. Some familiarity with AngularJS is helpful but not required.</p>
+
+    <p><code>ng-maps</code> consists only of one JS file which can be downloaded <a href="bower_components/ng-maps/dist/ng-maps.js" download="ng-maps.js">here</a>. It can also be installed using Bower with the following command:</p>
+
+    <pre>bower install ng-maps</pre>
+
+    <p>Installing with Bower will give you the JS and minified JS files as well as the source code if you’re interesting in helping with development.</p>
+
+    <p>Now that you have the file here is the bare minimum HTML to get you started:</p>
+
+    <pre>&lt;!DOCTYPE html&gt;
+&lt;html ng-app='App'&gt;
+
+&lt;head&gt;
+  &lt;style type='text/css'&gt;
+    body, html { height: 100%; margin: 0;}
+    .google-map {  height: 100%; }
+  &lt;/style&gt;
+  &lt;script src='//maps.googleapis.com/maps/api/js'&gt;&lt;/script&gt;
+  &lt;script src='//ajax.googleapis.com/ajax/libs/angularjs/1.3.3/angular.min.js'&gt;&lt;/script&gt;
+  &lt;script src='ng-maps.js'&gt;&lt;/script&gt;
+  &lt;script&gt;
+    angular.module('App', ['ngMaps'])
+  &lt;/script&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+  &lt;map ng-transclude class='google-map'&gt; &lt;/map&gt;
+&lt;/body&gt;
+
+&lt;/html&gt;</pre>
+
+  <p>Open up your browser and you should see a map! Let’s go through that HTML file one line at a time and see what’s going on.</p>
+
+  <p>First inside the head, we have a <code>&lt;style&gt;</code> tag. For the map to show up it needs a CSS class which defines it’s height. That height could be 100%, 50%, 200px, 20em… anything, otherwise the map won’t show up because it’s height will be 0.</p>
+
+  <p><b>Note:</b> If you set the height to a percentage, make sure each of it’s parent elements also have 100% height. That’s why we also give the <code>&lt;body&gt;</code> and <code>&lt;html&gt;</code> tags heights of 100%.</p>
+
+  <p>Next we have four <code>&lt;script&gt;</code> tags. The first two are Google Maps and AngularJS, the two JavaScript files required for <code>ng-maps</code> to run. </p>
+
+  <p>The third <code>&lt;script&gt;</code> tag is a link to <code>ng-maps</code> itself. The fourth <code>&lt;script&gt;</code> tag contains a line of JS code we need to get started. To use AngularJS we have to define a module with the <code>angular.module()</code> function. It takes two arguments, <code>'App'</code>, and <code>['ngMaps']</code>. The first argument is the name of our app, in this case simply <code>'App'</code>. The second argument is an array of modules our app depends on, in this case just <code>'ngMaps'</code>.</p>
+
+  <p>Note how the second line of our HTML has <code>ng-app='App'</code> as an attribute. This is added to where we want our app to live. In this case since it's in the HTML tag, everything in this document will be within the scope of our app.</p>
+
+  <p>All that's left is to add our map, which we do in the <code>&lt;body&gt</code>; using the <code>&lt;map&gt;</code> tag. Obviously <code>&lt;map&gt;</code> isn't a standard HTML tag, but because we are inside of our app's scope and added <code>ng-maps</code> as a dependency AngularJS will know what we mean and add a map there.</p>
+
+  <pre>&lt;map class='google-map'&gt; &lt;/map&gt;</pre>
+
+  <p>This will give us a blank map. If we wanted to add some markers or other objects to the map we would include those inside of the <code>&lt;map&gt;</code> tags. Note that we also assigned the map that class we created so it will have a height.</p>
+
+  <h2>Adding a Marker</h2>
+
+  <p>Now we have a map, but that isn’t very interesting. Let’s add a marker to the map and have it tell us its position when we click on it.</p>
+
+  <p>The general pattern of <code>ng-maps</code> involves defining your map with JS objects. In this case we’ll have a map object and a marker object which we will pass as HTML attributes. 
+
+  <p>To start we’ll add a <i>controller</i> to our app. A controller is what links our JS to our HTML. Our JS now looks like this:</p>
+
+  <pre>angular.module('App', ['ngMaps'])
+  .controller('Main', function($scope) { 
+});</pre>
+
+  <p>The controller takes two arguments: it's name and a function. Note how the function takes <code>$scope</code> as an argument. <code>$scope</code> is the object which links our JS to the HTML by adding our own properties to it. For example, if you declare that <code>$scope.number = 5</code> then anytime you reference “number” in the HTML you’ll get the number 5.</p>
+
+  <p>Now add this to the <code>&lt;body&gt;</code> tag:</p>
+
+  <pre>&lt;body ng-controller='Main'&gt;</pre>
+
+  <p>Like when we defined our app, everything inside the body tag is now in the scope of our controller, which means anything we put in that controller we can access within the &lt;body&gt; tag. We could just as easily put the controller in a <code>&lt;div&gt;</code> or <code>&lt;span&gt;</code> tag. </p>
+
+  <p>Inside of our controller, lets define our map and marker. Maybe you’re a big fan of New York City so you want to center the map and marker there.</p>
+
+  <pre>.controller('Main', function($scope) {
+  $scope.map = {
+    center: [40.7, -74]
+  }
+  $scope.marker = {
+    position: [40.7, -74]
+  }
+});</pre>
+
+  <p>Great! Now if you refresh the page, you’ll see that nothing has changed. This is because we still need to add this to the HTML, which is done as follows:</p>
+
+<pre>&lt;map ng-transclude class='google-map' center='map.center'&gt; 
+  &lt;marker position='marker.position'&gt;&lt;/marker&gt;
+&lt;/map&gt;</pre>
+
+  <p>A few small things  have changed. We added center=”map.center” inside the map tag. The map.center it’s refering to is the <code>$scope.map</code> we just defined. Similarly, we added a <code>&lt;marker&gt;</code> tag inside of the map and gave it <code>position="marker.position"</code>. Hopefully you’re picking up on the pattern here.</p>
+
+  <p>We also add <code>ng-transclude</code> inside the map tag. This is just a fancy way of saying “allow there to be more elements inside of this”, so don’t forget it!</p>
+
+  <p>Now if you refresh the page there will be a marker over New York. But that isn’t quite what we want. We need to be able to drag the marker around and attach a click event to it.</p>
+
+  <p>Remember that <code>ng-maps</code> is based entirely on the Google Maps API, it just organizes it. We’re adding an option and an event to the marker, and I take that very literally.</p>
+
+<pre>$scope.marker = {
+  position: [40.7, -74],
+  options: function(){
+    return {
+  draggable: true
+    }
+  },
+  events: {
+    click: function(e) {
+      alert(e.latLng)
+    }
+  }
+}</pre>
+
+  <p>Above is the syntax for options and events, and it’s the same for everything in <code>ng-maps</code>. In options, we return an object which defines options and their values (refer to the <a href="https://developers.google.com/maps/documentation/javascript/reference">Google Maps API</a> for a list of these for each type of map object). Events contains pairs of event names (again, refer to the <a href="https://developers.google.com/maps/documentation/javascript/reference">Google Maps API</a> for a full list of these) and a reference to that event. In this case, <code>e</code> is a click event which has a property <code>latLng</code>. All we have to do is throw that in an <code>alert()</code> and we’re off to the races!</p>
+
+  <p>Well, almost. We added options and events in the JS, now just add those to the &lt;marker&gt; tag like so:</p>
+
+<pre>&lt;marker position="marker.position" options="marker.options" events="marker.events"&gt;&lt;/marker&gt;</pre>
+
+  <p>Reload and everything should work now. Below is a full example you can copy and paste.</p>
+
+<pre>
+&lt;!DOCTYPE html&gt;
+&lt;html ng-app='App'&gt;
+
+&lt;head&gt;
+  &lt;style type='text/css'&gt;
+   body, html { height: 100%; margin: 0;}
+   .google-map { height: 100%; }
+  &lt;/style&gt;
+  &lt;script src='//maps.googleapis.com/maps/api/js'&gt;&lt;/script&gt;
+  &lt;script src='//ajax.googleapis.com/ajax/libs/angularjs/1.3.3/angular.min.js'&gt;&lt;/script&gt;
+  &lt;script src='ng-maps.js'&gt;&lt;/script&gt;
+  &lt;script&gt;
+    angular.module('App', ['ngMaps'])
+
+    .controller('Main', function($scope) {
+
+      $scope.map = {
+        center: [40.7, -74]
+      }
+
+      $scope.marker = {
+        position: [40.7, -74],
+        options: function(){
+          return {
+            draggable: true
+          }
+        },
+        events: {
+          click: function(e) {
+            alert(e.latLng)
+          }
+        }
+      }
+
+    });
+  &lt;/script&gt;
+&lt;/head&gt;
+
+&lt;body ng-controller=&quot;Main&quot;&gt;
+  &lt;map ng-transclude class='google-map' center=&quot;map.center&quot;&gt; 
+    &lt;marker position=&quot;marker.position&quot; options=&quot;marker.options&quot; events=&quot;marker.events&quot;&gt;&lt;/marker&gt;
+  &lt;/map&gt;
+&lt;/body&gt;
+
+&lt;/html&gt;
+</pre>
+
+<p>What next? To see what directives are available and how to use them, head to the <a href="#examples">examples page</a>. If you’re feeling technical, check out the <a href="#documentation">documentation</a> for full reference API.</p>
+
+
+
+  </div>
+
+</div>
