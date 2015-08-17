@@ -465,6 +465,7 @@ angular.module('ngMaps')
       restrict: 'E',
       scope: {
         url: '=',
+        events: '=',
         visible: '='
       },
       require: '^map',
@@ -502,6 +503,14 @@ angular.module('ngMaps')
 
           var kml = new_kml();
 
+          // For each event, add a listener. Also provides access to the kml
+          // and map, in case the listener needs to access them
+          angular.forEach($scope.events, function(val, key) {
+            google.maps.event.addListener(kml, key, function(e) {
+              val(e, kml, map);
+            });
+          });
+
           $scope.$watch('url + bounds', function() {
             kml = new_kml();
           });
@@ -516,7 +525,8 @@ angular.module('ngMaps')
         });
       }
     };
-  }]);;angular.module('ngMaps')
+  }]);
+;angular.module('ngMaps')
   .directive('map', [function() {
     return {
       restrict: 'AE',
