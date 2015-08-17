@@ -1,0 +1,38 @@
+<div ng-controller="kml">
+  <div class="row">
+    <div class="col-sm-12">
+      <div map ng-transclude class="google-map" center="map.center" zoom="map.zoom" options="map.options">
+        <kml url="kml.url" visible="kml.visible"></kml>
+      </div>
+    <div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+      <h3> JavaScript </h3>
+<pre>$scope.map = {
+  center: [39, -100],
+  options: function() {
+      return {
+        zoom: 4,
+        streetViewControl: false,
+        scrollwheel: false
+      }
+  }
+};
+
+$scope.monitors_kml = {
+  url: "http://www.epa.gov/airnow/today/airnow_conditions.kml",
+  visible: true
+}</pre>
+
+    <h3> HTML </h3>
+
+<pre>
+&lt;map ng-transclude class=&quot;google-map&quot; center=&quot;map.center&quot; zoom=&quot;map.zoom&quot; options=&quot;map.options&quot;&gt;
+
+  &lt;kml url=&quot;kml.url&quot; bounds=&quot;kml.bounds&quot;&gt;&lt;/kml&gt;
+
+&lt;/map&gt;
+</pre>
+    </div>
+</div>
