@@ -16,24 +16,39 @@ angular.module('ngMaps')
 
           var map = parent.getMap();
 
-          var kml = new google.maps.KmlLayer({
-              url: $scope.url,
-              map: map
-          });
+          var delete_kml = function() {
+            if (kml) {
+              kml.setMap(null);
+              kml = null;
+            }
+          };
 
-          // For each event, add a listener. Also provides access to the kml
-          // and map, in case the listener needs to access them
-          angular.forEach($scope.events, function(val, key) {
-            google.maps.event.addListener(kml, key, function(e) {
-              val(e, kml, map);
+          var new_kml = function() {
+            delete_kml();
+
+            var kml = new google.maps.KmlLayer({
+                url: $scope.url,
+                map: map
             });
-          });
 
-          if ($scope.visible !== false) {
-            kml.setMap(map);
-          } else {
-            kml.setMap(null);
-          }
+            // For each event, add a listener. Also provides access to the kml
+            // and map, in case the listener needs to access them
+            angular.forEach($scope.events, function(val, key) {
+              google.maps.event.addListener(kml, key, function(e) {
+                val(e, kml, map);
+              });
+            });
+
+            if ($scope.visible !== false) {
+              kml.setMap(map);
+            } else {
+              kml.setMap(null);
+            }
+
+            return kml;
+          };
+
+          var kml = new_kml();
 
           $scope.$watch('visible', function() {
             if ($scope.visible !== false) {
