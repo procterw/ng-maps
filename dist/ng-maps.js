@@ -511,6 +511,10 @@ angular.module('ngMaps')
 
           var kml = new_kml();
 
+          $scope.$watch('url', function() {
+            kml = new_kml();
+          });
+
           $scope.$watch('visible', function() {
             if ($scope.visible !== false) {
               kml.setMap(map);
