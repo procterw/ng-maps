@@ -5,7 +5,8 @@ angular.module('ngMaps')
       scope: {
         url: '=',
         events: '=',
-        visible: '='
+        visible: '=',
+        options: '='
       },
       require: '^map',
       link: function($scope, $element, $attrs, parent) {
@@ -26,10 +27,15 @@ angular.module('ngMaps')
           var new_kml = function() {
             delete_kml();
 
-            var kml = new google.maps.KmlLayer({
+            var layer_options = {
                 url: $scope.url,
                 map: map
-            });
+            }
+            for (var attr in $scope.options){
+              layer_options[attr] = $scope.options[attr]
+            }
+
+            var kml = new google.maps.KmlLayer(layer_options);
 
             // For each event, add a listener. Also provides access to the kml
             // and map, in case the listener needs to access them
