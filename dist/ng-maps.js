@@ -466,7 +466,8 @@ angular.module('ngMaps')
       scope: {
         url: '=',
         events: '=',
-        visible: '='
+        visible: '=',
+        options: '='
       },
       require: '^map',
       link: function($scope, $element, $attrs, parent) {
@@ -487,9 +488,22 @@ angular.module('ngMaps')
           var new_kml = function() {
             delete_kml();
 
-            var kml = new google.maps.KmlLayer({
+            var layer_options = {
                 url: $scope.url,
                 map: map
+            }
+            for (var attr in $scope.options){
+              layer_options[attr] = $scope.options[attr]
+            }
+
+            var kml = new google.maps.KmlLayer(layer_options);
+
+            // For each event, add a listener. Also provides access to the kml
+            // and map, in case the listener needs to access them
+            angular.forEach($scope.events, function(val, key) {
+              google.maps.event.addListener(kml, key, function(e) {
+                val(e, kml, map);
+              });
             });
 
             if ($scope.visible !== false) {
@@ -503,15 +517,7 @@ angular.module('ngMaps')
 
           var kml = new_kml();
 
-          // For each event, add a listener. Also provides access to the kml
-          // and map, in case the listener needs to access them
-          angular.forEach($scope.events, function(val, key) {
-            google.maps.event.addListener(kml, key, function(e) {
-              val(e, kml, map);
-            });
-          });
-
-          $scope.$watch('url + bounds', function() {
+          $scope.$watch('url', function() {
             kml = new_kml();
           });
 
