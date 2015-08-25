@@ -130,11 +130,6 @@ angular.module('ngMaps')
 
             var controlList = map.controls[google.maps.ControlPosition[position]];
 
-            // console.log(position);
-            // console.log(map.controls);
-            // console.log(google.maps.ControlPosition[position]);
-            // console.log(controlList.j);
-
             if (controlList.length > 0) map.controls[google.maps.ControlPosition[position]].pop();
             if ($scope.visible !== false) { controlDiv.innerHTML = content }
             map.controls[google.maps.ControlPosition[position]].push(compiled[0]);
@@ -153,6 +148,7 @@ angular.module('ngMaps')
         events: '=',      // object {event:function(), event:function()}
         visible: '=',     // boolean
         options: '=',     // function() { return {} }
+        onInit: '='       // function()
       },
       require: '^map',
       link: function($scope, $element, $attrs, parent) {
@@ -236,6 +232,8 @@ angular.module('ngMaps')
 
               });
 
+              if ($scope.onInit) $scope.onInit(markers);
+
             });
 
           };
@@ -252,7 +250,8 @@ angular.module('ngMaps')
         events: '=',  // object {event:function(), event:function()}
         options: '=', // function() { return {} }
         visible: '=', // boolean
-        opacity: '='  // int <= 100
+        opacity: '=', // int 0 -> 100
+        onInit: '='   // function()
       },
       require: '^map',
       link: function($scope, $element, $attrs, parent) {
@@ -404,11 +403,14 @@ angular.module('ngMaps')
                   
               });
 
+              // Fire onInit function now that data is loaded
+              if ($scope.onInit) $scope.onInit(polygons);
+
             });
 
           };
 
-
+          
 
         });
       }

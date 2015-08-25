@@ -7,6 +7,7 @@ angular.module('ngMaps')
         events: '=',      // object {event:function(), event:function()}
         visible: '=',     // boolean
         options: '=',     // function() { return {} }
+        onInit: '='       // function()
       },
       require: '^map',
       link: function($scope, $element, $attrs, parent) {
@@ -89,6 +90,8 @@ angular.module('ngMaps')
                 });
 
               });
+
+              if ($scope.onInit) $scope.onInit(markers);
 
             });
 

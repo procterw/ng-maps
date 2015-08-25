@@ -7,7 +7,8 @@ angular.module('ngMaps')
         events: '=',  // object {event:function(), event:function()}
         options: '=', // function() { return {} }
         visible: '=', // boolean
-        opacity: '='  // int <= 100
+        opacity: '=', // int 0 -> 100
+        onInit: '='   // function()
       },
       require: '^map',
       link: function($scope, $element, $attrs, parent) {
@@ -159,11 +160,14 @@ angular.module('ngMaps')
                   
               });
 
+              // Fire onInit function now that data is loaded
+              if ($scope.onInit) $scope.onInit(polygons);
+
             });
 
           };
 
-
+          
 
         });
       }

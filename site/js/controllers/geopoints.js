@@ -26,6 +26,9 @@ angular.module('App')
         var name = marker.getProperty("siteName");
         alert(lat + " " + lng + " " + name);
       }
+    },
+    onInit: function(markers) {
+      console.log(markers);
     }
   }
 

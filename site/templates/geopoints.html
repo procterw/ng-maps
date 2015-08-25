@@ -5,7 +5,7 @@
     <div class="col-sm-12">
       <map ng-transclude class="google-map" center="map.center" options="map.options"> 
 
-        <geopoints url="stations.url" options="stations.options" events="stations.events"></geopoints>
+        <geopoints url="stations.url" options="stations.options" events="stations.events" on-init="stations.onInit"></geopoints>
 
       </map>
     <div>

@@ -40,6 +40,9 @@ angular.module('App')
           fillOpacity: opacity
         })
       }
+    },
+    onInit: function(polygons) {
+      console.log(polygons);
     }
 	}
 
