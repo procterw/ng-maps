@@ -157,6 +157,11 @@
         <td>boolean</td>
         <td>If false, all objects will be hidden from the map.</td>
       </tr>
+      <tr>
+        <td>onInit</td>
+        <td>function</td>
+        <td>See documentation for <a href="#documentation#onInit">onInit</a>.</td>
+      </tr>
     </tbody>
   </table>
 
@@ -241,6 +246,11 @@
         <td>visible</td>
         <td>boolean</td>
         <td>If false, all objects will be hidden from the map.</td>
+      </tr>
+      <tr>
+        <td>onInit</td>
+        <td>function</td>
+        <td>See documentation for <a href="#documentation#onInit">onInit</a>.</td>
       </tr>
     </tbody>
   </table>
@@ -433,6 +443,16 @@
     </thead>
     <tbody>
       <tr>
+        <td>events</td>
+        <td>object</td>
+        <td>See documentation for <a href="#documentation#events"> events </a>. Available events can be found on the <a href="https://developers.google.com/maps/documentation/javascript/3.exp/reference#KmlMouseEvent">Google Maps API.</a></td>
+      </tr>
+      <tr>
+        <td>options</td>
+        <td>function</td>
+        <td>See documentation for <a href="#documentation#options"> options </a>. Available options can be found on the <a href="https://developers.google.com/maps/documentation/javascript/3.exp/reference#KmlLayerOptions">Google Maps API.</a></td>
+      </tr>
+      <tr>
         <td>url</td>
         <td>string</td>
         <td>A string which contains the path to the kml file.</td>
@@ -473,7 +493,7 @@
 
 
   <h3>infowindow</h3>
-  <p>Creates a single instances of the <a href="https://developers.google.com/maps/documentation/javascript/reference#InfoWindow"> google.maps.Indowindow class.</a></p>
+  <p>Creates a single instances of the <a href="https://developers.google.com/maps/documentation/javascript/reference#InfoWindow"> google.maps.InfoWindow class.</a></p>
   <table class="table table-bordered">
     <thead>
       <th>Property</th>
@@ -545,6 +565,21 @@ $scope.marker = {
     }
   }
 }</pre>
+
+<h1 id="onInit"> onInit </h1>
+<p><code>onInit</code> functions are designed to give the user access to the GeoJSON dataset outside of the scope of the map. Define <code>onInit</code> as a function with the only argument being the GeoJSON dataset.</p>
+<pre>
+$scope.geopolygons = {
+  onInit: function(polygons) {
+    // some action here
+  }
+}
+
+$scope.geopoints = {
+  onInit: function(points) {
+    // some action here
+  }
+}
 
 </div>
 
