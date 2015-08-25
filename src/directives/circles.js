@@ -54,7 +54,7 @@ angular.module('ngMaps')
           });
 
           // Make a new collection of circles
-          var newData = function() {
+          function newData() {
 
             // Remove each object from map
             angular.forEach(circles, function(c){

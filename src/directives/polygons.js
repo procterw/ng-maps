@@ -52,7 +52,7 @@ angular.module('ngMaps')
             newData($scope.coords);
           });
 
-          var newData = function(coords) {
+          function newData(coords) {
 
             // Remove each existing polygon from the map
             angular.forEach(polygons, function(p) {

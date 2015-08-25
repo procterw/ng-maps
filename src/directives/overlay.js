@@ -26,7 +26,7 @@ angular.module('ngMaps')
             return n === +n && n !== (n || 0);
           }
 
-          var parseOpacity = function() {
+          function parseOpacity() {
             if (isFloat($scope.opacity)) {
               return $scope.opacity;
             } else {
@@ -34,14 +34,14 @@ angular.module('ngMaps')
             }
           };
 
-          var deleteOverlay = function() {
+          function deleteOverlay() {
             if (overlay) {
               overlay.setMap(null);
               overlay = null;
             }
           };
 
-          var newOverlay = function() {
+          function newOverlay() {
 
             // Remove previous overlay
             deleteOverlay();

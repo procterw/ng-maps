@@ -23,7 +23,7 @@ angular.module('ngMaps')
 
           var opts = $scope.options? $scope.options() : {};
 
-          var round = function(val) {
+          function round(val) {
             if (decimals || decimals === 0) {
               return Math.round(Math.pow(10, decimals) * val) / Math.pow(10, decimals);
             } else {
@@ -31,7 +31,7 @@ angular.module('ngMaps')
             }
           };
 
-          var curPosition = function() {
+          function currentPosition() {
             if ($scope.position) {
               return new google.maps.LatLng($scope.position[0], $scope.position[1]);
             } else if ($scope.lat && $scope.lng) {
@@ -39,7 +39,7 @@ angular.module('ngMaps')
             }
           };
 
-          opts.position = curPosition();
+          opts.position = currentPosition();
           opts.map = map;
 
           var marker = new google.maps.Marker(opts);
@@ -53,7 +53,7 @@ angular.module('ngMaps')
 
           // Watch for changes in position and move marker when they happen
           $scope.$watch('[position, lat, lng]', function() {
-            marker.setPosition(curPosition());
+            marker.setPosition(currentPosition());
           }, true);
 
           // When the marker is dragged, update the scope with its new position

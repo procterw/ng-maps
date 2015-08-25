@@ -43,7 +43,7 @@ angular.module('ngMaps')
             newData($scope.url);
           });
 
-          var newData = function(url) {
+          function newData(url) {
 
             // AJAX request to get GeoJSON
             // The goal is to create an object that mimics a Google Map Data Layer

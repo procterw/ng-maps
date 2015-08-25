@@ -32,6 +32,10 @@ angular.module('ngMaps')
           options.zoom = 6; // default
         }
 
+        $scope.$watch("center", function(center) {
+          if (center) map.panTo(new google.maps.LatLng(center[0], center[1]));
+        });
+
         // Create div for the map to be drawn in which inherits the parent classes
         var t1 = document.createElement('div');
         t1.className = attrs.class;

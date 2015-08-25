@@ -23,7 +23,7 @@ angular.module('ngMaps')
 
           var properties = $scope.properties ? $scope.properties : [];
 
-          var round = function(val) {
+          function round(val) {
             if ($scope.decimals || $scope.decimals === 0) {
               return Math.round(Math.pow(10, $scope.decimals) * val) / Math.pow(10, $scope.decimals);
             } else {
@@ -47,7 +47,7 @@ angular.module('ngMaps')
             });
           });
 
-          var newCoords = function(coords) {
+          function newCoords(coords) {
 
             angular.forEach(points, function(p) {
               p.setMap(null);

@@ -22,6 +22,14 @@ angular.module('App')
 			}
 		};
 
+		var lng = 10;
+		setInterval(function() {
+			lng = lng + 40;
+			if (lng > 180) lng = lng - 360;
+			$scope.titleMap.center = [50,lng];
+			$scope.$apply();
+		}, 1500);
+
 		$scope.options = [
 			"map",
 			"marker",

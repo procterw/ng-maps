@@ -27,7 +27,7 @@ angular.module('ngMaps')
 
           var decimals = $scope.decimals;
 
-          var round = function(val) {
+          function round(val) {
             if (decimals || decimals === 0) {
               return Math.round(Math.pow(10, decimals) * val) / Math.pow(10, decimals);
             } else {

@@ -17,14 +17,14 @@ angular.module('ngMaps')
 
           var map = parent.getMap();
 
-          var delete_kml = function() {
+          function delete_kml() {
             if (kml) {
               kml.setMap(null);
               kml = null;
             }
           };
 
-          var new_kml = function() {
+          function new_kml() {
             delete_kml();
 
             var options = $scope.options? $scope.options() : {};

@@ -36,7 +36,7 @@ angular.module('ngMaps')
           });
         });
 
-        var newData = function(coords) {
+        function newData(coords) {
 
           angular.forEach(lines, function(l) {
             l.setMap(null);

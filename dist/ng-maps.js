@@ -54,7 +54,7 @@ angular.module('ngMaps', []);;angular.module('ngMaps')
           });
 
           // Make a new collection of circles
-          var newData = function() {
+          function newData() {
 
             // Remove each object from map
             angular.forEach(circles, function(c){
@@ -128,7 +128,14 @@ angular.module('ngMaps')
 
             var controlDiv = document.createElement('div');
 
-            map.controls[google.maps.ControlPosition[position]].pop();
+            var controlList = map.controls[google.maps.ControlPosition[position]];
+
+            // console.log(position);
+            // console.log(map.controls);
+            // console.log(google.maps.ControlPosition[position]);
+            // console.log(controlList.j);
+
+            if (controlList.length > 0) map.controls[google.maps.ControlPosition[position]].pop();
             if ($scope.visible !== false) { controlDiv.innerHTML = content }
             map.controls[google.maps.ControlPosition[position]].push(compiled[0]);
 
@@ -182,7 +189,7 @@ angular.module('ngMaps')
             newData($scope.url);
           });
 
-          var newData = function(url) {
+          function newData(url) {
 
             // AJAX request to get GeoJSON
             // The goal is to create an object that mimics a Google Map Data Layer
@@ -367,7 +374,7 @@ angular.module('ngMaps')
           };
  
 
-          var newData = function(url) {
+          function newData(url) {
 
             // Fetch the data
             $http.get(url).success(function(data) {
@@ -478,14 +485,14 @@ angular.module('ngMaps')
 
           var map = parent.getMap();
 
-          var delete_kml = function() {
+          function delete_kml() {
             if (kml) {
               kml.setMap(null);
               kml = null;
             }
           };
 
-          var new_kml = function() {
+          function new_kml() {
             delete_kml();
 
             var options = $scope.options? $scope.options() : {};
@@ -562,6 +569,10 @@ angular.module('ngMaps')
           options.zoom = 6; // default
         }
 
+        $scope.$watch("center", function(center) {
+          if (center) map.panTo(new google.maps.LatLng(center[0], center[1]));
+        });
+
         // Create div for the map to be drawn in which inherits the parent classes
         var t1 = document.createElement('div');
         t1.className = attrs.class;
@@ -606,7 +617,7 @@ angular.module('ngMaps')
 
           var opts = $scope.options? $scope.options() : {};
 
-          var round = function(val) {
+          function round(val) {
             if (decimals || decimals === 0) {
               return Math.round(Math.pow(10, decimals) * val) / Math.pow(10, decimals);
             } else {
@@ -614,7 +625,7 @@ angular.module('ngMaps')
             }
           };
 
-          var curPosition = function() {
+          function currentPosition() {
             if ($scope.position) {
               return new google.maps.LatLng($scope.position[0], $scope.position[1]);
             } else if ($scope.lat && $scope.lng) {
@@ -622,7 +633,7 @@ angular.module('ngMaps')
             }
           };
 
-          opts.position = curPosition();
+          opts.position = currentPosition();
           opts.map = map;
 
           var marker = new google.maps.Marker(opts);
@@ -636,7 +647,7 @@ angular.module('ngMaps')
 
           // Watch for changes in position and move marker when they happen
           $scope.$watch('[position, lat, lng]', function() {
-            marker.setPosition(curPosition());
+            marker.setPosition(currentPosition());
           }, true);
 
           // When the marker is dragged, update the scope with its new position
@@ -684,7 +695,7 @@ angular.module('ngMaps')
             return n === +n && n !== (n || 0);
           }
 
-          var parseOpacity = function() {
+          function parseOpacity() {
             if (isFloat($scope.opacity)) {
               return $scope.opacity;
             } else {
@@ -692,14 +703,14 @@ angular.module('ngMaps')
             }
           };
 
-          var deleteOverlay = function() {
+          function deleteOverlay() {
             if (overlay) {
               overlay.setMap(null);
               overlay = null;
             }
           };
 
-          var newOverlay = function() {
+          function newOverlay() {
 
             // Remove previous overlay
             deleteOverlay();
@@ -781,7 +792,7 @@ angular.module('ngMaps')
 
           var properties = $scope.properties ? $scope.properties : [];
 
-          var round = function(val) {
+          function round(val) {
             if ($scope.decimals || $scope.decimals === 0) {
               return Math.round(Math.pow(10, $scope.decimals) * val) / Math.pow(10, $scope.decimals);
             } else {
@@ -805,7 +816,7 @@ angular.module('ngMaps')
             });
           });
 
-          var newCoords = function(coords) {
+          function newCoords(coords) {
 
             angular.forEach(points, function(p) {
               p.setMap(null);
@@ -900,7 +911,7 @@ angular.module('ngMaps')
             newData($scope.coords);
           });
 
-          var newData = function(coords) {
+          function newData(coords) {
 
             // Remove each existing polygon from the map
             angular.forEach(polygons, function(p) {
@@ -997,7 +1008,7 @@ angular.module('ngMaps')
           });
         });
 
-        var newData = function(coords) {
+        function newData(coords) {
 
           angular.forEach(lines, function(l) {
             l.setMap(null);
@@ -1066,7 +1077,7 @@ angular.module('ngMaps')
 
           var decimals = $scope.decimals;
 
-          var round = function(val) {
+          function round(val) {
             if (decimals || decimals === 0) {
               return Math.round(Math.pow(10, decimals) * val) / Math.pow(10, decimals);
             } else {

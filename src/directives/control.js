@@ -34,7 +34,9 @@ angular.module('ngMaps')
 
             var controlDiv = document.createElement('div');
 
-            map.controls[google.maps.ControlPosition[position]].pop();
+            var controlList = map.controls[google.maps.ControlPosition[position]];
+
+            if (controlList.length > 0) map.controls[google.maps.ControlPosition[position]].pop();
             if ($scope.visible !== false) { controlDiv.innerHTML = content }
             map.controls[google.maps.ControlPosition[position]].push(compiled[0]);
 

@@ -129,7 +129,7 @@ angular.module('ngMaps')
           };
  
 
-          var newData = function(url) {
+          function newData(url) {
 
             // Fetch the data
             $http.get(url).success(function(data) {
