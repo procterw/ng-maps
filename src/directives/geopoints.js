@@ -48,7 +48,8 @@ angular.module('ngMaps')
 
             // AJAX request to get GeoJSON
             // The goal is to create an object that mimics a Google Map Data Layer
-            $http.get(url).success(function(data) {
+            $http.get(url ,{ headers: { 'Content-type': 'application/json' } })
+            .success(function(data) {
 
               angular.forEach(markers, function(m) {
                 m.setMap(null);

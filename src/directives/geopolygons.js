@@ -133,7 +133,8 @@ angular.module('ngMaps')
           function newData(url) {
 
             // Fetch the data
-            $http.get(url).success(function(data) {
+            $http.get(url ,{ headers: { 'Content-type': 'application/json' } })
+            .success(function(data) {
 
               // Remove each existing polygon from the map
               angular.forEach(polygons, function(p) {
