@@ -162,7 +162,7 @@ angular.module('ngMaps')
               });
 
               // Fire onInit function now that data is loaded
-              if ($scope.onInit) $scope.onInit(polygons);
+              if ($scope.onInit) $scope.onInit(polygons, data);
 
             });
 

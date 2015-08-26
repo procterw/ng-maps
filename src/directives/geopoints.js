@@ -92,7 +92,7 @@ angular.module('ngMaps')
 
               });
 
-              if ($scope.onInit) $scope.onInit(markers);
+              if ($scope.onInit) $scope.onInit(markers, data);
 
             });
 
