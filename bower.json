@@ -23,6 +23,6 @@
     "site"
   ],
   "dependencies": {
-    "angular": "~1.2.24"
+    "angular": "~1.5.2"
   }
 }
