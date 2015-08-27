@@ -40,6 +40,7 @@ angular.module('App')
 			"polylines",
 			"circles",
 			"rectangles",
+			"kml",
 			"overlay",
 			"control",
 			"infowindow"
