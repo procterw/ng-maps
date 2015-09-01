@@ -189,7 +189,8 @@ angular.module('ngMaps')
 
             // AJAX request to get GeoJSON
             // The goal is to create an object that mimics a Google Map Data Layer
-            $http.get(url).success(function(data) {
+            $http.get(url ,{ headers: { 'Content-type': 'application/json' } })
+            .success(function(data) {
 
               angular.forEach(markers, function(m) {
                 m.setMap(null);
@@ -232,7 +233,7 @@ angular.module('ngMaps')
 
               });
 
-              if ($scope.onInit) $scope.onInit(markers);
+              if ($scope.onInit) $scope.onInit(markers, data);
 
             });
 
@@ -376,7 +377,8 @@ angular.module('ngMaps')
           function newData(url) {
 
             // Fetch the data
-            $http.get(url).success(function(data) {
+            $http.get(url ,{ headers: { 'Content-type': 'application/json' } })
+            .success(function(data) {
 
               // Remove each existing polygon from the map
               angular.forEach(polygons, function(p) {
@@ -404,7 +406,7 @@ angular.module('ngMaps')
               });
 
               // Fire onInit function now that data is loaded
-              if ($scope.onInit) $scope.onInit(polygons);
+              if ($scope.onInit) $scope.onInit(polygons, data);
 
             });
 
