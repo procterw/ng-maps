@@ -1,5 +1,5 @@
 angular.module('ngMaps')
-  .directive('geopolygons', ['$http', function($http) {
+  .directive('geopolygons', ['$http', 'MultiPolygonService', function($http, MultiPolygon) {
     return {
       restrict: 'E',
       scope: {
@@ -52,84 +52,6 @@ angular.module('ngMaps')
             newData($scope.url);
           });
 
-          // Takes a polygon or multipolygon and adds additional funtionality
-          function PolygonCollection(p, i) {
-
-            this.type = p.geometry.type;
-            this.properties = p.properties;
-
-            this.setOptions = function(o) {
-              angular.forEach(polygons, function(p) {
-                p.setOptions(o);
-              });
-            };
-
-            this.setVisible = function(o) {
-              angular.forEach(polygons, function(p) {
-                p.setVisible(o);
-              });
-            };
-
-            this.getMap = function(o) {
-              angular.forEach(polygons, function(p) {
-                p.getMap(o);
-              });
-            };
-
-            // All of the polygon objects in this collection
-            var polygons = [];
-
-            var opts = $scope.options ? $scope.options(p.geometry, p.properties, i, map) : {};
-            opts.fillOpacity = $scope.opacity ? $scope.opacity/100 : 1;
-
-            if (this.type === "MultiPolygon") {
-
-              angular.forEach(p.geometry.coordinates, function(c) {
-                angular.forEach(c, function(c2) {
-                  // Each c2 is a single polygon
-                  var coords = [];
-                  // Create google map latlngs
-                  angular.forEach(c2, function(c3) {
-                    coords.push(new google.maps.LatLng(c3[1], c3[0]))
-                  });
-                  // New polygon
-                  var polygon = new google.maps.Polygon({
-                    paths: coords
-                  });
-                  // Set options and map
-                  polygon.setOptions(opts);
-                  polygon.setMap(map);
-                  // Add to polygon array
-                  polygons.push(polygon);
-                });
-              });
-
-            } else { // Normal polygon
-
-              var coords = [];
-              angular.forEach(p.geometry.coordinates, function(c) {
-                // Create google map latlngs
-                angular.forEach(c, function(c2) {
-                  coords.push(new google.maps.LatLng(c2[1], c2[0]))
-                });
-              });
-              // New polygon
-              var polygon = new google.maps.Polygon({
-                paths: coords
-              });
-              // Set options and map
-              polygon.setOptions(opts);
-              polygon.setMap(map);
-              // Add to polygon array
-              polygons.push(polygon);
-
-            }
-
-            this.polygons = polygons;
-
-          };
- 
-
           function newData(url) {
 
             // Fetch the data
@@ -147,14 +69,16 @@ angular.module('ngMaps')
               // For each poly OR multipoly, 
               angular.forEach(data.features, function(p, i) {
 
-                  var PC = new PolygonCollection(p, i);
+                  // var PC = new PolygonCollection(p, i);
 
-                  polygons.push(PC);
+                  var MP = new MultiPolygon(p, i, map, $scope.options, $scope.opacity);
 
-                  angular.forEach(PC.polygons, function(polygon) {
+                  polygons.push(MP);
+
+                  angular.forEach(MP.polygons, function(polygon) {
                     angular.forEach($scope.events, function(val, key) {
                       google.maps.event.addListener(polygon, key, function(e) {
-                        val(e, PC, map, polygons);
+                        val(e, MP, map, polygons);
                       });
                     });
                   })

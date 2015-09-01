@@ -1,5 +1,5 @@
 body, html {
-  font-family: "freight-sans-pro",sans-serif;
+  font-family: "Source Sans Pro",sans-serif;
   color: rgb(50,50,50);
   font-size: 1em;
 }
@@ -15,8 +15,13 @@ code {
 }
 
 .logo {
-  height: 50px;
+  height: 45px;
   padding: 7px;
+}
+
+.landing-map {
+  height: 500px;
+  margin-top: -20px;
 }
 
 .google-map {
@@ -41,7 +46,7 @@ code {
   background-color: #4DAF7C;
   border: none;
   border-bottom: 3px solid #43896E;
-  line-height: 85px;
+  line-height: 60px;
   padding: 0;
 }
 
@@ -52,7 +57,7 @@ code {
 .navbar > .container .navbar-brand, .navbar > .container-fluid .navbar-brand {
   font-weight: 600;
   color: white;
-  font-size: 2em;
+  font-size: 1.5em;
 }
 
 .navbar-default .navbar-brand:hover, .navbar-default .navbar-brand:focus {
@@ -66,7 +71,7 @@ code {
 
 .navbar-default .navbar-nav > li > a {
   color: white;
-  padding: 29px;
+  padding: 24px;
 }
 
 .navbar-default .navbar-nav > li > a:visited {
@@ -91,7 +96,7 @@ code {
   padding-left: 10px;
 }
 
-.landing-page h1 {
+.landing-map h1 {
   font-size: 4em;
   position: relative;
   top: 40%;

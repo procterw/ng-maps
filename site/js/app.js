@@ -18,6 +18,9 @@ var app = angular.module('App', ['ngRoute', 'ngAnimate', 'ngMaps'])
     when('/documentation', {
         templateUrl: 'templates/documentation.html'
     }).
+    when('/test', {
+        templateUrl: 'templates/test.html'
+    }).
     otherwise({
         redirectTo: '/'
     });
