@@ -1,3 +1,4 @@
+// FeatureCollection assumes a valid GeoJson featureCollection object.
 angular.module('ngMaps')
   .directive('featureCollection', ['$http', function($http) {
     return {
@@ -207,7 +208,9 @@ angular.module('ngMaps')
   .directive('point', function() {
     restrict: 'E',
     scope: {
-      coordinates: '=',
+      url: '=?',         // load a geojson object
+      coordinates: "=?"      // feature OR pure geometry
+      properties: '=?'   //
       events: '=?',      // object {event:function(), event:function()}
       visible: '=?',     // boolean
       options: '=?',     // function() { return {} }
