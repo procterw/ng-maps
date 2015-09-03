@@ -52,11 +52,15 @@ angular.module("ngMaps")
 	    	_feature.setVisible(visible);
 	    }
 
+	    function getMapFeature() { 
+	    	return _feature;
+	    }
 
 	    return {
 	      setOptions: setOptions,
 	      setEvents: setEvents,
-	      setVisible: setVisible
+	      setVisible: setVisible,
+	      getMapFeature: getMapFeature
 	    };
 
 	  }
@@ -105,15 +109,19 @@ angular.module("ngMaps")
 	    	if (opacity > 1) opacity = opacity/100;
 	    	_opacity = opacity;
 	    	_options.strokeOpacity = _opacity;
-	    	console.log(_options);
 	    	_feature.setOptions(_options);
+	    }
+
+	    function getMapFeature() { 
+	    	return _feature;
 	    }
 
 	    return {
 	      setOptions: setOptions,
 	      setEvents: setEvents,
 	      setVisible: setVisible,
-	      setOpacity: setOpacity
+	      setOpacity: setOpacity,
+	      getMapFeature: getMapFeature
 	    }
 
 	  }
@@ -170,11 +178,16 @@ angular.module("ngMaps")
 	    	_feature.setOptions(_options);
 	    }
 
+	    function getMapFeature() { 
+	    	return _feature;
+	    }
+
 	    return {
 	      setOptions: setOptions,
 	      setEvents: setEvents,
 	      setVisible: setVisible,
-	      setOpacity: setOpacity
+	      setOpacity: setOpacity,
+	      getMapFeature: getMapFeature
 	    }
 
 	  }
@@ -428,18 +441,14 @@ angular.module('ngMaps')
           if (!$scope.events) $scope.events = {};
 
           // IF Data is loaded as geojson
-          $scope.$watch(function() {
-            return $scope.geojson;
-          }, function(geojson) {
+          $scope.$watch('geojson', function(geojson) {
             // Prefer geojson to url, remove url if geojson
             $scope.url = null;
             if (geojson) newData(geojson);
           });
 
           // IF Data is loaded with url
-          $scope.$watch(function() {
-            return $scope.url;
-          }, function(url) {
+          $scope.$watch('url', function(url) {
              if (url) $http.get(url).then(function(success, error) {
                newData(success.data);
              });
@@ -460,9 +469,12 @@ angular.module('ngMaps')
           // Accepts data in the form of geojson
           function newData(data) {
 
+            var features = [];
+
             // For each feature in the feature collection
             for (var i=0; i<data.features.length; i++) {
 
+              // Wrap in a closure so each type has its own scope
               (function() {
 
                 var f = data.features[i];
@@ -474,26 +486,26 @@ angular.module('ngMaps')
 
                 var feature = GeoJSON[type](f.geometry, f.properties, options, events, map);
 
-                $scope.$watch(function() { return $scope.options; }, 
-                  function(newOptions) {
+                features.push(feature.getMapFeature());
+
+                $scope.$watch('options', function(newOptions) {
                     if (!newOptions) return;
                     feature.setOptions(optionsOfType(type, newOptions));
                   });
 
-                $scope.$watch(function() { return $scope.opacity; },
-                  function(opacity) {
-                    console.log(type);
+                $scope.$watch('opacity', function(opacity) {
                     if (opacity && feature.setOpacity) feature.setOpacity(opacity);
                   });
 
-                $scope.$watch(function() { return $scope.visible; },
-                  function(visible) {
+                $scope.$watch('visible', function(visible) {
                     if (visible) feature.setVisible(visible);
                   });
 
               })();
 
             }
+
+            if ($scope.onInit) $scope.onInit(features, data);
 
           };
 
@@ -1086,44 +1098,73 @@ angular.module('ngMaps')
           if (!$scope.options) $scope.options = {};
           if (!$scope.events) $scope.events = {};
 
-          $scope.$watch(function() {
-            return $scope.url;
-          }, function(url) {
-            if (url) newData(url);
+          // IF data is loaded as lat and lon (prefered)
+          $scope.$watch('[latitude, longitude]', function(latLon) {
+            console.log(latLon);
+          });
+
+          // IF Data is loaded as geojson
+          $scope.$watch('geojson', function(geojson) {
+            // Prefer geojson to url, remove url if geojson
+            $scope.url = null;
+            if (geojson) newData(geojson);
+          });
+
+          // IF Data is loaded with url
+          $scope.$watch('url', function(url) {
+             if (url) $http.get(url).then(function(success, error) {
+               newData(success.data);
+             });
           });
 
           // Get options of a given type
-          function optionsOfType(type) {
-            var isFunction = typeof $scope.options[type] === "function";
-            return isFunction ? $scope.options[type] : function() { return {}; };
+          function optionsOfType(type, options) {
+            var isFunction = typeof options[type] === "function";
+            return isFunction ? options[type] : function() { return {}; };
           }
 
           // Get events of a given type
-          function eventsOfType(type) {
-            var isObject = typeof $scope.events[type] === 'object';
-            return isObject ? $scope.events[type] : {};
+          function eventsOfType(type, events) {
+            var isObject = typeof events[type] === 'object';
+            return isObject ? events[type] : {};
           }
 
-          // When the dataset is loaded
+          // Accepts data in the form of geojson
           function newData(data) {
 
             // For each feature in the feature collection
             for (var i=0; i<data.features.length; i++) {
 
-              var f = data.features[i];
-              var type = f.geometry.type; // i.e. "Point" "MultiPolygon" etc.
+              // Wrap in a closure so each type has its own scope
+              (function() {
 
-              // Set options and events
-              var options = optionsOfType(type);
-              var events = eventsOfType(type);
+                var f = data.features[i];
+                var type = f.geometry.type; // i.e. "Point" "MultiPolygon" etc.
 
-              var feature = GeoJSON[type](f.geometry, f.properties, options, events, map);
+                // Set options and events
+                var options = optionsOfType(type, $scope.options);
+                var events = eventsOfType(type, $scope.events);
 
-              $scope.$watch(function() { return $scope.options; }, 
-                function(newOptions) {
-                  if (!newOptions) return;
-                  feature.setOptions(optionsOfType(type));
-                });
+                var feature = GeoJSON[type](f.geometry, f.properties, options, events, map);
+
+                $scope.$watch(function() { return $scope.options; }, 
+                  function(newOptions) {
+                    if (!newOptions) return;
+                    feature.setOptions(optionsOfType(type, newOptions));
+                  });
+
+                $scope.$watch(function() { return $scope.opacity; },
+                  function(opacity) {
+                    console.log(type);
+                    if (opacity && feature.setOpacity) feature.setOpacity(opacity);
+                  });
+
+                $scope.$watch(function() { return $scope.visible; },
+                  function(visible) {
+                    if (visible) feature.setVisible(visible);
+                  });
+
+              })();
 
             }
 
@@ -1135,27 +1176,7 @@ angular.module('ngMaps')
     };
   }]);
 
-
-
-
-
-// angular.module('ngMaps')
-//   .directive('point', function() {
-//     restrict: 'E',
-//     scope: {
-//       url: '=?',         // load a geojson object
-//       coordinates: "=?"      // feature OR pure geometry
-//       properties: '=?'   //
-//       events: '=?',      // object {event:function(), event:function()}
-//       visible: '=?',     // boolean
-//       options: '=?',     // function() { return {} }
-//       onInit: '=?'       // function()
-//     },
-//     require: '^map',
-//     link: function($scope, $element, $attrs, parent) {
-
-//     }
-//   });;angular.module('ngMaps')
+;angular.module('ngMaps')
   .directive('points', [function() {
     return {
       restrict: 'E',

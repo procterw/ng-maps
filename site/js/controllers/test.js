@@ -30,6 +30,9 @@ angular.module('App')
     	opacity: 0.2,
     	visible: true,
     	url: "data/collection.geojson",
+    	onInit: function(features, data) {
+    		console.log(features, data);
+    	},
     	geojson: { "type": "FeatureCollection",
 					    "features": [
 					      { "type": "Feature",

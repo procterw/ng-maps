@@ -25,18 +25,14 @@ angular.module('ngMaps')
           if (!$scope.events) $scope.events = {};
 
           // IF Data is loaded as geojson
-          $scope.$watch(function() {
-            return $scope.geojson;
-          }, function(geojson) {
+          $scope.$watch('geojson', function(geojson) {
             // Prefer geojson to url, remove url if geojson
             $scope.url = null;
             if (geojson) newData(geojson);
           });
 
           // IF Data is loaded with url
-          $scope.$watch(function() {
-            return $scope.url;
-          }, function(url) {
+          $scope.$watch('url', function(url) {
              if (url) $http.get(url).then(function(success, error) {
                newData(success.data);
              });
@@ -57,6 +53,8 @@ angular.module('ngMaps')
           // Accepts data in the form of geojson
           function newData(data) {
 
+            var features = [];
+
             // For each feature in the feature collection
             for (var i=0; i<data.features.length; i++) {
 
@@ -72,26 +70,26 @@ angular.module('ngMaps')
 
                 var feature = GeoJSON[type](f.geometry, f.properties, options, events, map);
 
-                $scope.$watch(function() { return $scope.options; }, 
-                  function(newOptions) {
+                features.push(feature.getMapFeature());
+
+                $scope.$watch('options', function(newOptions) {
                     if (!newOptions) return;
                     feature.setOptions(optionsOfType(type, newOptions));
                   });
 
-                $scope.$watch(function() { return $scope.opacity; },
-                  function(opacity) {
-                    console.log(type);
+                $scope.$watch('opacity', function(opacity) {
                     if (opacity && feature.setOpacity) feature.setOpacity(opacity);
                   });
 
-                $scope.$watch(function() { return $scope.visible; },
-                  function(visible) {
+                $scope.$watch('visible', function(visible) {
                     if (visible) feature.setVisible(visible);
                   });
 
               })();
 
             }
+
+            if ($scope.onInit) $scope.onInit(features, data);
 
           };
 

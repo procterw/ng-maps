@@ -52,11 +52,15 @@ angular.module("ngMaps")
 	    	_feature.setVisible(visible);
 	    }
 
+	    function getMapFeature() { 
+	    	return _feature;
+	    }
 
 	    return {
 	      setOptions: setOptions,
 	      setEvents: setEvents,
-	      setVisible: setVisible
+	      setVisible: setVisible,
+	      getMapFeature: getMapFeature
 	    };
 
 	  }
@@ -108,11 +112,16 @@ angular.module("ngMaps")
 	    	_feature.setOptions(_options);
 	    }
 
+	    function getMapFeature() { 
+	    	return _feature;
+	    }
+
 	    return {
 	      setOptions: setOptions,
 	      setEvents: setEvents,
 	      setVisible: setVisible,
-	      setOpacity: setOpacity
+	      setOpacity: setOpacity,
+	      getMapFeature: getMapFeature
 	    }
 
 	  }
@@ -169,11 +178,16 @@ angular.module("ngMaps")
 	    	_feature.setOptions(_options);
 	    }
 
+	    function getMapFeature() { 
+	    	return _feature;
+	    }
+
 	    return {
 	      setOptions: setOptions,
 	      setEvents: setEvents,
 	      setVisible: setVisible,
-	      setOpacity: setOpacity
+	      setOpacity: setOpacity,
+	      getMapFeature: getMapFeature
 	    }
 
 	  }
