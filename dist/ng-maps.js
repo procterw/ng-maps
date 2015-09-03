@@ -1,4 +1,186 @@
-angular.module('ngMaps', []);;angular.module("ngMaps")
+angular.module('ngMaps', []);;
+angular.module("ngMaps")
+	.factory("GeoJSONService", function() {
+
+		return {
+	    Point: Point,
+	    LineString: LineString,
+	    Polygon: Polygon
+	  }
+
+	  // Passes coords to google maps in reverse order
+	  // Remember GeoJSON is Lon Lat instead of Lat Lon
+	  function toLatLng(c) {
+	    return new google.maps.LatLng(c[1], c[0]);
+	  }
+
+	  //-----------------------------------------//
+	  //  ___  ___ ___ _  _ _____ 
+	  // | _ \/ _ \_ _| \| |_   _|
+	  // |  _/ (_) | || .` | | |  
+	  // |_|  \___/___|_|\_| |_|  
+	  //
+	  //-----------------------------------------//
+	                            
+
+	  function Point(geometry, properties, options, events, map) {
+
+	  	var _coords = geometry.coordinates;
+	    var _options = options(_coords, properties, map, 0);
+
+	    _options.position = toLatLng(_coords);
+	    _options.map = map;
+
+	    var _feature = new google.maps.Marker(_options);
+
+	    setEvents(events);
+
+	    function setOptions(options) {
+	    	_options = options(_coords, properties, map, 0);
+	      _feature.setOptions(_options)
+	    }
+
+	    function setEvents(events) {
+	      for (var eventType in events) {
+	        google.maps.event.addListener(_feature, eventType, function(e) {
+	          events[eventType](e, feature, map);
+	        });
+	      }
+	    }
+
+	    function setVisible(visible) {
+	    	_feature.setVisible(visible);
+	    }
+
+
+	    return {
+	      setOptions: setOptions,
+	      setEvents: setEvents,
+	      setVisible: setVisible
+	    };
+
+	  }
+
+	  //-----------------------------------------//
+	  //  _    ___ _  _ ___ ___ _____ ___ ___ _  _  ___ 
+	  // | |  |_ _| \| | __/ __|_   _| _ \_ _| \| |/ __|
+	  // | |__ | || .` | _|\__ \ | | |   /| || .` | (_ |
+	  // |____|___|_|\_|___|___/ |_| |_|_\___|_|\_|\___|
+	  //                                              
+	  //-----------------------------------------//
+
+
+	  function LineString(geometry, properties, options, events, map) {
+
+	  	var _coords = geometry.coordinates;
+	    var _options = options(_coords, properties, map, 0);
+
+	    _options.path = _coords.map(toLatLng);
+	    _options.map = map;
+
+	    var _feature = new google.maps.Polyline(_options);
+
+	    var _opacity;
+
+	    setEvents(events);
+
+	    function setOptions(options) {
+	    	_options = options(_coords, properties, map, 0);
+	      _feature.setOptions(_options)
+	    }
+
+	    function setEvents(events) {
+	      for (var eventType in events) {
+	        google.maps.event.addListener(_feature, eventType, function(e) {
+	          events[eventType](e, feature, map);
+	        });
+	      }
+	    }
+
+	    function setVisible(visible) {
+	    	_feature.setVisible(visible);
+	    }
+
+	    function setOpacity(opacity) {
+	    	if (opacity > 1) opacity = opacity/100;
+	    	_opacity = opacity;
+	    	_options.strokeOpacity = _opacity;
+	    	console.log(_options);
+	    	_feature.setOptions(_options);
+	    }
+
+	    return {
+	      setOptions: setOptions,
+	      setEvents: setEvents,
+	      setVisible: setVisible,
+	      setOpacity: setOpacity
+	    }
+
+	  }
+
+	  //-----------------------------------------//
+	  //  ___  ___  _ __   _____  ___  _  _ 
+	  // | _ \/ _ \| |\ \ / / __|/ _ \| \| |
+	  // |  _/ (_) | |_\ V / (_ | (_) | .` |
+	  // |_|  \___/|____|_| \___|\___/|_|\_|
+	  //
+	  //-----------------------------------------//
+
+
+	  function Polygon(geometry, properties, options, events, map) {
+
+
+	    // Create options
+	    var _coords = geometry.coordinates;
+	    var _options = options(_coords, properties, map, 0);
+
+	    // Format points in google maps LatLng class
+	    _options.paths = _coords.map(function(c) {
+	      return c.map(toLatLng);
+	    });
+	    _options.map = map;
+
+	    // Map feature
+	    var _feature = new google.maps.Polygon(_options);
+
+	    var _opacity;
+
+	    function setOptions(options) {
+	    	_options = options(_coords, properties, map, 0);
+	      _feature.setOptions(_options)
+	    }
+
+	    function setEvents(events) {
+	      for (var eventType in events) {
+	        google.maps.event.addListener(_feature, eventType, function(e) {
+	          events[eventType](e, feature, map);
+	        });
+	      }
+	    }
+
+	    function setVisible(visible) {
+	    	_feature.setVisible(visible);
+	    }
+
+	    function setOpacity(opacity) {
+	    	if (opacity > 1) opacity = opacity/100;
+	    	_opacity = opacity;
+	    	_options.strokeOpacity = _opacity;
+	    	_options.fillOpacity = _opacity;
+	    	_feature.setOptions(_options);
+	    }
+
+	    return {
+	      setOptions: setOptions,
+	      setEvents: setEvents,
+	      setVisible: setVisible,
+	      setOpacity: setOpacity
+	    }
+
+	  }
+
+  
+	});;angular.module("ngMaps")
 	.factory("MultiPolygonService", function() {
 
 		// Takes a polygon or multipolygon and adds additional funtionality
@@ -219,16 +401,19 @@ angular.module('ngMaps')
         });
       }
     };
-  }]);;angular.module('ngMaps')
-  .directive('featureCollection', ['$http', function($http) {
+  }]);;// FeatureCollection assumes a valid GeoJson featureCollection object.
+angular.module('ngMaps')
+  .directive('featureCollection', ['$http', 'GeoJSONService', function($http, GeoJSON) {
     return {
       restrict: 'E',
       scope: {
-        data: '=',         // string  
         events: '=?',      // object {event:function(), event:function()}
-        visible: '=?',     // boolean
+        geojson: '=?',      // a geojson object
+        onInit: '=?',      // function()
+        opacity: '=?',     // function()
         options: '=?',     // function() { return {} }
-        onInit: '=?'       // function()
+        url: '=?',         // url to a geojson file
+        visible: '=?'     // boolean
       },
       require: '^map',
       link: function($scope, $element, $attrs, parent) {
@@ -239,48 +424,74 @@ angular.module('ngMaps')
 
           var map = parent.getMap();
 
-          console.log($scope.events);
           if (!$scope.options) $scope.options = {};
           if (!$scope.events) $scope.events = {};
 
+          // IF Data is loaded as geojson
           $scope.$watch(function() {
-            return $scope.data;
-          }, function() {
-            newData($scope.data);
+            return $scope.geojson;
+          }, function(geojson) {
+            // Prefer geojson to url, remove url if geojson
+            $scope.url = null;
+            if (geojson) newData(geojson);
+          });
+
+          // IF Data is loaded with url
+          $scope.$watch(function() {
+            return $scope.url;
+          }, function(url) {
+             if (url) $http.get(url).then(function(success, error) {
+               newData(success.data);
+             });
           });
 
           // Get options of a given type
-          function optionsOfType(type) {
-            var isFunction = typeof $scope.options[type] === "function";
-            return isFunction ? $scope.options[type] : function() { return {}; };
+          function optionsOfType(type, options) {
+            var isFunction = typeof options[type] === "function";
+            return isFunction ? options[type] : function() { return {}; };
           }
 
           // Get events of a given type
-          function eventsOfType(type) {
-            var isObject = typeof $scope.events[type] === 'object';
-            return isObject ? $scope.events[type] : {};
+          function eventsOfType(type, events) {
+            var isObject = typeof events[type] === 'object';
+            return isObject ? events[type] : {};
           }
 
-          // When the dataset is loaded
+          // Accepts data in the form of geojson
           function newData(data) {
 
             // For each feature in the feature collection
             for (var i=0; i<data.features.length; i++) {
 
-              var f = data.features[i];
-              var type = f.geometry.type; // i.e. "Point" "MultiPolygon" etc.
+              (function() {
 
-              // Set options and events
-              var options = optionsOfType(type);
-              var events = eventsOfType(type);
+                var f = data.features[i];
+                var type = f.geometry.type; // i.e. "Point" "MultiPolygon" etc.
 
-              var feature = GeoJson[type](f.geometry, f.properties, options, events, map);
+                // Set options and events
+                var options = optionsOfType(type, $scope.options);
+                var events = eventsOfType(type, $scope.events);
 
-              $scope.$watch(function() { return $scope.options; }, 
-                function(newOptions) {
-                  if (!newOptions) return;
-                  feature.setOptions(optionsOfType(type));
-                });
+                var feature = GeoJSON[type](f.geometry, f.properties, options, events, map);
+
+                $scope.$watch(function() { return $scope.options; }, 
+                  function(newOptions) {
+                    if (!newOptions) return;
+                    feature.setOptions(optionsOfType(type, newOptions));
+                  });
+
+                $scope.$watch(function() { return $scope.opacity; },
+                  function(opacity) {
+                    console.log(type);
+                    if (opacity && feature.setOpacity) feature.setOpacity(opacity);
+                  });
+
+                $scope.$watch(function() { return $scope.visible; },
+                  function(visible) {
+                    if (visible) feature.setVisible(visible);
+                  });
+
+              })();
 
             }
 
@@ -292,137 +503,7 @@ angular.module('ngMaps')
     };
   }]);
 
-  var GeoJson = (function() {
-
-    function toLatLng(c) {
-      return new google.maps.LatLng(c[1], c[0]);
-    }
-
-    //-----------------------------------------//
-    //  ___  ___ ___ _  _ _____ 
-    // | _ \/ _ \_ _| \| |_   _|
-    // |  _/ (_) | || .` | | |  
-    // |_|  \___/___|_|\_| |_|  
-    //
-    //-----------------------------------------//
-                              
-
-    function Point(geometry, properties, options, events, map) {
-
-      function setOptions(options) {
-        feature.setOptions(options(coords, properties, map, 0))
-      };
-
-      function setEvents(events) {
-        for (var eventType in events) {
-          google.maps.event.addListener(feature, eventType, function(e) {
-            events[eventType](e, feature, map);
-          });
-        }
-      }
-
-      var coords = geometry.coordinates;
-      var opts = options(coords, properties, map, 0);
-
-      opts.position = toLatLng(coords);
-      opts.map = map;
-
-      var feature = new google.maps.Marker(opts);
-
-      console.log(events);
-      setEvents(events);
-
-      return {
-        setOptions: setOptions,
-        setEvents: setEvents
-      };
-
-    }
-
-    //-----------------------------------------//
-    //  _    ___ _  _ ___ ___ _____ ___ ___ _  _  ___ 
-    // | |  |_ _| \| | __/ __|_   _| _ \_ _| \| |/ __|
-    // | |__ | || .` | _|\__ \ | | |   /| || .` | (_ |
-    // |____|___|_|\_|___|___/ |_| |_|_\___|_|\_|\___|
-    //                                              
-    //-----------------------------------------//
-
-
-    function LineString(geometry, properties, options, events, map) {
-
-      function setOptions(options) {
-        feature.setOptions(options(coords, properties, map, 0))
-      }
-
-      function setEvents(events) {
-        
-      }
-
-      var coords = geometry.coordinates;
-      var opts = options(coords, properties, map, 0);
-
-      opts.path = coords.map(toLatLng);
-      opts.map = map;
-
-      var feature = new google.maps.Polyline(opts);
-
-      return {
-        setOptions: setOptions,
-        setEvents: setEvents
-      }
-
-    }
-
-    //-----------------------------------------//
-    //  ___  ___  _ __   _____  ___  _  _ 
-    // | _ \/ _ \| |\ \ / / __|/ _ \| \| |
-    // |  _/ (_) | |_\ V / (_ | (_) | .` |
-    // |_|  \___/|____|_| \___|\___/|_|\_|
-    //
-    //-----------------------------------------//
-
-
-    function Polygon(geometry, properties, options, events, map) {
-
-      // Public option setter
-      function setOptions(options) {
-        feature.setOptions(options(coords, properties, map, 0))
-      }
-
-      function setEvents(events) {
-
-      }
-
-      // Coordinates and options
-      var coords = geometry.coordinates;
-      var opts = options(coords, properties, map, 0);
-
-      // Format points in google maps LatLng class
-      opts.paths = coords.map(function(c) {
-        return c.map(toLatLng);
-      });
-      opts.map = map;
-
-      // Map feature
-      var feature = new google.maps.Polygon(opts);
-
-      return {
-        setOptions: setOptions,
-        setEvents: setEvents
-      }
-
-    }
-
-    return {
-      Point: Point,
-      LineString: LineString,
-      Polygon: Polygon
-    }
-
-    // MultiPoint: null,
-    // MultiLineString: null,
-    // MultiPolygon: null
-  })();angular.module('ngMaps')
+;angular.module('ngMaps')
   .directive('geopoints', ['$http', function($http) {
     return {
       restrict: 'E',
@@ -978,7 +1059,103 @@ angular.module('ngMaps')
 
     };
 
-  }]);;angular.module('ngMaps')
+  }]);;// FeatureCollection assumes a valid GeoJson featureCollection object.
+angular.module('ngMaps')
+  .directive('point', ['$http', 'GeoJSONService', function($http, GeoJSON) {
+    return {
+      restrict: 'E',
+      scope: {
+        events: '=?',      // object {event:function(), event:function()}
+        geojson: '=?',     // a geojson object
+        latitude: '=?',    // number (unique to point)
+        longitude: '=?',   // number (unique to point)
+        onInit: '=?',      // function()
+        options: '=?',     // function() { return {} }
+        url: '=?',         // url to a geojson file
+        visible: '=?'      // boolean
+      },
+      require: '^map',
+      link: function($scope, $element, $attrs, parent) {
+
+        $scope.$watch(function() {
+          parent.getMap();
+        }, function() {
+
+          var map = parent.getMap();
+
+          if (!$scope.options) $scope.options = {};
+          if (!$scope.events) $scope.events = {};
+
+          $scope.$watch(function() {
+            return $scope.url;
+          }, function(url) {
+            if (url) newData(url);
+          });
+
+          // Get options of a given type
+          function optionsOfType(type) {
+            var isFunction = typeof $scope.options[type] === "function";
+            return isFunction ? $scope.options[type] : function() { return {}; };
+          }
+
+          // Get events of a given type
+          function eventsOfType(type) {
+            var isObject = typeof $scope.events[type] === 'object';
+            return isObject ? $scope.events[type] : {};
+          }
+
+          // When the dataset is loaded
+          function newData(data) {
+
+            // For each feature in the feature collection
+            for (var i=0; i<data.features.length; i++) {
+
+              var f = data.features[i];
+              var type = f.geometry.type; // i.e. "Point" "MultiPolygon" etc.
+
+              // Set options and events
+              var options = optionsOfType(type);
+              var events = eventsOfType(type);
+
+              var feature = GeoJSON[type](f.geometry, f.properties, options, events, map);
+
+              $scope.$watch(function() { return $scope.options; }, 
+                function(newOptions) {
+                  if (!newOptions) return;
+                  feature.setOptions(optionsOfType(type));
+                });
+
+            }
+
+          };
+
+        });
+
+      }
+    };
+  }]);
+
+
+
+
+
+// angular.module('ngMaps')
+//   .directive('point', function() {
+//     restrict: 'E',
+//     scope: {
+//       url: '=?',         // load a geojson object
+//       coordinates: "=?"      // feature OR pure geometry
+//       properties: '=?'   //
+//       events: '=?',      // object {event:function(), event:function()}
+//       visible: '=?',     // boolean
+//       options: '=?',     // function() { return {} }
+//       onInit: '=?'       // function()
+//     },
+//     require: '^map',
+//     link: function($scope, $element, $attrs, parent) {
+
+//     }
+//   });;angular.module('ngMaps')
   .directive('points', [function() {
     return {
       restrict: 'E',

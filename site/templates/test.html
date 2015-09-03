@@ -5,7 +5,14 @@
     <div class="col-sm-12">
       <map ng-transclude class="google-map" center="map.center" options="map.options" zoom="map.zoom"> 
 
-        <feature-collection data="FC.data" options="FC.options" events="FC.events"></feature-collection>
+        <feature-collection 
+        	geojson="FC.geojson"
+        	url="FC.url"
+        	opacity="FC.opacity"
+        	visible="FC.visible"
+        	options="FC.options"
+        	events="FC.events">
+        </feature-collection>
 
       </map>
     <div>

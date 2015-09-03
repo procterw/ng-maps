@@ -27,7 +27,10 @@ angular.module('App')
     			}
     		}
     	},
-    	data: { "type": "FeatureCollection",
+    	opacity: 0.2,
+    	visible: true,
+    	url: "data/collection.geojson",
+    	geojson: { "type": "FeatureCollection",
 					    "features": [
 					      { "type": "Feature",
 					        "geometry": {"type": "Point", "coordinates": [102.0, 0.5]},
