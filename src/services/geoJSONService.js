@@ -6,12 +6,22 @@ angular.module("ngMaps")
 	    Point: Point,
 	    LineString: LineString,
 	    Polygon: Polygon
-	  }
+	  };
 
 	  // Passes coords to google maps in reverse order
 	  // Remember GeoJSON is Lon Lat instead of Lat Lon
 	  function toLatLng(c) {
 	    return new google.maps.LatLng(c[1], c[0]);
+	  }
+
+	  // Shared event setter
+	  function setEvents(events, feature, map) {
+			for (var eventType in events) {
+	      google.maps.event.addListener(feature, eventType, function(e) {
+	        events[eventType](e, feature, map);
+	      });
+	    }
+	    return feature;
 	  }
 
 	  //-----------------------------------------//
@@ -33,19 +43,11 @@ angular.module("ngMaps")
 
 	    var _feature = new google.maps.Marker(_options);
 
-	    setEvents(events);
+	    _feature = setEvents(events, _feature, map);
 
 	    function setOptions(options) {
 	    	_options = options(_coords, properties, map, 0);
-	      _feature.setOptions(_options)
-	    }
-
-	    function setEvents(events) {
-	      for (var eventType in events) {
-	        google.maps.event.addListener(_feature, eventType, function(e) {
-	          events[eventType](e, feature, map);
-	        });
-	      }
+	      _feature.setOptions(_options);
 	    }
 
 	    function setVisible(visible) {
@@ -86,19 +88,11 @@ angular.module("ngMaps")
 
 	    var _opacity;
 
-	    setEvents(events);
+	    _feature = setEvents(events, _feature, map);
 
 	    function setOptions(options) {
 	    	_options = options(_coords, properties, map, 0);
-	      _feature.setOptions(_options)
-	    }
-
-	    function setEvents(events) {
-	      for (var eventType in events) {
-	        google.maps.event.addListener(_feature, eventType, function(e) {
-	          events[eventType](e, feature, map);
-	        });
-	      }
+	      _feature.setOptions(_options);
 	    }
 
 	    function setVisible(visible) {
@@ -122,7 +116,7 @@ angular.module("ngMaps")
 	      setVisible: setVisible,
 	      setOpacity: setOpacity,
 	      getMapFeature: getMapFeature
-	    }
+	    };
 
 	  }
 
@@ -136,7 +130,6 @@ angular.module("ngMaps")
 
 
 	  function Polygon(geometry, properties, options, events, map) {
-
 
 	    // Create options
 	    var _coords = geometry.coordinates;
@@ -153,17 +146,11 @@ angular.module("ngMaps")
 
 	    var _opacity;
 
+	    _feature = setEvents(events, _feature, map);
+
 	    function setOptions(options) {
 	    	_options = options(_coords, properties, map, 0);
-	      _feature.setOptions(_options)
-	    }
-
-	    function setEvents(events) {
-	      for (var eventType in events) {
-	        google.maps.event.addListener(_feature, eventType, function(e) {
-	          events[eventType](e, feature, map);
-	        });
-	      }
+	      _feature.setOptions(_options);
 	    }
 
 	    function setVisible(visible) {
@@ -188,9 +175,8 @@ angular.module("ngMaps")
 	      setVisible: setVisible,
 	      setOpacity: setOpacity,
 	      getMapFeature: getMapFeature
-	    }
+	    };
 
 	  }
-
   
 	});

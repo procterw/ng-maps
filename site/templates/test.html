@@ -2,6 +2,8 @@
 
   <div class="row">
 
+    <input type="checkbox" ng-model="P1.visible">
+
     <div class="col-sm-12">
       <map ng-transclude class="google-map" center="map.center" options="map.options" zoom="map.zoom"> 
 
@@ -15,6 +17,31 @@
         	on-init="FC.onInit">
         </feature-collection>
 
+        <point 
+          geojson="P1.geojson"
+          options="P1.options"
+          events="P1.events"
+          visible="P1.visible"
+          on-init="P1.onInit"
+          >
+      	</point>
+
+<!--       	<point 
+          latitude="P2.lat" 
+          longitude="P2.lon"
+          properties="P2.properties"
+          on-init="P1.onInit">
+      	</point> -->
+<!-- 
+        <polygon
+          geojson="Poly.geojson"
+          events="Poly.events"
+          options="Poly.options"
+          opacity="Poly.opacity"
+          on-init="Poly.onInit"
+          visible="Poly.visible">
+        </polygon>
+ -->
       </map>
     <div>
 

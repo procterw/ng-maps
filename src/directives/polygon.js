@@ -4,11 +4,11 @@ angular.module('ngMaps')
     return {
       restrict: 'E',
       scope: {
+        coordinates: '=?', // [[p1,p2,p3],[p4,p5]]
         events: '=?',      // object {event:function(), event:function()}
         geojson: '=?',     // a geojson object
-        latitude: '=?',    // number (unique to point)
-        longitude: '=?',   // number (unique to point)
         onInit: '=?',      // function()
+        opacity: '=?',     // number < 100
         options: '=?',     // function() { return {} }
         properties: '=?',  // object {}
         url: '=?',         // string url to a geojson file
@@ -29,12 +29,12 @@ angular.module('ngMaps')
           // Which dataset to use. Raw geojson prefered over URL
           if ($scope.geojson) {
             newData($scope.geojson);
-          } else if (!isNaN($scope.latitude) && !isNaN($scope.longitude)) {
+          } else if (!$scope.coordinates) {
             newData({
               type: "Feature",
               geometry: {
                 type: "Point",
-                coordinates: [$scope.longitude, $scope.latitude]
+                coordinates: $scope.coordinates
               },
               properties: $scope.properties || null
             });
@@ -44,29 +44,35 @@ angular.module('ngMaps')
             });
           }
 
-          // Accepts data in the form of geojson
-          function newData(data) {
+          // // Accepts data in the form of geojson
+          // function newData(data) {
 
-            var feature = GeoJSON.Point(data.geometry, data.properties, $scope.options, $scope.events, map);
+          //   var feature = GeoJSON["Polygon"](data.geometry, data.properties, $scope.options, $scope.events, map);
 
-            $scope.$watch(function() { return $scope.options; }, 
-              function(newOptions) {
-                if (!newOptions) return;
-                feature.setOptions(newOptions);
-              });
+          //   $scope.$watch(function() { return $scope.options; }, 
+          //     function(newOptions) {
+          //       if (!newOptions) return;
+          //       feature.setOptions(newOptions);
+          //     });
 
-            $scope.$watch(function() { return $scope.visible; },
-              function(visible) {
-                if (typeof visible === "boolean") feature.setVisible(visible);
-              });
+          //   $scope.$watch(function() { return $scope.opacity; },
+          //     function(opacity) {
+          //       console.log(type);
+          //       if (opacity && feature.setOpacity) feature.setOpacity(opacity);
+          //     });
 
-            if ($scope.onInit) $scope.onInit(feature, data);
+          //   $scope.$watch(function() { return $scope.visible; },
+          //     function(visible) {
+          //       if (typeof visible === "boolean") feature.setVisible(visible);
+          //     });
 
+          //   if ($scope.onInit) $scope.onInit(feature, data);
 
-          }
+          // };
 
         });
 
       }
     };
   }]);
+
