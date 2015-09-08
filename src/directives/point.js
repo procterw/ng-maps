@@ -72,14 +72,18 @@ angular.module('ngMaps')
               if (gmLatLon) feature.getMapFeature().setPosition(gmLatLon);
             }, true);
 
-            $scope.$watch('geojson', function(geojson) {
-              console.log("new geojson")
-              console.log(geojson)
-              if (geojson) {
-                var gmLatLon = toLatLon(geojson.geometry.coordinates);
-                if (gmLatLon) feature.getMapFeature().setPosition(gmLatLon);
-              }
+            $scope.$watch('geojson.geometry.coordinates', function(coords) {
+              if (coords) var gmLatLon = toLatLon(coords);
+              if (gmLatLon) feature.getMapFeature().setPosition(gmLatLon);
             }, true);
+
+            $scope.$watch('properties', function(properties) {
+              if (properties) feature.setProperties(properties);
+            });
+
+            $scope.$watch('geojson.properties', function(properties) {
+              if (properties) feature.setProperties(properties);
+            });
 
             $scope.$watch('options', function(newOptions) {
               if (!newOptions) return;

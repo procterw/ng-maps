@@ -36,6 +36,7 @@ angular.module("ngMaps")
 	  function Point(geometry, properties, options, events, map) {
 
 	  	var _coords = geometry.coordinates;
+      var _properties = properties;
 	    var _options = options(_coords, properties, map, 0);
 
 	    _options.position = toLatLng(_coords);
@@ -47,8 +48,14 @@ angular.module("ngMaps")
 
 	    function setOptions(options) {
 	    	_options = options(_coords, properties, map, 0);
+        _options.properties = properties;
 	      _feature.setOptions(_options);
 	    }
+
+      function setProperties(properties) {
+        _properties = properties;
+        setOptions(options);
+      }
 
 	    function setVisible(visible) {
 	    	_feature.setVisible(visible);
@@ -61,6 +68,7 @@ angular.module("ngMaps")
 	    return {
 	      setOptions: setOptions,
 	      setEvents: setEvents,
+        setProperties: setProperties,
 	      setVisible: setVisible,
 	      getMapFeature: getMapFeature
 	    };

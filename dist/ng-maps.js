@@ -36,6 +36,7 @@ angular.module("ngMaps")
 	  function Point(geometry, properties, options, events, map) {
 
 	  	var _coords = geometry.coordinates;
+      var _properties = properties;
 	    var _options = options(_coords, properties, map, 0);
 
 	    _options.position = toLatLng(_coords);
@@ -47,8 +48,14 @@ angular.module("ngMaps")
 
 	    function setOptions(options) {
 	    	_options = options(_coords, properties, map, 0);
+        _options.properties = properties;
 	      _feature.setOptions(_options);
 	    }
+
+      function setProperties(properties) {
+        _properties = properties;
+        setOptions(options);
+      }
 
 	    function setVisible(visible) {
 	    	_feature.setVisible(visible);
@@ -61,6 +68,7 @@ angular.module("ngMaps")
 	    return {
 	      setOptions: setOptions,
 	      setEvents: setEvents,
+        setProperties: setProperties,
 	      setVisible: setVisible,
 	      getMapFeature: getMapFeature
 	    };
@@ -849,14 +857,18 @@ angular.module('ngMaps')
               if (gmLatLon) feature.getMapFeature().setPosition(gmLatLon);
             }, true);
 
-            $scope.$watch('geojson', function(geojson) {
-              console.log("new geojson")
-              console.log(geojson)
-              if (geojson) {
-                var gmLatLon = toLatLon(geojson.geometry.coordinates);
-                if (gmLatLon) feature.getMapFeature().setPosition(gmLatLon);
-              }
+            $scope.$watch('geojson.geometry.coordinates', function(coords) {
+              if (coords) var gmLatLon = toLatLon(coords);
+              if (gmLatLon) feature.getMapFeature().setPosition(gmLatLon);
             }, true);
+
+            $scope.$watch('properties', function(properties) {
+              if (properties) feature.setProperties(properties);
+            });
+
+            $scope.$watch('geojson.properties', function(properties) {
+              if (properties) feature.setProperties(properties);
+            });
 
             $scope.$watch('options', function(newOptions) {
               if (!newOptions) return;

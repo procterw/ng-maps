@@ -14,8 +14,10 @@ angular.module('App')
 
 
     setTimeout(function() {
-      // $scope.P1.geojson.geometry.coordinates = [102,2];
+      $scope.P1.geojson.geometry.coordinates = [102,2];
+      $scope.P1.geojson.properties.prop0 = "foo123";
       $scope.P2.lon = 104;
+      $scope.P2.properties = {a:2, b:7};
       $scope.$apply();
     }, 3000);
 
@@ -31,7 +33,7 @@ angular.module('App')
 			},
 			events: {
 				click: function(e, feature, map) {
-
+          console.log(feature);
 				}
 			},
 			onInit: function(feature, dataset) {
