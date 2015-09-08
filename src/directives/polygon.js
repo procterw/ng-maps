@@ -1,6 +1,6 @@
 // FeatureCollection assumes a valid GeoJson featureCollection object.
 angular.module('ngMaps')
-  .directive('point', ['$http', 'GeoJSONService', function($http, GeoJSON) {
+  .directive('polygon', ['$http', 'GeoJSONService', function($http, GeoJSON) {
     return {
       restrict: 'E',
       scope: {

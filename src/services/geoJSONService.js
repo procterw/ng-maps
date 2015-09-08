@@ -2,7 +2,7 @@
 angular.module("ngMaps")
 	.factory("GeoJSONService", function() {
 
-		return {
+	  return {
 	    Point: Point,
 	    LineString: LineString,
 	    Polygon: Polygon

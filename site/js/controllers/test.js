@@ -24,11 +24,11 @@ angular.module('App')
 			},
 			events: {
 				click: function(e, feature, map) {
-					console.log(a,b);
+
 				}
 			},
 			onInit: function(feature, dataset) {
-				console.log(a,b);
+
 			},
 			visible: true
     };

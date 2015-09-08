@@ -47,6 +47,8 @@ angular.module('ngMaps')
           // Accepts data in the form of geojson
           function newData(data) {
 
+            console.log(data);
+
             var feature = GeoJSON.Point(data.geometry, data.properties, $scope.options, $scope.events, map);
 
             $scope.$watch(function() { return $scope.options; }, 
