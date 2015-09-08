@@ -64,17 +64,17 @@ angular.module('ngMaps')
               features.push(feature.getMapFeature());
 
               $scope.$watch('options', function(newOptions) {
-                  if (!newOptions) return;
-                  feature.setOptions(optionsOfType(type, newOptions));
-                });
+                if (!newOptions) return;
+                feature.setOptions(optionsOfType(type, newOptions));
+              });
 
               $scope.$watch('opacity', function(opacity) {
-                  if (opacity && feature.setOpacity) feature.setOpacity(opacity);
-                });
+                if (opacity && feature.setOpacity) feature.setOpacity(opacity);
+              });
 
               $scope.$watch('visible', function(visible) {
-                  if (visible) feature.setVisible(visible);
-                });
+                if (typeof visible === "boolean") feature.setVisible(visible);
+              });
 
             }
 

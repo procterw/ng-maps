@@ -11,7 +11,7 @@
         	geojson="FC.geojson"
         	url="FC.url"
         	opacity="FC.opacity"
-        	visible="FC.visible"
+        	visible="P1.visible"
         	options="FC.options"
         	events="FC.events"
         	on-init="FC.onInit">
@@ -28,10 +28,11 @@
       	<point 
           latitude="P2.lat" 
           longitude="P2.lon"
+          options="P1.options"
           properties="P2.properties"
           on-init="P1.onInit">
       	</point>
-<!-- 
+
         <polygon
           geojson="Poly.geojson"
           events="Poly.events"
@@ -40,9 +41,13 @@
           on-init="Poly.onInit"
           visible="Poly.visible">
         </polygon>
- -->
+
       </map>
     <div>
+
+      {{P1}}
+
+      {{P2}}
 
 </div>
 

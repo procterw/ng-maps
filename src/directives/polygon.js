@@ -44,31 +44,30 @@ angular.module('ngMaps')
             });
           }
 
-          // // Accepts data in the form of geojson
-          // function newData(data) {
+          // Accepts data in the form of geojson
+          function newData(data) {
 
-          //   var feature = GeoJSON["Polygon"](data.geometry, data.properties, $scope.options, $scope.events, map);
+            var feature = GeoJSON["Polygon"](data.geometry, data.properties, $scope.options, $scope.events, map);
 
-          //   $scope.$watch(function() { return $scope.options; }, 
-          //     function(newOptions) {
-          //       if (!newOptions) return;
-          //       feature.setOptions(newOptions);
-          //     });
+            $scope.$watch(function() { return $scope.options; }, 
+              function(newOptions) {
+                if (!newOptions) return;
+                feature.setOptions(newOptions);
+              });
 
-          //   $scope.$watch(function() { return $scope.opacity; },
-          //     function(opacity) {
-          //       console.log(type);
-          //       if (opacity && feature.setOpacity) feature.setOpacity(opacity);
-          //     });
+            $scope.$watch(function() { return $scope.opacity; },
+              function(opacity) {
+                if (opacity && feature.setOpacity) feature.setOpacity(opacity);
+              });
 
-          //   $scope.$watch(function() { return $scope.visible; },
-          //     function(visible) {
-          //       if (typeof visible === "boolean") feature.setVisible(visible);
-          //     });
+            $scope.$watch(function() { return $scope.visible; },
+              function(visible) {
+                if (typeof visible === "boolean") feature.setVisible(visible);
+              });
 
-          //   if ($scope.onInit) $scope.onInit(feature, data);
+            if ($scope.onInit) $scope.onInit(feature, data);
 
-          // };
+          };
 
         });
 

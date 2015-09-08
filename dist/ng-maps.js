@@ -466,17 +466,17 @@ angular.module('ngMaps')
               features.push(feature.getMapFeature());
 
               $scope.$watch('options', function(newOptions) {
-                  if (!newOptions) return;
-                  feature.setOptions(optionsOfType(type, newOptions));
-                });
+                if (!newOptions) return;
+                feature.setOptions(optionsOfType(type, newOptions));
+              });
 
               $scope.$watch('opacity', function(opacity) {
-                  if (opacity && feature.setOpacity) feature.setOpacity(opacity);
-                });
+                if (opacity && feature.setOpacity) feature.setOpacity(opacity);
+              });
 
               $scope.$watch('visible', function(visible) {
-                  if (visible) feature.setVisible(visible);
-                });
+                if (typeof visible === "boolean") feature.setVisible(visible);
+              });
 
             }
 
@@ -781,11 +781,13 @@ angular.module('ngMaps')
     return {
       restrict: 'E',
       scope: {
+        decimals: '=?',    // how many decimals to round to when dragged
         events: '=?',      // object {event:function(), event:function()}
         geojson: '=?',     // a geojson object
         latitude: '=?',    // number (unique to point)
         longitude: '=?',   // number (unique to point)
         onInit: '=?',      // function()
+        onMove: '=?',
         options: '=?',     // function() { return {} }
         properties: '=?',  // object {}
         url: '=?',         // string url to a geojson file
@@ -799,6 +801,22 @@ angular.module('ngMaps')
         }, function() {
 
           var map = parent.getMap();
+
+          function round(n) {
+            if (!isNaN($scope.decimals)) {
+              return Math.round(Math.pow(10, $scope.decimals) * n) / Math.pow(10, $scope.decimals);
+            } else {
+              return n;
+            }
+          }
+
+          function toLatLon(latLon) {
+            if (!isNaN(latLon[0]) && !isNaN(latLon[1])) { 
+              return new google.maps.LatLng(latLon[1], latLon[0])
+            } else {
+              return null;
+            }
+          };
 
           if (!$scope.options) $scope.options = function() { return {}; };
           if (!$scope.events) $scope.events = {};
@@ -824,23 +842,45 @@ angular.module('ngMaps')
           // Accepts data in the form of geojson
           function newData(data) {
 
-            console.log(data);
-
             var feature = GeoJSON.Point(data.geometry, data.properties, $scope.options, $scope.events, map);
 
-            $scope.$watch(function() { return $scope.options; }, 
-              function(newOptions) {
-                if (!newOptions) return;
-                feature.setOptions(newOptions);
-              });
+            $scope.$watch('[longitude, latitude]', function(coords) {
+              var gmLatLon = toLatLon(coords);
+              if (gmLatLon) feature.getMapFeature().setPosition(gmLatLon);
+            }, true);
 
-            $scope.$watch(function() { return $scope.visible; },
-              function(visible) {
-                if (typeof visible === "boolean") feature.setVisible(visible);
-              });
+            $scope.$watch('geojson', function(geojson) {
+              console.log("new geojson")
+              console.log(geojson)
+              if (geojson) {
+                var gmLatLon = toLatLon(geojson.geometry.coordinates);
+                if (gmLatLon) feature.getMapFeature().setPosition(gmLatLon);
+              }
+            }, true);
+
+            $scope.$watch('options', function(newOptions) {
+              if (!newOptions) return;
+              feature.setOptions(newOptions);
+            });
+
+            $scope.$watch('visible', function(visible) {
+              if (typeof visible === "boolean") feature.setVisible(visible);
+            });
 
             if ($scope.onInit) $scope.onInit(feature, data);
 
+            google.maps.event.addListener(feature.getMapFeature(), "drag", function() {
+              $scope.$apply(function() {
+                var lat = round(feature.getMapFeature().getPosition().lat());
+                var lng = round(feature.getMapFeature().getPosition().lng());
+                if ($scope.geojson) {
+                  $scope.geojson.geometry.coordinates = [lng, lat];
+                } else if (!isNaN($scope.latitude) && !isNaN($scope.longitude)) {
+                  $scope.latitude = lat;
+                  $scope.longitude = lng;
+                }
+              });
+            });
 
           }
 
@@ -895,31 +935,30 @@ angular.module('ngMaps')
             });
           }
 
-          // // Accepts data in the form of geojson
-          // function newData(data) {
+          // Accepts data in the form of geojson
+          function newData(data) {
 
-          //   var feature = GeoJSON["Polygon"](data.geometry, data.properties, $scope.options, $scope.events, map);
+            var feature = GeoJSON["Polygon"](data.geometry, data.properties, $scope.options, $scope.events, map);
 
-          //   $scope.$watch(function() { return $scope.options; }, 
-          //     function(newOptions) {
-          //       if (!newOptions) return;
-          //       feature.setOptions(newOptions);
-          //     });
+            $scope.$watch(function() { return $scope.options; }, 
+              function(newOptions) {
+                if (!newOptions) return;
+                feature.setOptions(newOptions);
+              });
 
-          //   $scope.$watch(function() { return $scope.opacity; },
-          //     function(opacity) {
-          //       console.log(type);
-          //       if (opacity && feature.setOpacity) feature.setOpacity(opacity);
-          //     });
+            $scope.$watch(function() { return $scope.opacity; },
+              function(opacity) {
+                if (opacity && feature.setOpacity) feature.setOpacity(opacity);
+              });
 
-          //   $scope.$watch(function() { return $scope.visible; },
-          //     function(visible) {
-          //       if (typeof visible === "boolean") feature.setVisible(visible);
-          //     });
+            $scope.$watch(function() { return $scope.visible; },
+              function(visible) {
+                if (typeof visible === "boolean") feature.setVisible(visible);
+              });
 
-          //   if ($scope.onInit) $scope.onInit(feature, data);
+            if ($scope.onInit) $scope.onInit(feature, data);
 
-          // };
+          };
 
         });
 

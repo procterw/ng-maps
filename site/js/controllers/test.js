@@ -5,12 +5,19 @@ angular.module('App')
 	    center: [0, 102],
       options: function() {
           return {
-          	zoom: 5,
+          	zoom: 6,
           	streetViewControl: false,
           	scrollwheel: false
           };
       }
     };
+
+
+    setTimeout(function() {
+      // $scope.P1.geojson.geometry.coordinates = [102,2];
+      $scope.P2.lon = 104;
+      $scope.$apply();
+    }, 3000);
 
     $scope.P1={
     	geojson: { "type": "Feature",
@@ -45,8 +52,8 @@ angular.module('App')
 			         "geometry": {
 			           "type": "Polygon",
 			           "coordinates": [
-			             [ [100.0, 0.0], [101.0, 0.0], [101.0, 1.0],
-			               [100.0, 1.0], [100.0, 0.0] ]
+			             [ [101.0, 3.0], [102.0, 3.0], [102.0, 4.0],
+			               [101.0, 4.0], [101.0, 3.0] ]
 			             ]
 			         },
 			         "properties": {
@@ -64,7 +71,7 @@ angular.module('App')
 
 				}
 			},
-			opacity: 0.5,
+			opacity: 0.2,
 			onInit: function(feature, dataset) {
 
 			}
