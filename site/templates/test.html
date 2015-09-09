@@ -7,6 +7,62 @@
     <div class="col-sm-12">
       <map ng-transclude class="google-map" center="map.center" options="map.options" zoom="map.zoom"> 
 
+        <point
+          geojson="point.geojson"
+          options="point.options"
+          events="point.events"
+          visible="point.visible"
+          on-init="point.onInit">
+        </point>
+
+        <point 
+          latitude="point.lat" 
+          longitude="point.lon"
+          options="point.options"
+          events="point.events"
+          properties="point.properties"
+          visible="point.visible"
+          on-init="point.onInit">
+        </point>
+
+        <polygon
+          geojson="polygon.geojson"
+          events="polygon.events"
+          options="polygon.options"
+          opacity="polygon.opacity"
+          on-init="polygon.onInit"
+          visible="polygon.visible">
+        </polygon>
+
+        <polygon
+          coordinates="polygon.coordinates"
+          properties="polygon.properties"
+          events="polygon.events"
+          options="polygon.options"
+          opacity="polygon.opacity"
+          on-init="polygon.onInit"
+          visible="polygon.visible">
+        </polygon>
+
+        <linestring
+          coordinates="linestring.coordinates"
+          properties="linestring.properties"
+          events="linestring.events"
+          options="linestring.options"
+          opacity="linestring.opacity"
+          on-init="linestring.onInit"
+          visible="linestring.visible">
+        </linestring>
+
+        <linestring
+          geojson="linestring.geojson"
+          events="linestring.events"
+          options="linestring.options"
+          opacity="linestring.opacity"
+          on-init="linestring.onInit"
+          visible="linestring.visible">
+        </linestring>
+
         <feature-collection 
         	geojson="FC.geojson"
         	url="FC.url"
@@ -17,30 +73,9 @@
         	on-init="FC.onInit">
         </feature-collection>
 
-        <point
-          geojson="P1.geojson"
-          options="P1.options"
-          events="P1.events"
-          visible="P1.visible"
-          on-init="P1.onInit">
-      	</point>
 
-      	<point 
-          latitude="P2.lat" 
-          longitude="P2.lon"
-          options="P1.options"
-          properties="P2.properties"
-          on-init="P1.onInit">
-      	</point>
 
-        <polygon
-          geojson="Poly.geojson"
-          events="Poly.events"
-          options="Poly.options"
-          opacity="Poly.opacity"
-          on-init="Poly.onInit"
-          visible="Poly.visible">
-        </polygon>
+        
 
       </map>
     <div>

@@ -33,14 +33,6 @@ angular.module('ngMaps')
             }
           }
 
-          function toLatLon(latLon) {
-            if (!isNaN(latLon[0]) && !isNaN(latLon[1])) { 
-              return new google.maps.LatLng(latLon[1], latLon[0])
-            } else {
-              return null;
-            }
-          };
-
           if (!$scope.options) $scope.options = function() { return {}; };
           if (!$scope.events) $scope.events = {};
 
@@ -68,13 +60,11 @@ angular.module('ngMaps')
             var feature = GeoJSON.Point(data.geometry, data.properties, $scope.options, $scope.events, map);
 
             $scope.$watch('[longitude, latitude]', function(coords) {
-              var gmLatLon = toLatLon(coords);
-              if (gmLatLon) feature.getMapFeature().setPosition(gmLatLon);
+              if (coords) feature.setPosition(coords);
             }, true);
 
             $scope.$watch('geojson.geometry.coordinates', function(coords) {
-              if (coords) var gmLatLon = toLatLon(coords);
-              if (gmLatLon) feature.getMapFeature().setPosition(gmLatLon);
+              if (coords) feature.setPosition(coords);
             }, true);
 
             $scope.$watch('properties', function(properties) {
@@ -86,8 +76,7 @@ angular.module('ngMaps')
             });
 
             $scope.$watch('options', function(newOptions) {
-              if (!newOptions) return;
-              feature.setOptions(newOptions);
+              if (newOptions) feature.setOptions(newOptions);
             });
 
             $scope.$watch('visible', function(visible) {

@@ -1,6 +1,6 @@
 // FeatureCollection assumes a valid GeoJson featureCollection object.
 angular.module('ngMaps')
-  .directive('polygon', ['$http', 'GeoJSONService', function($http, GeoJSON) {
+  .directive('linestring', ['$http', 'GeoJSONService', function($http, GeoJSON) {
     return {
       restrict: 'E',
       scope: {
@@ -33,7 +33,7 @@ angular.module('ngMaps')
             newData({
               type: "Feature",
               geometry: {
-                type: "Polygon",
+                type: "LineString",
                 coordinates: $scope.coordinates
               },
               properties: $scope.properties || null
@@ -47,7 +47,7 @@ angular.module('ngMaps')
           // Accepts data in the form of geojson
           function newData(data) {
 
-            var feature = GeoJSON["Polygon"](data.geometry, data.properties, $scope.options, $scope.events, map);
+            var feature = GeoJSON["LineString"](data.geometry, data.properties, $scope.options, $scope.events, map);
 
             $scope.$watch('coordinates', function(coords) {
               if (coords) feature.setPath(coords);

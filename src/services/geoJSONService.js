@@ -52,6 +52,11 @@ angular.module("ngMaps")
 	      _feature.setOptions(_options);
 	    }
 
+	    function setPosition(coords) {
+	    	_coords = coords;
+	    	_feature.setPosition(toLatLng(coords))
+	    }
+
       function setProperties(properties) {
         _properties = properties;
         setOptions(options);
@@ -68,6 +73,7 @@ angular.module("ngMaps")
 	    return {
 	      setOptions: setOptions,
 	      setEvents: setEvents,
+	      setPosition: setPosition,
         setProperties: setProperties,
 	      setVisible: setVisible,
 	      getMapFeature: getMapFeature
@@ -87,6 +93,7 @@ angular.module("ngMaps")
 	  function LineString(geometry, properties, options, events, map) {
 
 	  	var _coords = geometry.coordinates;
+	  	var _properties = properties;
 	    var _options = options(_coords, properties, map, 0);
 
 	    _options.path = _coords.map(toLatLng);
@@ -101,6 +108,16 @@ angular.module("ngMaps")
 	    function setOptions(options) {
 	    	_options = options(_coords, properties, map, 0);
 	      _feature.setOptions(_options);
+	    }
+
+	    function setProperties(properties) {
+        _properties = properties;
+        setOptions(options);
+      }
+
+      function setPath(coords) {
+      	_coords = coords;
+	    	_feature.setPath(coords.map(toLatLng))
 	    }
 
 	    function setVisible(visible) {
@@ -121,6 +138,8 @@ angular.module("ngMaps")
 	    return {
 	      setOptions: setOptions,
 	      setEvents: setEvents,
+	      setProperties: setProperties,
+	      setPath: setPath,
 	      setVisible: setVisible,
 	      setOpacity: setOpacity,
 	      getMapFeature: getMapFeature
@@ -141,6 +160,7 @@ angular.module("ngMaps")
 
 	    // Create options
 	    var _coords = geometry.coordinates;
+	    var _properties = properties;
 	    var _options = options(_coords, properties, map, 0);
 
 	    // Format points in google maps LatLng class
@@ -165,6 +185,18 @@ angular.module("ngMaps")
 	    	_feature.setVisible(visible);
 	    }
 
+	    function setProperties(properties) {
+        _properties = properties;
+        setOptions(options);
+      }
+
+      function setPath(coords) {
+      	_coords = coords;
+      	_feature.setPaths(coords.map(function(c) {
+		      return c.map(toLatLng);
+		    }));
+      }
+
 	    function setOpacity(opacity) {
 	    	if (opacity > 1) opacity = opacity/100;
 	    	_opacity = opacity;
@@ -181,6 +213,8 @@ angular.module("ngMaps")
 	      setOptions: setOptions,
 	      setEvents: setEvents,
 	      setVisible: setVisible,
+	      setPath: setPath,
+	      setProperties: setProperties,
 	      setOpacity: setOpacity,
 	      getMapFeature: getMapFeature
 	    };
