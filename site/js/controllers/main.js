@@ -42,7 +42,8 @@ angular.module('App')
 			"rectangles",
 			"overlay",
 			"control",
-			"infowindow"
+			"infowindow",
+			"textLabels"
 		];
 
 	}]);

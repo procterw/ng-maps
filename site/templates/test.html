@@ -1,0 +1,89 @@
+<div ng-controller="Test">
+
+  <div class="row">
+
+    <input type="checkbox" ng-model="P1.visible">
+
+    <div class="col-sm-12">
+      <map ng-transclude class="google-map" center="map.center" options="map.options" zoom="map.zoom"> 
+
+        <point
+          geojson="point.geojson"
+          options="point.options"
+          events="point.events"
+          visible="point.visible"
+          on-init="point.onInit">
+        </point>
+
+        <point 
+          latitude="point.lat" 
+          longitude="point.lon"
+          options="point.options"
+          events="point.events"
+          properties="point.properties"
+          visible="point.visible"
+          on-init="point.onInit">
+        </point>
+
+        <polygon
+          geojson="polygon.geojson"
+          events="polygon.events"
+          options="polygon.options"
+          opacity="polygon.opacity"
+          on-init="polygon.onInit"
+          visible="polygon.visible">
+        </polygon>
+
+        <polygon
+          coordinates="polygon.coordinates"
+          properties="polygon.properties"
+          events="polygon.events"
+          options="polygon.options"
+          opacity="polygon.opacity"
+          on-init="polygon.onInit"
+          visible="polygon.visible">
+        </polygon>
+
+        <linestring
+          coordinates="linestring.coordinates"
+          properties="linestring.properties"
+          events="linestring.events"
+          options="linestring.options"
+          opacity="linestring.opacity"
+          on-init="linestring.onInit"
+          visible="linestring.visible">
+        </linestring>
+
+        <linestring
+          geojson="linestring.geojson"
+          events="linestring.events"
+          options="linestring.options"
+          opacity="linestring.opacity"
+          on-init="linestring.onInit"
+          visible="linestring.visible">
+        </linestring>
+
+        <feature-collection 
+        	geojson="FC.geojson"
+        	url="FC.url"
+        	opacity="FC.opacity"
+        	visible="P1.visible"
+        	options="FC.options"
+        	events="FC.events"
+        	on-init="FC.onInit">
+        </feature-collection>
+
+
+
+        
+
+      </map>
+    <div>
+
+      {{P1}}
+
+      {{P2}}
+
+</div>
+
+</div>

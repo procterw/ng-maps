@@ -1,0 +1,25 @@
+<div ng-controller="textLabels">
+
+  <div class="row">
+
+    <div class="col-sm-12">
+
+      <map ng-transclude class="google-map" center="map.center" options="map.options" events="map.events">
+
+        <marker position="marker.position" decimals="marker.decimals" options="marker.options"></marker>
+        
+        <text-labels features="text.features" events="text.events" class="text-label"></text-labels>
+
+      </map>
+
+    </div>
+
+   
+  </div>
+
+  <div class="row">
+
+
+  </div>
+
+</div>

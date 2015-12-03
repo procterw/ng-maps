@@ -36,6 +36,11 @@ code {
   text-align: center;
 }
 
+.text-label {
+  font-weight: 900;
+  font-size: 14px;
+  background: rgba(255,255,255,0.3);
+}
 
 .navbar-default {
   background-color: #4DAF7C;
