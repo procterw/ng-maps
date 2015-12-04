@@ -22,9 +22,9 @@ angular.module('ngMaps')
 
           $scope.$watch("visible", function(visible) {
             if (visible !== false) {
-              textLabels.forEach(function(f) { f.setMap(map); });
+              textLabels.forEach(function(textLabel) { textLabel.setMap(map); });
             } else {
-              textLabels.forEach(function(f) { f.setMap(null); });
+              textLabels.forEach(function(textLabel) { textLabel.setMap(null); });
             }
           });
 
